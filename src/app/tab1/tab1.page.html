@@ -1,17 +1,70 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <ion-title class="ion-text-start"> Car name </ion-title>
+     
+    <ion-icon name="settings-outline" size="large" slot="end"></ion-icon>
+    
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-segment swipe-gesture="true" value="Sensor" (ionChange)="segmentChanged($event)" class="mt-4 " >
+    <ion-segment-button value="Sensor">
+      Sensors
+    </ion-segment-button>
+    <ion-segment-button value="livedata">
+      Live data
+    </ion-segment-button>
+  </ion-segment>
+<!-- sensor part -->
+  <div *ngIf="selectedSegment=='Sensor'">
+    <ion-card>
+      <div  class="d-flex justify-content-center mt-3 ">
+        <ion-icon name="construct-outline"  size="large"  ></ion-icon>
+         
+      </div>
+      
+    
+      <ion-card-content>
+        <ion-button expand="block">Tap to scan</ion-button>
+      </ion-card-content>
+      
+    </ion-card>
+<!-- list scan results -->
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  </div>
+<!-- live data part -->
+  <div *ngIf="selectedSegment=='livedata'">
+    <div class="d-flex justify-content-around">
+      <ion-card>
+      
+        <ion-card-content>
+         speed:20kmph
+        </ion-card-content>
+        
+      </ion-card>
+      <ion-card>
+      
+        <ion-card-content>
+         speed:20kmph
+        </ion-card-content>
+        
+      </ion-card>
+      <ion-card>
+      
+        <ion-card-content>
+         speed:20 kmph
+        </ion-card-content>
+        
+      </ion-card>
+    </div>
+   
+
+
+  </div>
+
+
+  
+  
+
 </ion-content>
