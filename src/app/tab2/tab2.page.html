@@ -8,34 +8,32 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-slides pager="true" [options]="slideOpts">
+  <ion-slides pager="true" [options]="slideOpts"  >
+    
     <ion-slide>
-      <ion-card>
+      
+      <ion-card style="border-radius:30px !important;" >
         <ion-card-header>
-          <ion-card-title>CAR Name </ion-card-title>
+          <ion-card-title>Car Name </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-
             <img src="assets\images\car.png" alt="..." >
-         
-          <ion-item>
+            <ion-item>
           <ion-icon name="bluetooth-outline"  slot="end"></ion-icon>
           </ion-item>
         </ion-card-content>
       </ion-card>
- 
     </ion-slide>
     <ion-slide>
-      <ion-card>
-        <ion-card-content>
-           <ion-icon name="add-outline"></ion-icon>
-         Add CAR
-         </ion-card-content>
-      </ion-card>
- 
+      <ion-card  style="border-radius:30px !important; height: 250px!important; width: 300px!important;">
+        <ion-card-content  class="d-flex flex-row justify-content-center my-5 py-5">
+          <ion-icon name="add-outline"  size="large"></ion-icon> <h1>Add Car</h1>
+        </ion-card-content> 
+     </ion-card>
     </ion-slide>
-    
   </ion-slides>
-  <ion-button expand="block">Pair car</ion-button>
+  <div class=" px-2 py-2 mx-2"  > 
+    <ion-button expand="block"  style="border-radius:30px !important;">Pair car</ion-button>
+  </div>
 
 </ion-content>
