@@ -143,7 +143,7 @@ connect(dvc)
   }else{
     this.bluetooth.connect(dvc.address).subscribe(success=>
       {this.showError("Connected");},error=>{
-        console.log(error);
+        this.showError(error)
       })
 
   }
