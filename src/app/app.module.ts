@@ -6,10 +6,15 @@ import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions
 import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule}from '@angular/fire/compat/firestore';
+
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule,
+     IonicModule.forRoot(),
+     AppRoutingModule],
   providers: [AndroidPermissions,BluetoothSerial,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
