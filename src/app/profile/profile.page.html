@@ -39,7 +39,25 @@
   <h1 class="m-2  p-2">
     Your Cars
   </h1>
-  
+  <ion-list>
+   
+    <div *ngIf="cars"> 
+    <ion-card *ngFor="let car of cars" class="d-flex justify-content-between">
+      <ion-card-header>
+        <ion-card-title> {{car.name}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="p-4">
+        <img src={{car.image}} height="50px" alt="..." >
+      </ion-card-content>
+    </ion-card>
+    </div>
+    <ion-card >
+      
+      <ion-card-content class="d-flex flex-row justify-content-center">
+        <ion-icon name="add-outline"  size="large"></ion-icon> <h1>Add Car</h1>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
 
 
 </ion-content>

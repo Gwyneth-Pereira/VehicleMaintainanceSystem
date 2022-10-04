@@ -9,9 +9,10 @@ export class ProfilePage implements OnInit {
  public cars : CAR[] =[];
   
   constructor() {
-    this.cars=   [{name:"lexas", modelno: "es350",image: "assets\images\car.png", engine :"3.5" }
-  ]
-  console.log(this.cars)
+    this.cars=   [{name:"Lexas", modelno: "es350",image: "assets\\images\\car.png", engine :"3.5" }
+  ,{name:"Honda", modelno: "civic",image: "assets\\images\\car.png", engine :"2.0" }];
+  
+  console.log(this.cars);
   
   }
 
