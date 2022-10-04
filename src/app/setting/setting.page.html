@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-icon name="arrow-back-outline" slot="start"  routerLink="/"></ion-icon>
+    <ion-title>Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+ <div class="d-flex align-items flex-column" style="height: 200px;">
+  <div class="mb-auto "> 
+    <ion-accordion-group [multiple]="true" >
+      <ion-accordion value="first">
+        <ion-item slot="header">
+          <ion-label>First Accordion</ion-label>
+        </ion-item>
+        <div class="ion-padding m-0  p-0 " slot="content">
+          <ion-list lines="inset">
+            <ion-item>
+              <ion-label>Inset Lines</ion-label>
+              <ion-toggle slot="end"></ion-toggle>
+            </ion-item>
+            <ion-item>
+              <ion-label>Inset Lines</ion-label>
+              <ion-toggle slot="end"></ion-toggle>
+            </ion-item>
+            <ion-item>
+              <ion-label>Inset Lines</ion-label>
+              <ion-toggle slot="end"></ion-toggle>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-accordion>
+      <ion-accordion value="second">
+        <ion-item slot="header" >
+          <ion-label>Second Accordion</ion-label>
+        </ion-item>
+        <div class="ion-padding m-0 p-0" slot="content">
+          
+          <ion-list lines="inset">
+            <ion-item>
+              <ion-label>Inset Lines</ion-label>
+              <ion-toggle slot="end"></ion-toggle>
+            </ion-item>
+            <ion-item>
+              <ion-label>Inset Lines</ion-label>
+              <ion-toggle slot="end"></ion-toggle>
+            </ion-item>
+            <ion-item>
+              <ion-label>Inset Lines</ion-label>
+              <ion-toggle slot="end"></ion-toggle>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-accordion>
+      <ion-accordion value="third">
+        <ion-item slot="header">
+          <ion-label>Third Accordion</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">Third Content</div>
+      </ion-accordion>
+    </ion-accordion-group>
+  </div>
+  <div class="p-2"> <ion-button fill="outline" color="danger" expand="block">Log Out</ion-button></div>
+  <div class="p-2"><ion-button  color="danger" expand="block">Delete Account</ion-button></div>
+</div>
+</ion-content>

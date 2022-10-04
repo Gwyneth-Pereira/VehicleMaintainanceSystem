@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="Light">
+    <ion-icon name="arrow-back-outline" slot="start"  routerLink="/"></ion-icon>
+    <ion-icon name="settings-outline" size="large" slot="end" routerLink="/setting" routerDirection="forward"></ion-icon>
+   <div class="d-flex justify-content-center mt-2 pt-2">
+       <ion-avatar >
+      <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+    </ion-avatar>
+    </div>
+    
+     <div class="d-flex justify-content-center">
+      User Name
+    </div>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-list lines="inset">
+    <ion-item>
+      <ion-label color="medium">Your Name</ion-label> <ion-label slot="end">user name</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label color="medium">Email </ion-label> <ion-label slot="end">un@gmail.com</ion-label><ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-label color="medium"> Address</ion-label> <ion-label slot="end">Area,country </ion-label><ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-label color="medium"> Phone Number</ion-label> <ion-label slot="end">11224455</ion-label><ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-label color="medium">Password</ion-label> <ion-label slot="end">****** </ion-label><ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+    </ion-item>
+
+  </ion-list>
+
+  <h1 class="m-2  p-2">
+    Your Cars
+  </h1>
+  <ion-list>
+   
+    <div *ngIf="cars"> 
+    <ion-card *ngFor="let car of cars" class="d-flex justify-content-between" style="border-radius:30px !important;">
+      <ion-card-header>
+        <ion-card-title> {{car.name}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="p-4">
+        <img src={{car.image}} height="50px" alt="..." >
+      </ion-card-content>
+    </ion-card>
+    </div>
+    <ion-card style="border-radius:30px !important;">
+      
+      <ion-card-content class="d-flex flex-row justify-content-center p-4" >
+        <ion-icon name="add-outline"  size="large"></ion-icon> <h1>Add Car</h1>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+
+</ion-content>
