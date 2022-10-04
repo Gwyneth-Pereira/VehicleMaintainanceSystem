@@ -42,7 +42,7 @@
   <ion-list>
    
     <div *ngIf="cars"> 
-    <ion-card *ngFor="let car of cars" class="d-flex justify-content-between">
+    <ion-card *ngFor="let car of cars" class="d-flex justify-content-between" style="border-radius:30px !important;">
       <ion-card-header>
         <ion-card-title> {{car.name}}</ion-card-title>
       </ion-card-header>
@@ -51,7 +51,7 @@
       </ion-card-content>
     </ion-card>
     </div>
-    <ion-card >
+    <ion-card style="border-radius:30px !important;">
       
       <ion-card-content class="d-flex flex-row justify-content-center">
         <ion-icon name="add-outline"  size="large"></ion-icon> <h1>Add Car</h1>
