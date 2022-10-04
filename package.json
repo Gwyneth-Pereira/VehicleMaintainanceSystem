@@ -28,7 +28,7 @@
     "@capacitor/haptics": "4.0.1",
     "@capacitor/keyboard": "4.0.1",
     "@capacitor/status-bar": "4.0.1",
-    "@ionic/angular": "^6.1.9",
+    "@ionic/angular": "^6.2.9",
     "bootstrap": "^5.2.1",
     "cordova-plugin-android-permissions": "^1.1.4",
     "cordova-plugin-bluetooth-serial": "^0.4.7",
