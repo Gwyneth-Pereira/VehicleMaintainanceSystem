@@ -14,7 +14,10 @@ import { DataSrvService } from '../data-srv.service';
 export class Tab2Page {
   Devices:paired[];
   Devices$:Observable<paired>;
-
+  slideOpts = {
+    initialSlide: 1,
+    speed: 400
+  };
   constructor(private bluetooth:BluetoothSerial,
               private DataSrv:DataSrvService,
               private action:ActionSheetController,
