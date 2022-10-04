@@ -13,7 +13,23 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+  },  {
+    path: 'carinfo',
+    loadChildren: () => import('./carinfo/carinfo.module').then( m => m.CarinfoPageModule)
+  },
+  {
+    path: 'addnewcar',
+    loadChildren: () => import('./addnewcar/addnewcar.module').then( m => m.AddnewcarPageModule)
+  },
+  {
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: 'getstarted',
+    loadChildren: () => import('./getstarted/getstarted.module').then( m => m.GetstartedPageModule)
   }
+
 ];
 @NgModule({
   imports: [
