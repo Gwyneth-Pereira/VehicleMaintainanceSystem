@@ -6,10 +6,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-
-  constructor() { }
+ public cars : CAR[] =[];
+  
+  constructor() {
+    this.cars=   [{name:"lexas", modelno: "es350",image: "assets\images\car.png", engine :"3.5" }
+  ]
+  console.log(this.cars)
+  
+  }
 
   ngOnInit() {
   }
 
+
 }
+  export interface CAR{
+  name: string;
+  modelno: string;
+  image: string;
+  engine: string;
+  }
