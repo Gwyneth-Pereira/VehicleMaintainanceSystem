@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'VehicleMaintainanceSystem',
+  appId: 'com.example.app',
+  appName: 'Cogear',
   webDir: 'www',
   bundledWebRuntime: false
 };
