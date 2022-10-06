@@ -2,9 +2,17 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title class="ion-text-start">
-           Hello Users,
+           Hello User
     </ion-title>  
-    <ion-icon name="person-circle-outline" size="large" slot="end" routerLink="/profile"></ion-icon>
+    <!--  
+    
+      <ion-icon class="m-1 p-1" name="person-circle-outline" size="large" slot="end" routerLink="/profile"></ion-icon>-->
+      
+    <ion-avatar slot="end" class="me-1 pe-1">
+      <img  src="assets\images\user.jpg" style="height: 32;" routerLink="/profile" >
+     
+    </ion-avatar>
+
     <ion-progress-bar type="indeterminate" *ngIf="checking"></ion-progress-bar>
 
   </ion-toolbar>
@@ -13,15 +21,15 @@
 <ion-content [fullscreen]="true">
   <ion-slides pager="true" [options]="slideOpts">
     <ion-slide>
-      <ion-card style="border-radius:30px !important;">
+      <ion-card >
         <ion-card-header>
-          <ion-card-title>CAR Name </ion-card-title>
+          <ion-card-title>Car name </ion-card-title>
         </ion-card-header>
         <ion-card-content>
 
-            <img src="assets\images\car.png" alt="..." >
+            <img src="assets\images\car.png" alt="..." class="w-75 d-inline-block"  >
          
-          <ion-item>
+          <ion-item lines="none">
           <ion-icon name="bluetooth-outline"  slot="end"></ion-icon>
           </ion-item>
         </ion-card-content>
@@ -39,7 +47,8 @@
     </ion-slide>
     
   </ion-slides>
-  <ion-button  class=" p-2  m-2" id="open-modal" expand="block">Pair Car</ion-button>
+  
+  <ion-button  class="p-2  m-2" id="open-modal" expand="block" style="height:50px;" >Pair Car</ion-button>
  
  
   <!--#modal trigger="open-modal"  id="open-modal"-->
@@ -64,5 +73,9 @@
       </ion-content>
     </ng-template>
   </ion-modal>
+
+
+
+
 
 </ion-content>
