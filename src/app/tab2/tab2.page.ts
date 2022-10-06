@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { DataSrvService } from '../data-srv.service';
+import { IonModal } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-tab2',
@@ -12,14 +14,18 @@ import { DataSrvService } from '../data-srv.service';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
+  @ViewChild(IonModal) modal: IonModal;
+
   Devices:paired[];
   Devices$:Observable<paired>;
+  blue=true;
 
   constructor(private bluetooth:BluetoothSerial,
               private DataSrv:DataSrvService,
               private action:ActionSheetController,
               private permission:AndroidPermissions, 
-              private alert: AlertController) {
+              private alert: AlertController,
+              private toastctrl:ToastController) {
     this.Pair();
   }
 
@@ -142,7 +148,13 @@ connect(dvc)
 
   }else{
     this.bluetooth.connect(dvc.address).subscribe(success=>
-      {this.showError("Connected");},error=>{
+      {
+        this.modal.dismiss(null, 'cancel');
+        this.presentToast("Connected Successfully");
+        this.blue=false;
+
+      
+    },error=>{
         console.log(error);
       })
 
@@ -150,6 +162,23 @@ connect(dvc)
     
 
  
+}
+
+disconnect()
+{
+  this.blue=true;
+  this.bluetooth.disconnect();
+  this.presentToast("Bluetooth Disconnected");
+}
+async  presentToast(msg) {
+  let toast = await this.toastctrl.create({
+    message: msg,
+      duration: 2000,
+      position:"top"
+  })
+  toast.present();
+  
+  
 }
 }
 interface paired {

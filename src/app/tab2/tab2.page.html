@@ -22,7 +22,9 @@
             <img src="assets\images\car.png" alt="..." >
          
           <ion-item>
-          <ion-icon name="bluetooth-outline"  slot="end"></ion-icon>
+          <ion-icon *ngIf="!blue" name="bluetooth-outline" style="color:green;font-size: 32px;" slot="end"></ion-icon>
+          <ion-icon *ngIf="blue" name="bluetooth-outline" style="color:rgb(112, 110, 110);font-size: 32px;"  slot="end"></ion-icon>
+
           </ion-item>
         </ion-card-content>
       </ion-card>
@@ -39,8 +41,9 @@
     </ion-slide>
     
   </ion-slides>
-  <ion-button  class=" p-2  m-2" id="open-modal" expand="block">Pair Car</ion-button>
- 
+  <ion-button  class=" p-2  m-2" id="open-modal" *ngIf="blue" expand="block">Pair Car</ion-button>
+  <ion-button  class=" p-2  m-2" *ngIf="!blue" expand="block" (click)="diconnect()">Unpair Car</ion-button>
+
  
   <!--#modal trigger="open-modal"  id="open-modal"-->
   <ion-modal trigger="open-modal" [initialBreakpoint]="0.4" [breakpoints]="[0, 0.3,0.4, 0.5, 0.75]">
@@ -56,7 +59,7 @@
           <ion-item *ngFor="let device of Devices" (click)="connect(device)">
             <ion-label>
               <h2>{{device.name || device.address}}</h2>
-              <p>Paired</p>
+              
             </ion-label>
           </ion-item>
           
