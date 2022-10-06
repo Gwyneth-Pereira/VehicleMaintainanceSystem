@@ -1,6 +1,6 @@
 
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar  class="me-1 pe-1" >
     <ion-title class="ion-text-start">
            Hello User
     </ion-title>  
@@ -8,10 +8,10 @@
     
       <ion-icon class="m-1 p-1" name="person-circle-outline" size="large" slot="end" routerLink="/profile"></ion-icon>-->
       
-    <ion-avatar slot="end" class="me-1 pe-1">
-      <img  src="assets\images\user.jpg" style="height: 32;" routerLink="/profile" >
-     
-    </ion-avatar>
+      <ion-avatar slot="end" style="height: 36px; width: 36px;">
+        <img  src="assets\images\user.jpg"  routerLink="/profile" >
+       
+      </ion-avatar>
 
     <ion-progress-bar type="indeterminate" *ngIf="checking"></ion-progress-bar>
 

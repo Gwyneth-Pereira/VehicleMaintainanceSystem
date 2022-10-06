@@ -23,7 +23,8 @@ export class Tab2Page {
               private action:ActionSheetController,
               private permission:AndroidPermissions, 
               private alert: AlertController) {
-    this.Pair();
+   // this.Pair();
+
   }
 
   Pair()
