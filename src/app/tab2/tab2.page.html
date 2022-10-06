@@ -13,7 +13,7 @@
 <ion-content [fullscreen]="true">
   <ion-slides pager="true" [options]="slideOpts">
     <ion-slide>
-      <ion-card>
+      <ion-card style="border-radius:30px !important;">
         <ion-card-header>
           <ion-card-title>CAR Name </ion-card-title>
         </ion-card-header>
@@ -29,17 +29,17 @@
  
     </ion-slide>
     <ion-slide>
-      <ion-card>
-        <ion-card-content>
-           <ion-icon name="add-outline"></ion-icon>
-         Add CAR
+      <ion-card style="border-radius:30px !important;height: 250px!important; width: 300px!important;">
+        <ion-card-content class="d-flex flex-row justify-content-center my-5 py-5">
+           <ion-icon name="add-outline" size="large"></ion-icon> <h1>Add Car</h1>
+        
          </ion-card-content>
       </ion-card>
  
     </ion-slide>
     
   </ion-slides>
-  <ion-button id="open-modal" expand="block">Pair Car</ion-button>
+  <ion-button  class=" p-2  m-2" id="open-modal" expand="block">Pair Car</ion-button>
  
  
   <!--#modal trigger="open-modal"  id="open-modal"-->
