@@ -1,22 +1,22 @@
-<ion-header>
-  <ion-toolbar color="Light">
-    <ion-icon name="arrow-back-outline" slot="start"  routerLink="/"></ion-icon>
-    <ion-icon name="settings-outline" size="large" slot="end" routerLink="/setting" routerDirection="forward"></ion-icon>
-   <div class="d-flex justify-content-center mt-2 pt-2">
-       <ion-avatar >
-      <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-    </ion-avatar>
-    </div>
-    
-     <div class="d-flex justify-content-center">
-      User Name
-    </div>
+<ion-header  class="ion-no-border">
+  <ion-toolbar color="Light" >
+    <ion-icon name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1"  routerLink="/"></ion-icon>
+    <ion-icon name="settings-outline" size="large" slot="end" class="me-1 pe-1" routerLink="/setting" routerDirection="forward"></ion-icon>
+   
     
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  
+  <div class="d-flex justify-content-center m-2 p-2">
+    <ion-avatar style="height: 150px; width:150px;">
+   <img alt="assets\images\defaultuser.png" src="assets\images\user.jpg"  />
+ </ion-avatar>
+ </div>
+ 
+  <div class="d-flex justify-content-center">
+   User Name
+ </div>
   <ion-list lines="inset">
     <ion-item>
       <ion-label color="medium">Your Name</ion-label> <ion-label slot="end">user name</ion-label>
