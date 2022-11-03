@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
     "@awesome-cordova-plugins/android-permissions": "^5.45.0",
+    "@awesome-cordova-plugins/ble": "^6.0.1",
     "@awesome-cordova-plugins/bluetooth-serial": "^5.45.0",
     "@capacitor/android": "4.3.0",
     "@capacitor/app": "4.0.1",
@@ -31,11 +32,14 @@
     "@ionic/angular": "^6.2.9",
     "bootstrap": "^5.2.1",
     "cordova-plugin-android-permissions": "^1.1.4",
+    "cordova-plugin-ble-central": "^1.6.0",
     "cordova-plugin-bluetooth-serial": "^0.4.7",
     "firebase": "^9.10.0",
     "ionicons": "^6.0.3",
+    "moment": "^2.29.4",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
+    "underscore": "^1.13.6",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
