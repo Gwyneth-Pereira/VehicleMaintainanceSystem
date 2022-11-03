@@ -1,8 +1,8 @@
 
 <ion-header [translucent]="true">
   <ion-toolbar  class="me-1 pe-1" >
-    <ion-title class="ion-text-start">
-           Hello User
+    <ion-title class="ion-text-start" *ngFor="let y of (person | async )">
+      Hello {{y.Name}},
     </ion-title>  
     <!--  
     
@@ -19,6 +19,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+ 
   <ion-slides pager="true" [options]="slideOpts">
     <ion-slide>
       <ion-card >

@@ -32,10 +32,10 @@
     "bootstrap": "^5.2.1",
     "cordova-plugin-android-permissions": "^1.1.4",
     "cordova-plugin-bluetooth-serial": "^0.4.7",
-    "firebase": "^9.10.0",
+    "firebase": "^9.13.0",
     "ionicons": "^6.0.3",
     "rxjs": "~6.6.0",
-    "swiper": "^8.4.2",
+    "swiper": "^8.4.4",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
   },

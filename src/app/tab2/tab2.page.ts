@@ -4,7 +4,7 @@ import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 import { AlertController } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { DataSrvService } from '../data-srv.service';
+import { DataSrvService, Users } from '../data-srv.service';
 
 @Component({
   selector: 'app-tab2',
@@ -13,7 +13,7 @@ import { DataSrvService } from '../data-srv.service';
 })
 export class Tab2Page {
   Devices:paired[];
-  Devices$:Observable<paired>;
+  public person: Observable<Users[]>;
   slideOpts = {
     initialSlide: 1,
     speed: 400
@@ -26,6 +26,12 @@ export class Tab2Page {
    // this.Pair();
 
   }
+  ngOnInit(){
+    this.person=this.DataSrv.getUsers();
+    
+    
+    
+    }
 
   Pair()
   {
