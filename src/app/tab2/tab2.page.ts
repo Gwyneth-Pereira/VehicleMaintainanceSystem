@@ -9,7 +9,7 @@ import { IonModal } from '@ionic/angular';
 import { obdinfo } from '../obdinfo';
 import * as moment from 'moment';
 import * as _ from 'underscore';
-import { BLE } from '@awesome-cordova-plugins/ble/ngx';
+
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
