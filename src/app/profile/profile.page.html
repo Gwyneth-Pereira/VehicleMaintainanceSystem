@@ -1,8 +1,7 @@
 <ion-header  class="ion-no-border">
   <ion-toolbar color="Light" >
     <ion-icon name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1"  routerLink="/"></ion-icon>
-    <ion-icon name="settings-outline" size="large" slot="end" class="me-1 pe-1" routerLink="/setting" routerDirection="forward"></ion-icon>
-   
+    
     
   </ion-toolbar>
 </ion-header>
@@ -13,51 +12,55 @@
    <img alt="assets\images\defaultuser.png" src="assets\images\user.jpg"  />
  </ion-avatar>
  </div>
- 
-  <div class="d-flex justify-content-center">
-   User Name
+
+     
+  <div class="d-flex justify-content-center"  *ngFor="let y of (person | async )">
+  {{y.Name}} 
  </div>
-  <ion-list lines="inset">
-    <ion-item>
-      <ion-label color="medium">Your Name</ion-label> <ion-label slot="end">user name</ion-label>
+  <ion-list >
+    <ion-item lines="none">
+      <ion-label color="medium">Login Id</ion-label> <ion-label slot="end">username</ion-label>
+    </ion-item >
+    
+    <ion-item lines="none">
+      <ion-label color="medium"> Phone Number</ion-label> <ion-label slot="end">11224455</ion-label>
+    </ion-item >
+    <ion-item lines="full">
+      <ion-label color="medium">Password</ion-label> <ion-label slot="end">****** </ion-label>
     </ion-item>
-    <ion-item>
-      <ion-label color="medium">Email </ion-label> <ion-label slot="end">un@gmail.com</ion-label><ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
-    </ion-item>
-    <ion-item>
-      <ion-label color="medium"> Address</ion-label> <ion-label slot="end">Area,country </ion-label><ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
-    </ion-item>
-    <ion-item>
-      <ion-label color="medium"> Phone Number</ion-label> <ion-label slot="end">11224455</ion-label><ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
-    </ion-item>
-    <ion-item>
-      <ion-label color="medium">Password</ion-label> <ion-label slot="end">****** </ion-label><ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
-    </ion-item>
-
+    
   </ion-list>
+  <ion-button expand="block">
+    Edit
+  </ion-button>
 
-  <h1 class="m-2  p-2">
+  <h3 class="mb-0 pb-1 m-2  p-2 ">
     Your Cars
-  </h1>
-  <ion-list>
+  </h3>
+  <ion-list >
    
     <div *ngIf="cars"> 
-    <ion-card *ngFor="let car of cars" class="d-flex justify-content-between" style="border-radius:30px !important;">
-      <ion-card-header>
-        <ion-card-title> {{car.name}}</ion-card-title>
+    <ion-card *ngFor="let car of cars,let i= index" class="d-flex justify-content-between mt-0 "  style="border-radius:15px !important;">
+      <ion-card-header  class="d-flex align-items-center">
+      
+      <h6>
+        {{car.name}}
+      </h6>
       </ion-card-header>
-      <ion-card-content class="p-4">
-        <img src={{car.image}} height="50px" alt="..." >
+      <ion-card-content class="pt-2 pb-2 d-flex justify-content-end">
+        <img src={{car.image}} class="w-75 ">
       </ion-card-content>
     </ion-card>
     </div>
-    <ion-card style="border-radius:30px !important;">
+    <ion-card style="border-radius:15px !important;">
       
       <ion-card-content class="d-flex flex-row justify-content-center p-4" >
-        <ion-icon name="add-outline"  size="large"></ion-icon> <h1>Add Car</h1>
+        <ion-icon name="add-outline"  size="large"></ion-icon> <h6 class="d-flex align-items-center">Add Car</h6>
       </ion-card-content>
     </ion-card>
   </ion-list>
 
+  <div class="p-2"> <ion-button fill="outline" color="danger" expand="block">Log Out</ion-button></div>
+  <div class="p-2"><ion-button  color="danger" expand="block">Delete Account</ion-button></div>
 
 </ion-content>
