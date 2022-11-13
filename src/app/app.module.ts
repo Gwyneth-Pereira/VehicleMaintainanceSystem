@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule}from '@angular/fire/compat/firestore';
 import { initializeApp } from "firebase/app";
-
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBrxyWa5AdMkb_NQ7ThTD-mKm_grKCRTG0",
@@ -20,15 +20,11 @@ const firebaseConfig = {
   appId: "1:599263899142:web:8ce56b06711a751bafdd87"
 };
 
-
-
-
-
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule,
      IonicModule.forRoot(),AngularFireModule.initializeApp(firebaseConfig),
-     AngularFirestoreModule,     
+     AngularFirestoreModule, AngularFireAuthModule,     
      AppRoutingModule],
   providers: [AndroidPermissions,BluetoothSerial,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
