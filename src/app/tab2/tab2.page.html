@@ -1,6 +1,6 @@
 
 <ion-header [translucent]="true">
-  <ion-toolbar  class="me-1 pe-1" >
+  <ion-toolbar color="dark"  class="me-1 pe-1" >
     <ion-title class="ion-text-start" *ngFor="let y of (person | async )">
       Hello {{y.Name}},
     </ion-title>  
@@ -22,7 +22,7 @@
  
   <ion-slides pager="true" [options]="slideOpts">
     <ion-slide>
-      <ion-card >
+      <ion-card class="colour" >
         <ion-card-header>
           <ion-card-title>Car name </ion-card-title>
         </ion-card-header>
@@ -40,7 +40,7 @@
     <ion-slide>
       <ion-card style="height: 220px!important; width: 300px!important;">
         <ion-card-content class="d-flex flex-row justify-content-center my-5 py-5">
-           <ion-icon name="add-outline" size="large"></ion-icon> <h1>Add Car</h1>
+           <ion-icon class="mt-1 me-2" color="light" name="add-outline" size="large"></ion-icon>  <h1 style="color:white" class=" pt-1 " >Add Car</h1>
         
          </ion-card-content>
       </ion-card>
@@ -48,9 +48,13 @@
     </ion-slide>
     
   </ion-slides>
-  
-  <ion-button  class="p-2  m-2" id="open-modal" expand="block" style="height:50px;" >Pair Car</ion-button>
+  <ion-row>
+    <ion-col size="12" class="ion-text-center">
+      <ion-button  color="purple" class="p-2 m-2" id="open-modal"  style="height:65px; width:150px;" >Pair Car</ion-button>
  
+    </ion-col>
+  </ion-row>
+  
  
   <!--#modal trigger="open-modal"  id="open-modal"-->
   <ion-modal trigger="open-modal" [initialBreakpoint]="0.4" [breakpoints]="[0, 0.3,0.4, 0.5, 0.75]">
@@ -58,7 +62,7 @@
       <ion-header [translucent]="true">
         <ion-toolbar>
           <ion-title class="ion-text-start">Select Device</ion-title>  
-          <ion-button slot='end' (click)="Pair()">Refresh</ion-button>
+          <ion-button color="purple" slot='end' (click)="Pair()">Refresh</ion-button>
       </ion-toolbar>
       </ion-header>
       <ion-content>
