@@ -1,7 +1,7 @@
 
 <ion-header [translucent]="true">
   <ion-toolbar color="dark"  class="me-1 pe-1" >
-    <ion-title class="ion-text-start" *ngFor="let y of (person | async )">
+    <ion-title class="ion-text-start" *ngFor="let y of (User | async )">
       Hello {{y.Name}},
     </ion-title>  
     <!--  
@@ -50,11 +50,19 @@
   </ion-slides>
   <ion-row>
     <ion-col size="12" class="ion-text-center">
-      <ion-button  color="purple" class="p-2 m-2" *ngIf="blue" style="height:65px; width:150px;" (click)="Pair()">Pair Car</ion-button>
-      <ion-button  color="purple" class="p-2 m-2" *ngIf="!blue" style="height:65px; width:150px;" (click)="diconnect()">Unpair Car</ion-button>
+      <ion-button  color="purple" class="p-2 m-2" *ngIf="BluetoothFlag" style="height:65px; width:150px;" (click)="Pair()">Pair Car</ion-button>
+      <ion-button  color="purple" class="p-2 m-2" *ngIf="!BluetoothFlag" style="height:65px; width:150px;" (click)="diconnect()">Unpair Car</ion-button>
+      <ion-button  color="purple" class="p-2 m-2" *ngIf="!BluetoothFlag" style="height:65px; width:150px;" (click)="OpenList()">Show Supported OBD-II PIDs</ion-button>
 
     </ion-col>
   </ion-row>
+  <ion-list *ngIf="SupportedFlag">
+    <h2 color="purple">Supported OBD-II</h2>
+    <ion-item color="purple" *ngFor="let x of SupportedOBD ">
+      <ion-label>{{x.Text}}</ion-label>
+      <ion-label slot="end">{{x.Value}}</ion-label>
+    </ion-item>
+  </ion-list>
   
  
   

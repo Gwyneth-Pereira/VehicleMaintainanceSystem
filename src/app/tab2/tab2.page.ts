@@ -4,7 +4,7 @@ import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 import { AlertController, ToastController } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { DataSrvService, Users } from '../data-srv.service';
+import { Cars, DataSrvService, paired, Users } from '../data-srv.service';
 import { IonModal } from '@ionic/angular';
 
 @Component({
@@ -14,72 +14,70 @@ import { IonModal } from '@ionic/angular';
 })
 export class Tab2Page {
   @ViewChild(IonModal) modal: IonModal;
-  Devices:paired[];
-  queue=['ATZ\r','ATSP0\r','0100\r'];
-  receivedData:string ='';
-  writeDelay: number=50;
-  blue=true;
-  index=0;
-  btConnected=false;
-  btIntervalWriter: any;
-  pollerInterval;
-  obdcommands=[];
-  CarInfo=['03'];
-  SavedCarCommand=[];
-  RepeatTimer=0;
-  isModalOpen;
-  sent=false;
-  public person: Observable<Users[]>;
-  slideOpts = {
-    initialSlide: 1,
-    speed: 400
-  };
+  Devices:paired[];//For Adding Paired Devices
+  queue=['ATZ\r','ATS0\r','ATL0\r','ATSP0\r','0100\r','0902\r'];//Setting Up OBD-II Commands
+  BluetoothFlag=true;//Bluetooth Flag to Change Buttons
+  SupportedOBD;//An Array that Contains all the data related to 0100 Response
+  SupportedFlag:boolean;//Supported Flag to Open up List
+  SupportedPIDS;//Decimal Response Converted from Hex response that came from OBD
+  index=0;//Index to guide the obd command array to the next point
+  isModalOpen;//Variable to open and close the modal page
+  public User: Observable<Users[]>;//Details about the User will be stored in this variable
+  slideOpts = { initialSlide: 1, speed: 400};
+  public Car: Observable<Cars[]>;
+
+
   constructor(private bluetooth:BluetoothSerial, private DataSrv:DataSrvService, private action:ActionSheetController, private permission:AndroidPermissions, private alert: AlertController, private toastctrl:ToastController) {
     this.isModalOpen=false;
+    this.SupportedOBD=this.DataSrv.Support;
+    this.SupportedFlag=false;
   }
 
 ngOnInit(){
-this.person=this.DataSrv.getUsers();
+this.User=this.DataSrv.getUsers();
+this.Car=this.DataSrv.getCars();//no comment
 }
 
 Pair()
 {
-this.isModalOpen=true;
-this.bluetooth.isEnabled().then(
-res=>{
-  this.listDevices();
-    },
-eror=>{
-  this.bluetooth.enable();
-  this.listDevices();
-      })
+  //need someway to know which slide the user has selected.
+  //get the car "ID" of that car so that later when we are saving the "VIN" we have an index. 
+  this.isModalOpen=true;
+  this.bluetooth.isEnabled().then(
+  res=>{
+    this.listDevices();
+      },
+  eror=>{
+    this.bluetooth.enable();
+    this.listDevices();
+        })
 }
    
  listDevices() 
 { 
   this.bluetooth.list().then(
   success => {this.Devices = success;}, 
-  error => {this.showError(error);}); 
+  error => {this.showError("Error",error);}); 
 
 }
  
 connect(dvc)
 {
 if(dvc.address=="")
-this.showError("No Address");
+this.showError("Alert","No Address Found. Please Try Again");
 else{
 this.bluetooth.connect(dvc.address).subscribe(success=>
 {
 this.modal.dismiss(null, 'cancel');
 this.presentToast("Connected Successfully");
-this.blue=false;
-this.btConnected = true;
+this.BluetoothFlag=false;
 this.deviceConnected(); 
 
 
 },error=>{
-alert("Connect Error: "+error);
-this.btConnected = false;
+  this.showError("Connection Timed Out",error);
+
+
 })
 
 }
@@ -89,57 +87,22 @@ deviceConnected()
 {
 this.bluetooth.subscribe('>').subscribe
 (success=>{
-this.dataReceived(success)
-
+this.dataReceived(success);
 
 }, error => {
-alert('Device Connected, Subscribe error: ' + error);
+  this.showError("Error During Receivng Data",error);
+  this.diconnect();
+
 });
   this.InitiateOBD(this.queue[this.index++]);
 
-//this.RequstData();
-
 }
-RequstData()
-{
-   var self=this;
-      for (let i = 0; i < self.CarInfo.length; i++) 
-    {
-      if(self.queue.length < 256)
-        self.queue.push(self.CarInfo[i]+1+'\r');
-      else
-        self.presentToast("Queue Overflow");
-    }
-  
-  this.btIntervalWriter=setInterval(function(){
-    if(self.queue.length>0 &&self.btConnected)
-    {
-      try{
-        var cmd=self.queue.shift();
-        self.bluetooth.write(cmd+'\r').then(sk=>{
-          self.presentToast("Wrote Command");
-        },er=>{
-          self.presentToast("Error Writing Command");
-        })
 
-      }catch(error){
-        self.presentToast("Error Writing Command catch Block");
-        clearInterval(self.btIntervalWriter);
-        this.SavedCarCommand.length=0;
-      }
-    }
-  },this.writeDelay);
-
-}
 diconnect()
 {
-  this.blue=true;
-  this.btConnected=false;
-  this.queue=['ATZ','ATSP0\r','0100\r'];
-  this.SavedCarCommand=[];
+  this.BluetoothFlag=true;
   this.index=0;
-  clearInterval(this.pollerInterval);
-  clearInterval(this.btIntervalWriter)
+  this.SupportedFlag=false;
   this.isModalOpen=false;
   this.bluetooth.disconnect();
   this.presentToast("Bluetooth Disconnected");
@@ -147,43 +110,65 @@ diconnect()
 dataReceived(data)
 {
   var cmd, totalcmds, SingleString;
-  cmd=this.receivedData+data.toString('utf8');
+  cmd=data.toString('utf8');
   totalcmds=cmd.split('>');
-  if(totalcmds.length<2)
-    this.receivedData=totalcmds[0];
-  else{
-    for(let i=0;i<totalcmds.length;i++)
+  for(let i=0;i<totalcmds.length;i++)
     {
       SingleString=totalcmds[i];
       if(SingleString==='')
         continue;
       var multipleRes=SingleString.split('\r');
-      console.log("Command: "+multipleRes[0]+", Value:  "+multipleRes[3]);
-    } 
-    if(this.index<this.queue.length)
-    this.InitiateOBD(this.queue[this.index++]);
-
-  }
-  
-  this.presentToast("OBD-II Setup Completed"); 
-}
-
-InitiateOBD(cmd)
-{
-  var self=this;
-   
-      try{
-    
-        self.bluetooth.write(cmd+'\r').then(sk=>{
-          
-        },er=>{
-          self.presentToast("Error Writing Command");
-        })
-
-      }catch(error){
-        self.presentToast("Error Writing Command catch Block");
+      if(multipleRes[0]==='0100')
+      {
+        this.SupportedPIDS=multipleRes[3].toString();
+        this.SupportedPIDS=this.SupportedPIDS.substring(4);
+        this.SupportedPIDS= (parseInt(this.SupportedPIDS,16)).toString(2);
+        for(let k=0;k<this.SupportedOBD.length;k++)
+        {
+          if(this.SupportedPIDS.charAt(k)=='1')
+            this.SupportedOBD[k].Value="Yes";
+          else
+          this.SupportedOBD[k].Value="No";
+        }
         
       }
+      if(multipleRes[0]==='0902')
+      {
+        if(multipleRes[3]==='NO DATA')//If the Car Desnt Support Mode 9
+          this.showError("Alert","This Car Does not Support Mode 09(Vehicle Identification Number). Hence No Data will be Saved to Cloud")
+        else if(multipleRes)//if the VIN from the car (that we get from firebase) has a default value.
+        {
+          //this is the first time pairing with the car
+          //Save the VIN into the database
+        }
+        else//If the VIN from the car (that we get from firebase) does not match the VIN from the OBD Scan
+        {
+          this.showError("Error", "Please Connect with the correct Car to Save your Data");
+          this.diconnect();
+          
+        }  
+      }
+      
+      
+    } 
+    if(this.index<this.queue.length)
+      this.InitiateOBD(this.queue[this.index++]);
+    else
+     this.presentToast("OBD-II Setup Completed"); 
+     
+}
+
+OpenList()
+{
+  this.SupportedFlag=true;
+}
+InitiateOBD(cmd)
+{
+  try{
+  this.bluetooth.write(cmd+'\r');
+  }catch(error){
+  this.presentToast("Error Writing OBD-II Command");
+  }
     
   
   
@@ -197,27 +182,13 @@ position:"top"
 toast.present();
 }
 
-async showError(error) {
+async showError(Header,msg) {
 let  alert = await this.alert.create({
-message: error ,
-subHeader: 'Error',
+message: msg,
+subHeader: Header,
 buttons: ['OK']
 });
 await alert.present(); 
 }
 
-}
-interface paired {
-  "class": number,
-  "id": string,
-  "address": string,
-  "name": string,
-  
-}
-interface obdmetric {
-  "metricSelectedToPoll":boolean,
-  "name":string,
-  "description":string,
-  "value":string,
-  "unit": string
 }
