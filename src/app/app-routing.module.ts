@@ -13,7 +13,8 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
-  },  {
+  },
+  {
     path: 'carinfo',
     loadChildren: () => import('./carinfo/carinfo.module').then( m => m.CarinfoPageModule)
   },
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'create-account',
+    loadChildren: () => import('./create-account/create-account.module').then( m => m.CreateAccountPageModule)
   }
 
 ];

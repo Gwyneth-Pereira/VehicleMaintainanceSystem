@@ -1,8 +1,14 @@
 ion-content {
+    ion-header {
+        ion-toolbar {
+            --background: transparent;
+        }
+    }
+
     ion-list {
         border-radius: 20px 20px 0 0;
         ion-list-header {
-            ion-label {
+            ion-label, p {
                 font-weight: bold;
                 font-size: 1.5rem;
                 letter-spacing: 0.5px;
@@ -39,11 +45,6 @@ ion-content {
             }
         }
     }
-    ion-header {
-        ion-toolbar {
-            --background: transparent;
-        }
-    }
     ion-row {
         ion-img {
             height: 9vh;
@@ -61,4 +62,3 @@ ion-content {
     }
 }
 
- 
