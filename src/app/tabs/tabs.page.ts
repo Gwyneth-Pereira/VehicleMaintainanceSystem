@@ -12,11 +12,11 @@ export class TabsPage {
     const authObserver = afAuth.authState.subscribe(
     user => {
     if (user) {
-    alert("User signed in");
+    alert("User signed in");1
     this.router.navigate(['/tabs/tab2']);
     authObserver.unsubscribe();
     } else {
-    alert("User signed OUT");
+    alert("User signed OUT");  
     //this.router.navigate(['/login']); //login page
     authObserver.unsubscribe();
     }

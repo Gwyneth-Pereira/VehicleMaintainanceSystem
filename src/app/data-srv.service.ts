@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AngularFireAuthModule } from '@angular/fire/compat';
 import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { map,take}from'rxjs/operators';
@@ -15,7 +16,7 @@ export class DataSrvService {
   private currentuserCollection:AngularFirestoreCollection<CurrentUser>;
 
 
-  constructor(private afs:AngularFirestore){
+  constructor(private afs:AngularFirestore, public afAuth:AngularFireAuthModule){
     this.userCollection=this.afs.collection<Users>('User');
     this.user= this.userCollection.snapshotChanges().pipe
     
@@ -45,6 +46,14 @@ export class DataSrvService {
 getUsers():Observable<Users[]>{
 return this.user;
 }
+
+loginUser(newEmail: string, newPassword: string): Promise<any> {
+  return this.afAuth.signInWithEmailAndPassword
+  (newEmail, newPassword);
+  }
+
+
+
 getCurrentUser():Observable<CurrentUser[]>{
 return this.curentuser;
 }

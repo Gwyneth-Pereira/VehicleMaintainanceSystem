@@ -15,7 +15,7 @@ export class Tab2Page {
   Devices:paired[];
   public person: Observable<Users[]>;
   slideOpts = {
-    initialSlide: 1,
+    initialSlide: 0,
     speed: 400
   };
   constructor(private bluetooth:BluetoothSerial,

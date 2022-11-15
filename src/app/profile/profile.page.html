@@ -15,24 +15,30 @@
 
      
   <div class="d-flex justify-content-center"  *ngFor="let y of (person | async )">
-  {{y.Name}} 
+ 
+  <ion-label color="light">
+ {{y.Name}} 
+  </ion-label>
  </div>
   <ion-list >
     <ion-item lines="none">
-      <ion-label color="medium">Login Id</ion-label> <ion-label slot="end">username</ion-label>
+      <ion-label color="medium" >Login Id</ion-label> <ion-label slot="end" color="light">username</ion-label>
     </ion-item >
     
     <ion-item lines="none">
-      <ion-label color="medium"> Phone Number</ion-label> <ion-label slot="end">11224455</ion-label>
+      <ion-label color="medium"> Phone Number</ion-label> <ion-label slot="end" color="light">11224455</ion-label>
     </ion-item >
     <ion-item lines="full">
-      <ion-label color="medium">Password</ion-label> <ion-label slot="end">****** </ion-label>
+      <ion-label color="medium">Password</ion-label> <ion-label slot="end" color="light">****** </ion-label>
     </ion-item>
     
   </ion-list>
-  <ion-button expand="block" color="purple">
-    Edit
-  </ion-button>
+  
+ 
+    <ion-button  color="purple">
+      Edit
+    </ion-button>
+ 
 
   <h3 class="mb-0 pb-1 m-2  p-2 ">
     Your Cars
