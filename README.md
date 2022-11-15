@@ -18,13 +18,21 @@ npm install -g @ionic/cli
 npm install @awesome-cordova-plugins/bluetooth-serial 
 
 ionic cap sync
+
 npm install @capacitor/core
+
 npm install @capacitor/cli --save-dev
+
 npx cap init
+
 npm run build
+
 npm install cordova-plugin-android-permissions 
+
 npm install @awesome-cordova-plugins/android-permissions 
+
 ionic cap sync
+
 npm install firebase @angular/fire --save
 
 # third
