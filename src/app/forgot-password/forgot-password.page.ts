@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DataSrvService } from '../data-srv.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -7,9 +9,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ForgotPasswordPage implements OnInit {
 
-  constructor() { }
+  form: FormGroup;
+
+  constructor( public datasrv:DataSrvService) { 
+    this.initForm();
+  }
 
   ngOnInit() {
   }
 
+  initForm() {
+    this.form = new FormGroup({
+      email: new FormControl(null, {validators: [Validators.required, Validators.email]}),
+      password: new FormControl(null, {validators: [Validators.required, Validators.minLength(8)]}),
+    });
+  }
+
+  onSubmit() {
+    if(!this.form.valid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    console.log(this.form.value['email']);
+     console.log( this.form.value.email );
+
+     //user password reset
+    this.datasrv.resetPassword(this.form.value.email);
+
+  }
 }

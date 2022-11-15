@@ -40,11 +40,9 @@ export class LoginPage implements OnInit {
      console.log( this.form.value.email );
 
      //user login
-     this.datasrv.loginUser(this.form.value.email,this.form.value.password);
-
-
-
-
+     this.datasrv.loginUser(this.form.value.email,this.form.value.password).then(
+      success => { console.log("logged in sucessfully");}, 
+      error => { console.log(onmessage);});
 
   }
 
