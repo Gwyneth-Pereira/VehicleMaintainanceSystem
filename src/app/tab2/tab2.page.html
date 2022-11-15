@@ -1,7 +1,7 @@
 
 <ion-header [translucent]="true">
   <ion-toolbar color="dark"  class="me-1 pe-1" >
-    <ion-title class="ion-text-start" *ngFor="let y of (person | async )">
+    <ion-title class="ion-text-start" *ngFor="let y of (User | async )">
       Hello {{y.Name}},
     </ion-title>  
     <!--  
@@ -22,7 +22,7 @@
  
   <ion-slides pager="true" [options]="slideOpts">
     <ion-slide>
-      <ion-card class="colour" >
+      <ion-card class="colour" style="height: 220px!important; width: 340px!important;">
         <ion-card-header>
           <ion-card-title>Car name </ion-card-title>
         </ion-card-header>
@@ -38,7 +38,7 @@
  
     </ion-slide>
     <ion-slide>
-      <ion-card style="height: 220px!important; width: 300px!important;">
+      <ion-card style="height: 220px!important; width: 340px!important;">
         <ion-card-content class="d-flex flex-row justify-content-center my-5 py-5">
            <ion-icon class="mt-1 me-2" color="light" name="add-outline" size="large"></ion-icon>  <h1 style="color:white" class=" pt-1 " >Add Car</h1>
         
@@ -50,14 +50,23 @@
   </ion-slides>
   <ion-row>
     <ion-col size="12" class="ion-text-center">
-      <ion-button  color="purple" class="p-2 m-2" id="open-modal"  style="height:65px; width:150px;" >Pair Car</ion-button>
- 
+      <ion-button  color="purple" class="p-2 m-2" *ngIf="BluetoothFlag" style="height:65px; width:150px;" (click)="Pair()">Pair Car</ion-button>
+      <ion-button  color="purple" class="p-2 m-2" *ngIf="!BluetoothFlag" style="height:65px; width:150px;" (click)="diconnect()">Unpair Car</ion-button>
+      <ion-button  color="purple" class="p-2 m-2" *ngIf="!BluetoothFlag" style="height:65px; width:150px;" (click)="OpenList()">Show Supported OBD-II PIDs</ion-button>
+
     </ion-col>
   </ion-row>
+  <ion-list *ngIf="SupportedFlag">
+    <h2 color="purple">Supported OBD-II</h2>
+    <ion-item color="purple" *ngFor="let x of SupportedOBD ">
+      <ion-label>{{x.Text}}</ion-label>
+      <ion-label slot="end">{{x.Value}}</ion-label>
+    </ion-item>
+  </ion-list>
   
  
-  <!--#modal trigger="open-modal"  id="open-modal"-->
-  <ion-modal trigger="open-modal" [initialBreakpoint]="0.4" [breakpoints]="[0, 0.3,0.4, 0.5, 0.75]">
+  
+  <ion-modal [isOpen]="isModalOpen"  [initialBreakpoint]="0.4" [breakpoints]="[0, 0.3,0.4, 0.5, 0.75]"  color="primary">
     <ng-template>
       <ion-header [translucent]="true">
         <ion-toolbar>
