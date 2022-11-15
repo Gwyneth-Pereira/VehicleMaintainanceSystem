@@ -17,7 +17,7 @@ export class LoginPage implements OnInit {
 
   form: FormGroup;
 
-  constructor() { 
+  constructor( public datasrv:DataSrvService) { 
     this.initForm();
   }
 
@@ -36,7 +36,16 @@ export class LoginPage implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-    console.log(this.form.value);
+    console.log(this.form.value['email']);
+     console.log( this.form.value.email );
+
+     //user login
+     this.datasrv.loginUser(this.form.value.email,this.form.value.password);
+
+
+
+
+
   }
 
  

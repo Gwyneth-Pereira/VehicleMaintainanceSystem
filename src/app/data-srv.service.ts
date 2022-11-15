@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuthModule } from '@angular/fire/compat';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { map,take}from'rxjs/operators';
@@ -9,14 +9,14 @@ import { map,take}from'rxjs/operators';
 })
 
 export class DataSrvService {
-
+  
   public user: Observable<Users[]>;
   private userCollection:AngularFirestoreCollection<Users>;
   public curentuser: Observable<CurrentUser[]>;
   private currentuserCollection:AngularFirestoreCollection<CurrentUser>;
+  public loguser: Observable<loginUser[]>;
 
-
-  constructor(private afs:AngularFirestore, public afAuth:AngularFireAuthModule){
+  constructor(private afs:AngularFirestore, public afAuth:AngularFireAuth){
     this.userCollection=this.afs.collection<Users>('User');
     this.user= this.userCollection.snapshotChanges().pipe
     
@@ -47,10 +47,28 @@ getUsers():Observable<Users[]>{
 return this.user;
 }
 
+
+
+
+
+
+//the login logout auth
 loginUser(newEmail: string, newPassword: string): Promise<any> {
-  return this.afAuth.signInWithEmailAndPassword
-  (newEmail, newPassword);
+  return this.afAuth.signInWithEmailAndPassword(newEmail, newPassword);
   }
+
+resetPassword(email: string): Promise<void> {
+ return this.afAuth.sendPasswordResetEmail(email);
+}
+
+logoutUser(): Promise<void> {
+  return this.afAuth.signOut();
+}
+signupUser(newEmail: string, newPassword: string): Promise<any>
+{
+  return this.afAuth.createUserWithEmailAndPassword(newEmail, newPassword);
+}
+
 
 
 
@@ -82,6 +100,12 @@ deleteUser(id: string): Promise<void>{
 return this.userCollection.doc(id).delete();
 }
 
+}
+export interface loginUser
+{
+   username:string;
+   password: string;
+  
 }
 export interface Users {
   userID?: string;

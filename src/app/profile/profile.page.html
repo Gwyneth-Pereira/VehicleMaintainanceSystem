@@ -33,22 +33,16 @@
     </ion-item>
     
   </ion-list>
-  
- 
-    <ion-button  color="purple">
+  <ion-button color="purple">
       Edit
-    </ion-button>
- 
-
+  </ion-button>
   <h3 class="mb-0 pb-1 m-2  p-2 ">
     Your Cars
   </h3>
   <ion-list >
-   
     <div *ngIf="cars"> 
     <ion-card *ngFor="let car of cars,let i= index" class="d-flex justify-content-between mt-0 "  style="border-radius:15px !important;">
       <ion-card-header  class="d-flex align-items-center">
-      
       <h6>
         {{car.name}}
       </h6>
