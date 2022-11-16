@@ -217,15 +217,54 @@ dataReceived(data,mode)
       }
       if(multipleRes[0]==='03')
       {
-            SingleString=SingleString.substring(7);
-            for (let z = 0; z < SingleString.length;z += 4) 
+        this.TroubleCodes=[];
+        if(multipleRes[3]!=='NO DATA')
             {
-              this.TroubleCodes.push(SingleString.substring(z, z + 4));
-              console.log("trouble: "+this.TroubleCodes);
+              SingleString=SingleString.substring(7);
+            console.log("Before: "+SingleString)
+            let z=0;
+            let Jump=0;
+            
+            while(z<SingleString.length)
+            {
+              
+              if(Jump==3)
+              {
+                Jump=0;
+                z+=3;
+               continue; 
+              }else{
+                Jump++;
+                this.TroubleCodes.push(SingleString.substring(z, z + 4));
+                z+=4;
+              }
 
-              //Create an if statement to check if the first two values are 43 if yes skip them
             }
-           
+            console.log("After codes: "+this.TroubleCodes);
+            for(let m=0;m<this.TroubleCodes.length;m++)
+            {
+              if(this.TroubleCodes[m].charAt(0)=='9')
+              {
+                this.TroubleCodes[m]='B1'+this.TroubleCodes[m].slice(1);
+              }else if(this.TroubleCodes[m].charAt(0)=='5')
+              {
+                this.TroubleCodes[m]='C1'+this.TroubleCodes[m].slice(1);
+              }else if(this.TroubleCodes[m].charAt(0)=='C')
+              {
+                this.TroubleCodes[m]='U0'+this.TroubleCodes[m].slice(1);
+              }else if(this.TroubleCodes[m].charAt(0)=='D')
+              {
+                this.TroubleCodes[m]='U1'+this.TroubleCodes[m].slice(1);
+              }else
+              {
+                this.TroubleCodes[m]='P'+this.TroubleCodes[m];
+              }
+            }          
+            
+    
+            }else{
+              //console.log("no codes found");
+            }
           
         
       }

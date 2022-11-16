@@ -10,7 +10,10 @@ import { DataSrvService } from '../data-srv.service';
 })
 export class Tab1Page {
   private selectedSegment: string ='Sensor';
-  constructor(public bluetooth:BluetoothSerial, public router:Router,public DataSrv:DataSrvService) {}
+  TroubleCodes:string[];
+  constructor(public bluetooth:BluetoothSerial, public router:Router,public DataSrv:DataSrvService) {
+    this.TroubleCodes=[];
+  }
 
   segmentChanged(event : any){
   console.log(event.target.value);
@@ -24,10 +27,12 @@ export class Tab1Page {
         this.bluetooth.isConnected().then(rsp=>
           {
             this.DataSrv.deviceConnected('03');
+            this.TroubleCodes=this.DataSrv.TroubleCodes;
           }
           ,er=>
           {
-            console.log("commd dff")
+            this.router.navigate(['tabs/tab2']);
+            this.DataSrv.presentToast("Connection Timed Out! Please Pair Again")
 
           })
 
