@@ -52,6 +52,8 @@ export class DataSrvService {
   public car: Observable<Cars[]>;
   private carCollection:AngularFirestoreCollection<Cars>;
 
+  public loguser: Observable<loginUser[]>;
+
   public curentuser: Observable<CurrentUser[]>;
   private currentuserCollection:AngularFirestoreCollection<CurrentUser>;
   public Support
@@ -130,6 +132,17 @@ return idea
 addUser(idea:Users):Promise<DocumentReference>{
 return this.userCollection.add(idea); 
 }
+resetPassword(email: string): Promise<void> {
+  return this.afAuth.sendPasswordResetEmail(email);
+ }
+ 
+ logoutUser(): Promise<void> {
+   return this.afAuth.signOut();
+ }
+ signupUser(newEmail: string, newPassword: string): Promise<any>
+ {
+   return this.afAuth.createUserWithEmailAndPassword(newEmail, newPassword);
+ }
 updateUser(idea:Users):Promise<void>{
 return this.userCollection.doc(idea.userID).update(idea);
 }
@@ -316,6 +329,12 @@ export interface Users {
   licenseExp: Date;
   Car:Cars[];
   
+}
+export interface loginUser
+{
+   username:string;
+   password: string;
+
 }
 export interface Cars{
 ID:string;

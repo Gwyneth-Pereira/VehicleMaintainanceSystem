@@ -37,7 +37,12 @@ export class LoginPage implements OnInit {
         this.form.markAllAsTouched();
         return;
       }
-      console.log(this.form.value);
+      console.log(this.form.value['email']);
+     console.log( this.form.value.email );
+
+     //user login
+     this.dataSrv.loginUser(this.form.value.email,this.form.value.password);
+
     }
       
 
