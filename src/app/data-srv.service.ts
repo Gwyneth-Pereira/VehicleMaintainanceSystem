@@ -265,6 +265,7 @@ dataReceived(data,mode)
             }
             console.log("After codes: "+this.TroubleCodes);
             for(let m=0;m<this.TroubleCodes.length;m++)
+            {if(this.TroubleCodes[m]!='0000')
             {
               if(this.TroubleCodes[m].charAt(0)=='9')
               {
@@ -282,6 +283,14 @@ dataReceived(data,mode)
               {
                 this.TroubleCodes[m]='P'+this.TroubleCodes[m];
               }
+
+            }else
+            {
+              this.TroubleCodes.splice(m,1);
+              m--;
+            }
+              
+              
             }          
             
     

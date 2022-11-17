@@ -19,7 +19,7 @@ export class Tab2Page {
   SupportedOBD;
   BluetoothFlag:boolean;//Bluetooth Flag to Change Buttons
   SupportedFlag:boolean;//Supported Flag to Open up List
-  isModalOpen:boolean;//Variable to open and close the modal page
+  isModalOpen:boolean=false;//Variable to open and close the modal page
   public User: Observable<Users[]>;//Details about the User will be stored in this variable
   slideOpts = { initialSlide: 0, speed: 400};
   public Car: Observable<Cars[]>;
