@@ -23,7 +23,7 @@ export class Tab2Page {
   index=0;//Index to guide the obd command array to the next point
   isModalOpen;//Variable to open and close the modal page
   public User: Observable<Users[]>;//Details about the User will be stored in this variable
-  slideOpts = { initialSlide: 1, speed: 400};
+  slideOpts = { initialSlide: 0, speed: 400};
   public Car: Observable<Cars[]>;
 
 
