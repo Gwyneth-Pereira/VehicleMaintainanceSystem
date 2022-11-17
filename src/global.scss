@@ -42,3 +42,22 @@
 	--ion-color-shade: var(--ion-color-purple-shade);
 	--ion-color-tint: var(--ion-color-purple-tint);
 }
+
+
+//universal 
+
+ion-content{
+
+    --ion-background-color:#442a41 ;
+}
+ion-card{
+    --ion-background-color:#f5f5f55d!important ;
+}
+/*.colour{
+    background-color: rgb(183, 76, 187)!important;
+}*/
+ion-item
+{
+    --background: none;
+    opacity:1;
+}

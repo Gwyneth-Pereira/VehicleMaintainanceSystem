@@ -28,6 +28,10 @@ const routes: Routes = [
   {
     path: 'getstarted',
     loadChildren: () => import('./getstarted/getstarted.module').then( m => m.GetstartedPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   }
 
 ];
