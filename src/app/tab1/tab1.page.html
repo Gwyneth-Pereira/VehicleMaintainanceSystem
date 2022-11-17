@@ -26,11 +26,16 @@
       
     
       <ion-card-content >
-        <ion-button expand="block">Tap to scan</ion-button>
+        <ion-button expand="block" (click)="Scan()">Tap to Scan</ion-button>
       </ion-card-content>
       
     </ion-card>
 <!-- list scan results -->
+<ion-card *ngFor="let x of TroubleCodes">
+  <ion-card-content><h1>Code: {{x}}</h1></ion-card-content>
+  <ion-card-content>Description: lorem</ion-card-content>
+
+</ion-card>
 
   </div>
 <!-- live data part -->
