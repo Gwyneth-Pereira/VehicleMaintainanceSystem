@@ -27,6 +27,12 @@ export class ProfilePage implements OnInit {
     
     
     }
+    onSubmit()
+    {
+      this.DataSrv.logoutUser();
+    }
+
+
 
 }
   export interface CAR{

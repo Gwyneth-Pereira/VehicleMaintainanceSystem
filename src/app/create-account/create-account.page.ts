@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataSrvService } from '../data-srv.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-account',
@@ -12,7 +13,7 @@ export class CreateAccountPage implements OnInit {
 
   form: FormGroup;
 
-  constructor(public datasrv:DataSrvService) { 
+  constructor(public datasrv:DataSrvService,private router: Router) { 
     this.initForm();
   }
 
@@ -34,9 +35,14 @@ export class CreateAccountPage implements OnInit {
     }
     console.log(this.form.value);
 
-   this.datasrv.signupUser(this.form.value.email,this.form.value.password );
-
+    this.datasrv.signupUser(this.form.value.email,this.form.value.password ).then(
+      success => { console.log("created account sucessfully ");
+                     this.router.navigate(['/']); //home
+                  }, 
+      error => { console.log("existing account with this email");});
+  
+    }
   }
 
 
-}
+
