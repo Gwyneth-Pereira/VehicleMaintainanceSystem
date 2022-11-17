@@ -1,42 +1,48 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="dark">
     <ion-title class="ion-text-start"> Car name </ion-title>
    
-    <ion-icon name="settings-outline" class="me-1 pe-1" size="large" slot="end" routerLink="/setting" routerDirection="forward"></ion-icon>
+    <ion-icon name="settings-outline" color="purple" class="me-1 pe-1" size="large" slot="end" routerLink="/setting" routerDirection="forward"></ion-icon>
     
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-segment swipe-gesture="true" value="Sensor" (ionChange)="segmentChanged($event)" class="mt-4 " >
-    <ion-segment-button value="Sensor">
-      Sensors
+  <ion-segment color="purple" swipe-gesture="true" value="Sensor" (ionChange)="segmentChanged($event)" class="mt-4 " >
+    <ion-segment-button color="light" value="Sensor">
+       <ion-label color="light" > Sensors</ion-label>
     </ion-segment-button>
     <ion-segment-button value="livedata">
-      Live data
+      <ion-label color="light" >Live data</ion-label>
     </ion-segment-button>
   </ion-segment>
 <!-- sensor part -->
   <div *ngIf="selectedSegment=='Sensor'">
     <ion-card class="m-4 p-4">
       <div  class="d-flex justify-content-center mt-3 ">
-        <ion-icon name="construct-outline"  size="large"  ></ion-icon>
+        <ion-icon color="purple" name="construct-outline"  size="large"  ></ion-icon>
          
       </div>
       
     
       <ion-card-content >
-        <ion-button expand="block">Tap to scan</ion-button>
+        <ion-button color="purple" expand="block" (click)="Scan()">Tap to scan</ion-button>
+        
       </ion-card-content>
       
     </ion-card>
 <!-- list scan results -->
+<ion-card *ngFor="let x of TroubleCodes">
+  <ion-card-content><h1>Code: {{x}}</h1></ion-card-content>
+  <ion-card-content>Description: lorem</ion-card-content>
+
+</ion-card>
 
   </div>
 <!-- live data part -->
   <div *ngIf="selectedSegment=='livedata'">
     <div class="d-flex justify-content-around">
-      <ion-card>
+      <ion-card (click)="showSpeed()">
       
         <ion-card-content>
          speed:20kmph

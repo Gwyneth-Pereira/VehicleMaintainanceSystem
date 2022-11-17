@@ -1,29 +1,31 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title class="ion-text-start"> Notifications </ion-title>
-     
-    <ion-icon name="settings-outline" class="me-1 pe-1" size="large" slot="end" routerLink="/setting" routerDirection="forward"></ion-icon>
-    
+  <ion-toolbar color="dark">
+    <ion-title class="ion-text-start" > Notifications </ion-title>
+    <ion-icon name="settings-outline"  color="purple" class="me-1 pe-1" size="large" slot="end" routerLink="/setting" routerDirection="forward"></ion-icon>
+ 
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-list>
-     <ion-text class="ion-text-center">
-      <h3>Today</h3>
-    </ion-text>
+    <ion-list-header >
+      <ion-label color="light">
+        Today
+      </ion-label>
+
+    </ion-list-header>
     <ion-item>
-      <ion-label>Pokémon Yellow</ion-label>
-      <ion-label class="ion-text-end"> 1:22 pm</ion-label>
-    </ion-item>
+      <ion-label color="light">Pokémon Yellow</ion-label>
+      <ion-label class="ion-text-end" color="light"> 1:22 pm</ion-label>
+   </ion-item>
     <ion-item>
-      <ion-label>Air status updated</ion-label>
-      <ion-label class="ion-text-end" > 1:22 pm</ion-label>
-    </ion-item>
+      <ion-label color="light">Air status updated</ion-label>
+      <ion-label class="ion-text-end" color="light"> 1:22 pm</ion-label>
+   </ion-item>
     <ion-item>
-      <ion-label>Bluetooth mode Enabled.</ion-label>
-      <ion-label class="ion-text-end" > 1:22 pm</ion-label>
-    </ion-item>
+      <ion-label color="light">Bluetooth mode Enabled.</ion-label>
+      <ion-label class="ion-text-end" color="light" > 1:22 pm</ion-label>
+  </ion-item>
     
   </ion-list>
   

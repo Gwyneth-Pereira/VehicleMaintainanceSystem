@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule}from '@angular/fire/compat/firestore';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
@@ -28,7 +29,7 @@ const firebaseConfig = {
   declarations: [AppComponent],
   imports: [BrowserModule,
      IonicModule.forRoot(),AngularFireModule.initializeApp(firebaseConfig),
-     AngularFirestoreModule,     
+     AngularFirestoreModule,  AngularFireAuthModule,   
      AppRoutingModule],
   providers: [AndroidPermissions,BluetoothSerial,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
