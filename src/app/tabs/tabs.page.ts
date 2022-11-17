@@ -17,7 +17,7 @@ export class TabsPage {
     authObserver.unsubscribe();
     } else {
     alert("User signed OUT");  
-    //this.router.navigate(['/login']); //login page
+    this.router.navigate(['/login']); //login page
     authObserver.unsubscribe();
     }
     });

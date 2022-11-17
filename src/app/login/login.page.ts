@@ -5,8 +5,6 @@ import { Router } from'@angular/router';
 import { ToastController } from '@ionic/angular';
 import { Observable }from'rxjs';
 import { CurrentUser, DataSrvService, Users } from '../data-srv.service';
-//import {DataService,Users}from'src/app/data-srv.service';
-//import {currentUser}from'src/app/data-srv.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +15,7 @@ export class LoginPage implements OnInit {
 
   form: FormGroup;
 
-  constructor( public datasrv:DataSrvService) { 
+  constructor( public datasrv:DataSrvService,private router: Router) { 
     this.initForm();
   }
 
@@ -41,9 +39,10 @@ export class LoginPage implements OnInit {
 
      //user login
      this.datasrv.loginUser(this.form.value.email,this.form.value.password).then(
-      success => { console.log("logged in sucessfully");}, 
-      error => { console.log(onmessage);});
-
+      success => { console.log("logged in sucessfully");
+                    this.router.navigate(['/']); //home
+                  }, 
+      ).catch(error=>{ console.log("user already logged in ");});
   }
 
  
