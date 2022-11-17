@@ -11,6 +11,7 @@
   <ion-segment color="purple" swipe-gesture="true" value="Sensor" (ionChange)="segmentChanged($event)" class="mt-4 " >
     <ion-segment-button color="light" value="Sensor">
        <ion-label color="light" > Sensors</ion-label>
+    </ion-segment-button>
     <ion-segment-button value="livedata">
       <ion-label color="light" >Live data</ion-label>
     </ion-segment-button>
@@ -41,7 +42,7 @@
 <!-- live data part -->
   <div *ngIf="selectedSegment=='livedata'">
     <div class="d-flex justify-content-around">
-      <ion-card>
+      <ion-card (click)="showSpeed()">
       
         <ion-card-content>
          speed:20kmph

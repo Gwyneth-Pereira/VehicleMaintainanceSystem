@@ -10,6 +10,7 @@
       Login page
     </ion-label>
   </ion-list-header>
+</ion-list>
 
 <ion-content>
   <ion-item-group class="ion-margin-horizontal">
@@ -21,6 +22,7 @@
             <ion-icon name="mail-outline" slot="start" color="medium" color="purple"></ion-icon>
           </ion-input>
         </ion-item>
+        
         <ion-text class="error" color="danger" 
           *ngIf="!form.get('email').valid && form.get('email').touched">
           <ion-text *ngIf="form.get('email').hasError('required')" >
@@ -72,7 +74,7 @@
     <ion-icon name="logo-twitter" color="secondary"></ion-icon>
   </p>
 
-</ion-list>
+
 <div class="m-2 p-2 ion-text-center  ">
   <ion-label color="light" >
   Don't have an account yet?? 

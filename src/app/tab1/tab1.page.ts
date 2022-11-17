@@ -11,6 +11,7 @@ import { DataSrvService } from '../data-srv.service';
 export class Tab1Page {
   private selectedSegment: string ='Sensor';
   TroubleCodes:string[];
+  Sped;
   constructor(public bluetooth:BluetoothSerial, public router:Router,public DataSrv:DataSrvService) {
     this.TroubleCodes=[];
   }
@@ -44,5 +45,11 @@ export class Tab1Page {
         this.router.navigate(['tabs/tab2']);
       })
    
+  }
+  showSpeed()
+  {
+    this.DataSrv.deviceConnected('04');
+    this.Sped=this.DataSrv.Speed;
+    this.DataSrv.showError("Speed: ",this.Sped);
   }
 }

@@ -6,6 +6,7 @@ import { ActionSheetController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Cars, DataSrvService, paired, Users } from '../data-srv.service';
 import { IonModal } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab2',
@@ -24,7 +25,7 @@ export class Tab2Page {
   public Car: Observable<Cars[]>;
 
 
-  constructor(private bluetooth:BluetoothSerial, private DataSrv:DataSrvService, private permission:AndroidPermissions) {
+  constructor(private bluetooth:BluetoothSerial, private DataSrv:DataSrvService,public router:Router ,private permission:AndroidPermissions) {
     this.isModalOpen=this.DataSrv.isModalOpen;
     this.SupportedFlag=this.DataSrv.SupportedFlag;
     this.BluetoothFlag=this.DataSrv.BluetoothFlag;
@@ -74,6 +75,7 @@ this.DataSrv.deviceConnected('01');
 this.BluetoothFlag=this.DataSrv.BluetoothFlag;
 this.SupportedFlag=this.DataSrv.SupportedFlag;
 this.isModalOpen=this.DataSrv.isModalOpen;
+this.router.navigate(['tabs/tab1']);
 
 
 
