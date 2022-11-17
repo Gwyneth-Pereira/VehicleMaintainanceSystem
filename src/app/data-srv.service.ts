@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/compat/firestore';
 import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 import { AlertController, ToastController } from '@ionic/angular';
@@ -59,7 +60,7 @@ export class DataSrvService {
   isModalOpen:boolean=false;//Variable to open and close the modal page
   TroubleCodes:string[];
 
-  constructor(private afs:AngularFirestore, private toastctrl:ToastController,private alert: AlertController, public bluetooth:BluetoothSerial){
+  constructor(private afs:AngularFirestore, private toastctrl:ToastController,private alert: AlertController, public bluetooth:BluetoothSerial, public afAuth:AngularFireAuth){
     this.TroubleCodes=[];
     
     this.userCollection=this.afs.collection<Users>('Car');
@@ -105,6 +106,10 @@ export class DataSrvService {
 getUsers():Observable<Users[]>{
 return this.user;
 }
+loginUser(newEmail: string, newPassword: string): Promise<any> {
+  return this.afAuth.signInWithEmailAndPassword(newEmail, newPassword);
+  }
+
 getCars():Observable<Cars[]>{
   return this.car;
   }
