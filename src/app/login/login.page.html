@@ -5,7 +5,7 @@
 </ion-header>
 <ion-content> 
 <ion-list lines="full">
-  <ion-list-header class="ion-margin">
+  <ion-list-header >
     <ion-label color="light">
       Login page
     </ion-label>
@@ -49,7 +49,7 @@
         </ion-text>
       </div>
 
-      <p class="ion-text-right"><ion-text color="primary">Forgot Password?</ion-text></p>
+      <p class="ion-text-right"><ion-text color="purple">Forgot Password?</ion-text></p>
 
       <ion-button 
         size="large" 
@@ -57,13 +57,13 @@
         shape="round" 
         color="purple" 
         (click)="onSubmit()">
-        <ion-text color="light">Sign in</ion-text>
+        <ion-text color="light">Login</ion-text>
       </ion-button>
     </form>
   </ion-item-group>
 
   <p class="ion-text-center">
-    <ion-text color="light">or sign in with</ion-text>
+    <ion-text color="light">or login with</ion-text>
   </p>
 
   <p class="ion-text-center">
@@ -73,4 +73,13 @@
   </p>
 
 </ion-list>
+<div class="m-2 p-2 ion-text-center  ">
+  <ion-label color="light" >
+  Don't have an account yet?? 
+  </ion-label>
+<br/>
+  <ion-label color="purple" routerLink="/create-account" >
+   Create Account here !!
+  </ion-label>
+</div>
 </ion-content>
