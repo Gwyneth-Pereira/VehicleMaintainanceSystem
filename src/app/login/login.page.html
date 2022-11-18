@@ -1,12 +1,12 @@
 <ion-header  class="ion-no-border">
   <ion-toolbar color="dark">
-      <ion-icon  color="purple" name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1"  routerLink="/"></ion-icon>
+
   </ion-toolbar>
 </ion-header>
 <ion-content> 
 <ion-list lines="full">
   <ion-list-header >
-    <ion-label color="light">
+    <ion-label color="gold">
       Login page
     </ion-label>
   </ion-list-header>
@@ -17,7 +17,7 @@
     <form [formGroup]="form">
       <div class="ion-margin-vertical">
         <ion-item>
-          <ion-label position="stacked" color="light">Email</ion-label>
+          <ion-label position="stacked" color="gold">Email</ion-label>
           <ion-input formControlName="email" type="email" placeholder=" Email Address" color="purple">
             <ion-icon name="mail-outline" slot="start" color="medium" color="purple"></ion-icon>
           </ion-input>
@@ -36,7 +36,7 @@
       </div>
       <div class="ion-margin-vertical">
         <ion-item>
-          <ion-label position="stacked" color="light">Password</ion-label>
+          <ion-label position="stacked" color="gold">Password</ion-label>
           <ion-input formControlName="password" type="password" placeholder="  Password" color="purple">
             <ion-icon name="key-outline" color="medium" color="purple" slot="start"></ion-icon>
           </ion-input>
@@ -57,15 +57,15 @@
         size="large" 
         expand="block" 
         shape="round" 
-        color="purple" 
+        color="gold" 
         (click)="onSubmit()">
-        <ion-text color="light">Login</ion-text>
+        <ion-text color="dark">Login</ion-text>
       </ion-button>
     </form>
   </ion-item-group>
 
-  <p class="ion-text-center">
-    <ion-text color="light">or login with</ion-text>
+  <p class="ion-text-center pt-3 mt-2">
+    <ion-text color="gold">or login with</ion-text>
   </p>
 
   <p class="ion-text-center">
@@ -76,7 +76,7 @@
 
 
 <div class="m-2 p-2 ion-text-center  ">
-  <ion-label color="light" >
+  <ion-label color="gold" >
   Don't have an account yet?? 
   </ion-label>
 <br/>

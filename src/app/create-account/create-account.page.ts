@@ -33,13 +33,22 @@ export class CreateAccountPage implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-    console.log(this.form.value);
-
+  
+    //add record in the auth database.
     this.datasrv.signupUser(this.form.value.email,this.form.value.password ).then(
-      success => { console.log("created account sucessfully ");
-                     this.router.navigate(['/']); //home
+      success => { 
+       // add data in the firebase datastore 
+       
+
+        this.datasrv.presentToast("created account sucessfully ");
+        //this.router.navigate(['/']); //go to homepage
                   }, 
-      error => { console.log("existing account with this email");});
+      ).catch(
+     error => { 
+                this.datasrv.showError("Error ","Existing account with this email. <br/> please use another email address.");
+               });
+
+    
   
     }
   }

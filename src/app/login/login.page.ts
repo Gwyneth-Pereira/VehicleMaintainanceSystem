@@ -21,8 +21,6 @@ export class LoginPage implements OnInit {
 
  
   ngOnInit(){
-   
-
     }
     initForm() {
       this.form = new FormGroup({
@@ -36,18 +34,14 @@ export class LoginPage implements OnInit {
         this.form.markAllAsTouched();
         return;
       }
-      console.log(this.form.value['email']);
-     console.log( this.form.value.email );
-
-     //user login
+      //user login
      this.dataSrv.loginUser(this.form.value.email,this.form.value.password).then(
-      success => { console.log("logged in sucessfully");
-      this.router.navigate(['/']); //home
+      success => {
+        this.dataSrv.presentToast("You have logged in sucessfully!!");
+        this.router.navigate(['/']); //home
     }, 
-).catch(error=>{ console.log("NO account with this email or incorrect password. ");});
+      ).catch(error=>{ 
+        this.dataSrv.showError("Alert","No account with this email or incorrect password. <br/> please try again.");
+        });
     }
-      
-
-  
-
-}
+  }

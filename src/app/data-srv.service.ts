@@ -106,13 +106,16 @@ export class DataSrvService {
   
   }
 
+
+ // get data from the firebase users table 
 getUsers():Observable<Users[]>{
 return this.user;
 }
+//authenticate user login email, passsword
 loginUser(newEmail: string, newPassword: string): Promise<any> {
   return this.afAuth.signInWithEmailAndPassword(newEmail, newPassword);
   }
-
+// get data from the firebase cars table 
 getCars():Observable<Cars[]>{
   return this.car;
   }
@@ -137,13 +140,16 @@ resetPassword(email: string): Promise<void> {
   return this.afAuth.sendPasswordResetEmail(email);
  }
  
+ //log out the user
  logoutUser(): Promise<void> {
    return this.afAuth.signOut();
  }
+ //create record in auth database 
  signupUser(newEmail: string, newPassword: string): Promise<any>
  {
    return this.afAuth.createUserWithEmailAndPassword(newEmail, newPassword);
  }
+
 updateUser(idea:Users):Promise<void>{
 return this.userCollection.doc(idea.userID).update(idea);
 }
@@ -320,7 +326,7 @@ dataReceived(data,mode)
    
      
 }
-
+// alertbox 
 async showError(Header,msg) {
   let  alert = await this.alert.create({
   message: msg,
@@ -330,8 +336,37 @@ async showError(Header,msg) {
   await alert.present(); 
   }
 
+ public  handlerMessage = '';
+ public roleMessage = '';
+// alert with choice to confirm delete or abort action.
+  async showChoice(Header,msg) {
+    let  alert = await this.alert.create({
+    message: msg,
+    subHeader: Header,
+    buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        handler: () => {
+          this.handlerMessage = 'canceled';
+        },
+      },
+      {
+        text: 'OK',
+        role: 'confirm',
+        handler: () => {
+          this.handlerMessage = 'confirmed';
+        },
+      },
+    ]
+    });
+    await alert.present(); 
+    const { role } = await alert.onDidDismiss();
+    this.roleMessage = `Dismissed with role: ${role}`;
+    }
 
 
+// popup message alert.
 async  presentToast(msg) {
   let toast = await this.toastctrl.create({
   message: msg,
