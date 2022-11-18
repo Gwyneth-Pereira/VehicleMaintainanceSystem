@@ -44,7 +44,7 @@ export class LoginPage implements OnInit {
       success => { console.log("logged in sucessfully");
       this.router.navigate(['/']); //home
     }, 
-).catch(error=>{ console.log("user already logged in ");});
+).catch(error=>{ console.log("NO account with this email or incorrect password. ");});
     }
       
 
