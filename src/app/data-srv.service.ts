@@ -53,7 +53,8 @@ export class DataSrvService {
   public car: Observable<Cars[]>;
   private carCollection:AngularFirestoreCollection<Cars>;
 
-  public loguser: Observable<loginUser[]>;
+  //public loguser: Observable<loginUser[]>;
+  public fuser: Observable<UserFirebase[]>; // to connect to firebase
 
   public curentuser: Observable<CurrentUser[]>;
   private currentuserCollection:AngularFirestoreCollection<CurrentUser>;
@@ -104,6 +105,11 @@ export class DataSrvService {
     })
     );
   
+    //this.productsCollectionRef = this.afs.collection('products');
+    // this.products = this.productsCollectionRef.valueChanges();
+
+
+
   }
 
 
@@ -136,6 +142,11 @@ return idea
 addUser(idea:Users):Promise<DocumentReference>{
 return this.userCollection.add(idea); 
 }
+
+
+
+
+
 resetPassword(email: string): Promise<void> {
   return this.afAuth.sendPasswordResetEmail(email);
  }
@@ -162,6 +173,8 @@ updateC_User(idea:CurrentUser):Promise<any>{
 deleteUser(id: string): Promise<void>{
 return this.userCollection.doc(id).delete();
 }
+
+
 InitiateOBD(cmd)
 {
   try{
@@ -386,13 +399,43 @@ export interface Users {
   Car:Cars[];
   
 }
-export interface loginUser
+/*export interface loginUser
 {
    username:string;
    password: string;
 
-}
+}*/
 export interface Cars{
+  ID:string;
+  VIN?:string;
+  make:string;
+  model:string;
+  year:string;
+  numPlate:string;
+  engCap:string;
+  ChasisNum:string;
+  Typeimg:string;
+  passExpDte:Date;
+  Insurance:Ins[];
+  document:string[];
+  
+  }
+
+
+
+
+// add account needs 
+export interface UserFirebase {
+  userID?: string;
+  Name: string;
+  phoneNum: number;
+  password: string;
+  img: string;
+  licenseExp: Date;
+    
+}
+//add car needs 
+export interface CarFirebase{
 ID:string;
 VIN?:string;
 make:string;
@@ -405,8 +448,14 @@ Typeimg:string;
 passExpDte:Date;
 Insurance:Ins[];
 document:string[];
-
+userId:string;
 }
+
+
+
+
+
+
 export interface Ins{
 comName:string;
 policyNum:string;
