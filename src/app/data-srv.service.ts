@@ -13,7 +13,7 @@ import { map,take}from'rxjs/operators';
 export class DataSrvService {
   queue=['ATZ\r','ATS0\r','ATL0\r','ATSP0\r','0100\r','0902\r'];//Setting Up OBD-II Commands;
   Speed;
-  SupportedOBD=[{Text:'Monitor status since DTCs cleared',Value:'-'},
+  /*SupportedOBD=[{Text:'Monitor status since DTCs cleared',Value:'-'},
   {Text:'Freeze DTC',Value:'-'},
   {Text:'Fuel system status',Value:'-'},
   {Text:'Calculated engine load',Value:'-'},
@@ -45,13 +45,22 @@ export class DataSrvService {
   {Text:'Auxiliary input status',Value:'-'},
   {Text:'Run time since engine start',Value:'-'},
   {Text:'PIDs supported [21 - 40]',Value:'-'}];//An Array that Contains all the data related to 0100 Response
-  SupportedPIDS;//Decimal Response Converted from Hex response that came from OBD
+  SupportedPIDS;//Decimal Response Converted from Hex response that came from OBD*/
   index=0;//Index to guide the obd command array to the next point
   public user: Observable<Users[]>;
   private userCollection:AngularFirestoreCollection<Users>;
 
+  static:any;
+  private PushingInterval;
+  private WritingInterval;
+  private LiveDataArray;
+  private OBD_Queue:string[];
+
+
   public car: Observable<Cars[]>;
   private carCollection:AngularFirestoreCollection<Cars>;
+  private SPFlag:Observable<boolean>;
+  private SPFlagCollection:AngularFirestoreCollection<boolean>;
 
   public loguser: Observable<loginUser[]>;
 
@@ -62,10 +71,46 @@ export class DataSrvService {
   SupportedFlag: boolean=false;
   isModalOpen:boolean=false;//Variable to open and close the modal page
   TroubleCodes:string[];
+  recurring: string;
+  public livedata: Observable<LiveData[]>;
+  private livedataCollection:AngularFirestoreCollection<LiveData>;
+
 
   constructor(private afs:AngularFirestore, private toastctrl:ToastController,private alert: AlertController, public bluetooth:BluetoothSerial, public afAuth:AngularFireAuth){
     this.TroubleCodes=[];
+    this.recurring='0';
+    this.LiveDataArray;
     
+    this.livedataCollection=this.afs.collection<LiveData>('LiveData');
+    this.livedata= this.livedataCollection.snapshotChanges().pipe
+    
+    (
+    map(actions=>{
+    return actions.map(a=>{
+    const data =a.payload.doc.data();
+    const id = a.payload.doc.id;
+    return{id,...data};
+    });
+    })
+    );
+
+    this.SPFlagCollection=this.afs.collection<boolean>('LiveData');
+    this.livedata= this.livedataCollection.snapshotChanges().pipe
+    
+    (
+    map(actions=>{
+    return actions.map(a=>{
+    const data =a.payload.doc.data();
+    const id = a.payload.doc.id;
+    return{id,...data};
+    });
+    })
+    );
+
+
+
+
+
     this.userCollection=this.afs.collection<Users>('Car');
     this.user= this.userCollection.snapshotChanges().pipe
     
@@ -109,6 +154,7 @@ export class DataSrvService {
 getUsers():Observable<Users[]>{
 return this.user;
 }
+getLiveData():Observable<LiveData[]>{return this.livedata;}
 loginUser(newEmail: string, newPassword: string): Promise<any> {
   return this.afAuth.signInWithEmailAndPassword(newEmail, newPassword);
   }
@@ -169,20 +215,18 @@ deviceConnected(mode)
 this.bluetooth.subscribe('>').subscribe
 (success=>{
 this.dataReceived(success,mode);
-
 }, error => {
   this.showError("Error During Receivng Data",error);
   this.Disconnect();
 
 });
-if(mode=='01')
+if(mode=='00')
   this.InitiateOBD(this.queue[this.index++]);
 else if(mode=='03')
   this.InitiateOBD('03\r');
-  else if(mode=='04')
+if(this.recurring=='1')
   {
-    this.InitiateOBD('010D\r');
-  
+  console.log("//Fetch Live Data");
   }
 }
 Disconnect()
@@ -208,20 +252,7 @@ dataReceived(data,mode)
         continue;
       var multipleRes=SingleString.split('\r');
       console.log("Code: "+multipleRes[0]+", Response: "+multipleRes[3])
-      if(multipleRes[0]==='0100')
-      {
-        this.SupportedPIDS=multipleRes[3].toString();
-        this.SupportedPIDS=this.SupportedPIDS.substring(4);
-        this.SupportedPIDS= (parseInt(this.SupportedPIDS,16)).toString(2);
-        for(let k=0;k<this.SupportedOBD.length;k++)
-        {
-          if(this.SupportedPIDS.charAt(k)=='1')
-            this.SupportedOBD[k].Value="Yes";
-          else
-          this.SupportedOBD[k].Value="No";
-        }
-        
-      }
+     
       if(multipleRes[0]==='0902')
       {
         if(multipleRes[3]==='NO DATA')//If the Car Desnt Support Mode 9
@@ -299,27 +330,48 @@ dataReceived(data,mode)
             }
           
         
-      }if(multipleRes[0]==='010D')
-      {
-        this.Speed=multipleRes[3].substring(4);
-        console.log("ff: "+this.Speed);
-        this.Speed=parseInt(this.Speed,16);
-
-        
       }
-      
-      
     }
-    if(mode=='01')
+    if(mode=='00')
     {
       if(this.index<this.queue.length)
-      this.InitiateOBD(this.queue[this.index++]);
-      else
-     this.presentToast("OBD-II Setup Completed"); 
+        this.InitiateOBD(this.queue[this.index++]);
+      else{
+        this.presentToast("OBD-II Setup Completed"); 
+        this.recurring='1';
+      }
+     
     } 
    
      
 }
+FetchLiveData()
+  {
+     var self=this;
+     this.PushingInterval = setInterval(function () 
+      {
+       try{ 
+        for (let i = 0; i < self.LiveDataArray.length; i++) 
+        self.queue.push(self.LiveDataArray[i]); 
+      }catch{
+        self.presentToast("Error Pushing Command catch Block");
+        clearInterval(self.PushingInterval);
+      } 
+      }, 1000);
+     
+     this.WritingInterval = setInterval(function(){
+      if (self.OBD_Queue.length > 0)
+        try{
+            var cmd=self.OBD_Queue.shift();
+            self.InitiateOBD(cmd);
+          }catch(error){
+            self.presentToast("Error Writing Command catch Block");
+            clearInterval(self.WritingInterval);
+          }
+      
+    },1000);
+  
+    }
 
 async showError(Header,msg) {
   let  alert = await this.alert.create({
@@ -401,5 +453,10 @@ ExpDate:string;
   }
   export interface support{
     "Text":string;
+    "Value":string;
+  }
+  export interface LiveData{
+    "Code":string;
+    "Description":string;
     "Value":string;
   }

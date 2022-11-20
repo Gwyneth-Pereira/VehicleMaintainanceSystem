@@ -48,7 +48,6 @@
     <ion-col size="12" class="ion-text-center">
       <ion-button id="open-modal" color="gold" class="p-2 m-2" *ngIf="BluetoothFlag" style="height:65px; width:150px;" (click)="Pair()">Pair Car</ion-button>
       <ion-button  color="gold" class="p-2 m-2" *ngIf="!BluetoothFlag" style="height:65px; width:150px;" (click)="diconnect()">Unpair Car</ion-button>
-      <ion-button  color="gold" class="p-2 m-2" *ngIf="!BluetoothFlag" style="height:65px; width:150px;" (click)="OpenList()">Show Supported OBD-II PIDs</ion-button>
 
     </ion-col>
   </ion-row>

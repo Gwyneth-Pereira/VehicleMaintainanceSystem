@@ -38,24 +38,15 @@
   </div>
 <!-- live data part -->
   <div *ngIf="selectedSegment=='livedata'">
-    <div class="d-flex justify-content-around" >
-      <ion-card (click)="showSpeed()" color="light">
-        <ion-card-content>speed:20kmph</ion-card-content>
-      </ion-card>
-      <ion-card color="light">
-        <ion-card-content>speed:20kmph</ion-card-content>
-      </ion-card>
-      <ion-card color="light">      
-        <ion-card-content>speed:20 kmph</ion-card-content>
-      </ion-card>
-    </div>
-   
+    <br>
+    <ion-button color="gold" expand="block" (click)="FetchLiveData()" class=" pb-0  mb-0">Fetch Live Data</ion-button>
 
-
+      <ion-card color="light" *ngFor="let data of (LiveDataObservable | async)">
+        <ion-card-content>{{data.description}}</ion-card-content>
+      </ion-card>
+     
+    
+  
   </div>
-
-
-  
-  
 
 </ion-content>
