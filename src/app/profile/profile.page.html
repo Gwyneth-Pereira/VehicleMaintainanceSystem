@@ -22,35 +22,36 @@
  </div>
   <ion-list >
     <ion-item lines="none">
-      <ion-label color="medium" >Login Id</ion-label> <ion-label slot="end" color="light">username</ion-label>
+      <ion-label color="purple" >Login Id</ion-label> <ion-label slot="end" color="gold">username</ion-label>
     </ion-item >
     
     <ion-item lines="none">
-      <ion-label color="medium"> Phone Number</ion-label> <ion-label slot="end" color="light">11224455</ion-label>
+      <ion-label color="purple"> Phone Number</ion-label> <ion-label slot="end" color="gold">11224455</ion-label>
     </ion-item >
     <ion-item lines="full">
-      <ion-label color="medium">Password</ion-label> <ion-label slot="end" color="light">****** </ion-label>
+      <ion-label color="purple">Password</ion-label> <ion-label slot="end" color="gold">****** </ion-label>
     </ion-item>
     
   </ion-list>
  
-  <ion-button  color="purple">
+  <ion-button  color="gold">
     Edit
   </ion-button>
 
 
-  <h3 class="mb-0 pb-1 m-2  p-2 ">
+   <h3 class="mb-0 pb-1 m-2  p-2 " style="color:gold;">
     Your Cars
   </h3>
+  
   <ion-list >
    
     <div *ngIf="cars"> 
     <ion-card *ngFor="let car of cars,let i= index" class="d-flex justify-content-between mt-0 "  style="border-radius:15px !important;">
-      <ion-card-header  class="d-flex align-items-center">
-      
-      <h6>
+      <ion-card-header  class="d-flex align-items-center" >
+       <h6 style="color:gold;" >
         {{car.name}}
       </h6>
+      
       </ion-card-header>
       <ion-card-content class="pt-2 pb-2 d-flex justify-content-end">
         <img src={{car.image}} class="w-75 ">
@@ -60,12 +61,12 @@
     <ion-card style="border-radius:15px !important;">
       
       <ion-card-content class="d-flex flex-row justify-content-center p-4" >
-        <ion-icon name="add-outline"  size="large"></ion-icon> <h6 class="d-flex align-items-center">Add Car</h6>
+        <ion-icon name="add-outline"  size="large" color="gold"></ion-icon> <h6 style="color:gold;" class="d-flex align-items-center">Add Car</h6>
       </ion-card-content>
     </ion-card>
   </ion-list>
 
-  <div class="p-2"> <ion-button fill="outline" color="danger" expand="block">Log Out</ion-button></div>
-  <div class="p-2"> <ion-button fill="outline" color="danger" expand="block" (click)="onSubmit()">Log Out</ion-button></div>
-
+  
+  <div class="p-2"> <ion-button fill="outline" color="danger" expand="block" (click)="onLogOut()">Log Out</ion-button></div>
+  <div class="p-2"> <ion-button  color="danger" expand="block" (click)="onDelete()">Delete account</ion-button></div>
 </ion-content>

@@ -8,7 +8,7 @@
     <ion-list-header >
       <ion-label class="m-2">
 
-        <ion-text color="light"> Create your Account</ion-text>
+        <ion-text color="gold"> Create your Account</ion-text>
       </ion-label>
     </ion-list-header>
 
@@ -16,21 +16,21 @@
       <form [formGroup]="form">
         <div class="ion-margin-vertical">
           <ion-item>
-            <ion-label position="stacked" color="light"> Enter Your name</ion-label>
-            <ion-input formControlName="name" type="text" placeholder="Username" color="purple">
+            <ion-label position="stacked" color="gold"> Enter Your Full name</ion-label>
+            <ion-input formControlName="name" type="text" placeholder="Full Name" color="purple">
               <ion-icon name="person-outline" slot="start" color="medium" color="purple"></ion-icon>
             </ion-input>
           </ion-item>
           <ion-text class="error" color="danger" 
             *ngIf="!form.get('name').valid && form.get('name').touched">
             <ion-text *ngIf="form.get('name').hasError('required')">
-              * Please enter your Name
+              * Please enter your Full Name
             </ion-text>            
           </ion-text>
         </div>
         <div class="ion-margin-vertical">
           <ion-item>
-            <ion-label position="stacked" color="light">Email</ion-label>
+            <ion-label position="stacked" color="gold">Email</ion-label>
             <ion-input formControlName="email" type="email" placeholder="Email Address" color="purple">
               <ion-icon name="mail-outline" slot="start" color="medium" color="purple"></ion-icon>
             </ion-input>
@@ -49,7 +49,7 @@
 
         <div class="ion-margin-vertical">
           <ion-item>
-            <ion-label position="stacked" color="light">Password</ion-label>
+            <ion-label position="stacked" color="gold">Password</ion-label>
             <ion-input formControlName="password" type="password" placeholder="Password" color="purple">
               <ion-icon name="key-outline" slot="start" color="medium " color="purple"></ion-icon>
             </ion-input>
@@ -63,14 +63,53 @@
             </ion-text>
           </ion-text>
         </div>
+        <!--   added info -->
+        <div class="ion-margin-vertical">
+          <ion-item>
+            <ion-label position="stacked" color="gold">Phone number</ion-label>
+            <ion-input formControlName="phone" type="number" placeholder="1111-1111" color="purple">
+              <ion-icon name="call-outline" slot="start" color="medium " color="purple"></ion-icon>
+            </ion-input>
+          </ion-item>
+          <ion-text class="error" color="danger" *ngIf="!form.get('phone').valid && form.get('phone').touched">
+            <ion-text *ngIf="form.get('phone').hasError('required')" >
+              * Please enter your phone number
+            </ion-text>
+            <ion-text *ngIf="!form.get('phone').hasError('required') && form.get('phone').hasError('minlength')">
+              * Phone number must be of atleast 8 digit
+            </ion-text>
+            <ion-text *ngIf="!form.get('phone').hasError('required') && form.get('phone').hasError('maxlength')">
+              * Phone number must be of at most 8 digit
+            </ion-text>
+          </ion-text>
+        </div>
+ <!--- 
+        <div class="ion-margin-vertical">
+          <ion-item>
+            <ion-label position="stacked" color="gold"> Select image </ion-label>
+            <ion-input formControlName="imag" type="text" placeholder="Full Name" color="purple">
+              <ion-icon name="person-outline" slot="start" color="medium" color="purple"></ion-icon>
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked" color="gold"> Licence Expiry date </ion-label>
+            <ion-input formControlName="licenseExp" type="date" placeholder="Full Name" value="null" color="purple">
+              <ion-icon name="person-outline" slot="start" color="medium" color="purple"></ion-icon>
+          </ion-input>
+          </ion-item>
+        </div>
+   --> 
+
+
+
 
         <ion-button 
           size="large" 
           expand="block" 
           shape="round" 
-          color="purple"
+          color="gold"
           (click)="onSubmit()">
-          <ion-text color="light">Create Account</ion-text>
+          <ion-text color="dark">Create Account</ion-text>
         </ion-button>
       </form>
     </ion-item-group>
@@ -78,7 +117,7 @@
   </ion-list>
 
   <div class="m-3 p-3 ion-text-center">
-    <ion-label color="light" >
+    <ion-label color="gold" >
       Already have an account?? login 
     </ion-label>
     <ion-label color="purple" routerLink="/login" >

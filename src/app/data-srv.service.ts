@@ -62,7 +62,8 @@ export class DataSrvService {
   private SPFlag:Observable<boolean>;
   private SPFlagCollection:AngularFirestoreCollection<boolean>;
 
-  public loguser: Observable<loginUser[]>;
+  //public loguser: Observable<loginUser[]>;
+  public fuser: Observable<UserFirebase[]>; // to connect to firebase
 
   public curentuser: Observable<CurrentUser[]>;
   private currentuserCollection:AngularFirestoreCollection<CurrentUser>;
@@ -149,16 +150,24 @@ export class DataSrvService {
     })
     );
   
+    //this.productsCollectionRef = this.afs.collection('products');
+    // this.products = this.productsCollectionRef.valueChanges();
+
+
+
   }
 
+
+ // get data from the firebase users table 
 getUsers():Observable<Users[]>{
 return this.user;
 }
 getLiveData():Observable<LiveData[]>{return this.livedata;}
+//authenticate user login email, passsword
 loginUser(newEmail: string, newPassword: string): Promise<any> {
   return this.afAuth.signInWithEmailAndPassword(newEmail, newPassword);
   }
-
+// get data from the firebase cars table 
 getCars():Observable<Cars[]>{
   return this.car;
   }
@@ -179,17 +188,25 @@ return idea
 addUser(idea:Users):Promise<DocumentReference>{
 return this.userCollection.add(idea); 
 }
+
+
+
+
+
 resetPassword(email: string): Promise<void> {
   return this.afAuth.sendPasswordResetEmail(email);
  }
  
+ //log out the user
  logoutUser(): Promise<void> {
    return this.afAuth.signOut();
  }
+ //create record in auth database 
  signupUser(newEmail: string, newPassword: string): Promise<any>
  {
    return this.afAuth.createUserWithEmailAndPassword(newEmail, newPassword);
  }
+
 updateUser(idea:Users):Promise<void>{
 return this.userCollection.doc(idea.userID).update(idea);
 }
@@ -202,6 +219,8 @@ updateC_User(idea:CurrentUser):Promise<any>{
 deleteUser(id: string): Promise<void>{
 return this.userCollection.doc(id).delete();
 }
+
+
 InitiateOBD(cmd)
 {
   try{
@@ -382,8 +401,37 @@ async showError(Header,msg) {
   await alert.present(); 
   }
 
+ public  handlerMessage = '';
+ public roleMessage = '';
+// alert with choice to confirm delete or abort action.
+  async showChoice(Header,msg) {
+    let  alert = await this.alert.create({
+    message: msg,
+    subHeader: Header,
+    buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        handler: () => {
+          this.handlerMessage = 'canceled';
+        },
+      },
+      {
+        text: 'OK',
+        role: 'confirm',
+        handler: () => {
+          this.handlerMessage = 'confirmed';
+        },
+      },
+    ]
+    });
+    await alert.present(); 
+    const { role } = await alert.onDidDismiss();
+    this.roleMessage = `Dismissed with role: ${role}`;
+    }
 
 
+// popup message alert.
 async  presentToast(msg) {
   let toast = await this.toastctrl.create({
   message: msg,
@@ -403,13 +451,43 @@ export interface Users {
   Car:Cars[];
   
 }
-export interface loginUser
+/*export interface loginUser
 {
    username:string;
    password: string;
 
-}
+}*/
 export interface Cars{
+  ID:string;
+  VIN?:string;
+  make:string;
+  model:string;
+  year:string;
+  numPlate:string;
+  engCap:string;
+  ChasisNum:string;
+  Typeimg:string;
+  passExpDte:Date;
+  Insurance:Ins[];
+  document:string[];
+  
+  }
+
+
+
+
+// add account needs 
+export interface UserFirebase {
+  userID?: string;
+  Name: string;
+  phoneNum: number;
+  password: string;
+  img: string;
+  licenseExp: Date;
+    
+}
+//add car needs 
+export interface CarFirebase{
 ID:string;
 VIN?:string;
 make:string;
@@ -422,8 +500,14 @@ Typeimg:string;
 passExpDte:Date;
 Insurance:Ins[];
 document:string[];
-
+userId:string;
 }
+
+
+
+
+
+
 export interface Ins{
 comName:string;
 policyNum:string;
