@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Cars, DataSrvService, Users } from '../data-srv.service';
+import { Car, DataSrvService, Users } from '../data-srv.service';
 import { Router } from '@angular/router';
 
 @Component({

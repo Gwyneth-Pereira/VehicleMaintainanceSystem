@@ -57,8 +57,8 @@ export class DataSrvService {
   private OBD_Queue:string[];
 
 
-  public car: Observable<Cars[]>;
-  private carCollection:AngularFirestoreCollection<Cars>;
+  public car: Observable<Car[]>;
+  private carCollection:AngularFirestoreCollection<Car>;
   private SPFlag:Observable<boolean>;
   private SPFlagCollection:AngularFirestoreCollection<boolean>;
 
@@ -125,7 +125,7 @@ export class DataSrvService {
     })
     );
 
-    this.carCollection=this.afs.collection<Cars>('User');
+    this.carCollection=this.afs.collection<Car>('Car');
     this.car= this.carCollection.snapshotChanges().pipe
     
     (
@@ -168,7 +168,7 @@ loginUser(newEmail: string, newPassword: string): Promise<any> {
   return this.afAuth.signInWithEmailAndPassword(newEmail, newPassword);
   }
 // get data from the firebase cars table 
-getCars():Observable<Cars[]>{
+getCars():Observable<Car[]>{
   return this.car;
   }
 
@@ -188,7 +188,9 @@ return idea
 addUser(idea:Users):Promise<DocumentReference>{
 return this.userCollection.add(idea); 
 }
-
+addCar(idea:Car):Promise<DocumentReference>{
+  return this.carCollection.add(idea); 
+  }
 
 
 
@@ -448,33 +450,9 @@ export interface Users {
   password: string;
   img: string;
   licenseExp: Date;
-  Car:Cars[];
+  Car:Car[];
   
 }
-/*export interface loginUser
-{
-   username:string;
-   password: string;
-
-}*/
-export interface Cars{
-  ID:string;
-  VIN?:string;
-  make:string;
-  model:string;
-  year:string;
-  numPlate:string;
-  engCap:string;
-  ChasisNum:string;
-  Typeimg:string;
-  passExpDte:Date;
-  Insurance:Ins[];
-  document:string[];
-  
-  }
-
-
-
 
 // add account needs 
 export interface UserFirebase {
@@ -486,39 +464,19 @@ export interface UserFirebase {
   licenseExp: Date;
     
 }
-//add car needs 
-export interface CarFirebase{
-ID:string;
-VIN?:string;
-make:string;
-model:string;
-year:string;
-numPlate:string;
-engCap:string;
-ChasisNum:string;
-Typeimg:string;
-passExpDte:Date;
-Insurance:Ins[];
-document:string[];
-userId:string;
-}
+//add car need
 
 
 
 
 
 
-export interface Ins{
-comName:string;
-policyNum:string;
-CprNm:number;
-ExpDate:string;
-  }
+
 
   export interface CurrentUser{
     ID?:string;
-    Username: string;
-    solt:string;
+    UserID: string;
+    
 
   }
   export interface paired {
@@ -543,4 +501,21 @@ ExpDate:string;
     "Code":string;
     "Description":string;
     "Value":string;
+  }
+  export interface Car{
+ID?:string;
+VIN?:string;
+make:string;
+model:string;
+year:number;
+numPlate:string;
+carimg:string;
+ownerID:number;
+ExpDte:string;
+InsComp:string;
+InsPolicy:number;
+InsType:string;
+InsExp:string;
+document:string[];
+userId:string;
   }

@@ -1,9 +1,113 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>addnewcar</ion-title>
+<ion-header  class="ion-no-border">
+  <ion-toolbar color="dark">
+    <ion-icon  color="purple" name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1"  routerLink="/"></ion-icon>
+    <ion-label color="gold">Add Car Details</ion-label>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
+  <ion-list lines="full">
+    <ion-list-header ><ion-label color="gold">Add Car</ion-label></ion-list-header>
+  </ion-list>
+  <ion-item-group class="ion-margin-horizontal">
+    
+      <div class="ion-margin-vertical">
+        <ion-item>
+          <ion-label color="gold">Car Make: </ion-label>
+          <ion-input  type="text" color="purple" [(ngModel)]="newCar.make"></ion-input>
+          <ion-icon name="car-outline" slot="end" color="medium" color="purple"></ion-icon>
+        </ion-item>
+
+        <ion-item>
+          <ion-label color="gold">Car Model: </ion-label>
+          <ion-input type="text"  color="purple" [(ngModel)]="newCar.model"></ion-input>
+          <ion-icon name="car-outline" slot="end" color="medium" color="purple"></ion-icon>
+        </ion-item>
+
+        <ion-item>
+          <ion-label color="gold">Car Year: </ion-label>
+          <ion-input type="number" color="purple" [(ngModel)]="newCar.year"></ion-input>
+          <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>        </ion-item>
+
+        <ion-item>
+          <ion-label color="gold">Plate Number: </ion-label>
+          <ion-input type="number" color="purple" [(ngModel)]="newCar.numPlate"></ion-input>
+          <ion-icon name="barcode-outline" slot="end" color="medium" color="purple"></ion-icon>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label color="gold">Car Image: </ion-label>
+          <ion-input type="text" color="purple" [(ngModel)]="newCar.carimg"></ion-input>
+          <ion-icon name="image-outline" slot="end" color="medium" color="purple"></ion-icon>        
+        </ion-item>
+      </div>
+  <ion-accordion-group [multiple]="true"  >
+      <ion-accordion value="first">
+        <ion-item slot="header" ><ion-label color="gold">Ownership Details: </ion-label></ion-item>
+      <div class="ion-padding m-0 p-0" slot="content">
+        <ion-list lines="inset">
+          <ion-item>
+            <ion-label color="gold">Owner ID: </ion-label>
+            <ion-input  type="number" color="purple" [(ngModel)]="newCar.ownerID"></ion-input>
+            <ion-icon name="person" slot="end" color="medium" color="purple"></ion-icon>
+          </ion-item>
+
+          <ion-item>
+            <ion-label  color="gold">Yearly Inspection: </ion-label>
+            <ion-input value="{{ date | date: 'dd.MM.yyyy' }}" id="date" class="ion-text-end" ></ion-input>
+            <ion-popover trigger="date" size="cover">
+              <ng-template>
+                <ion-datetime presentation="date" [(ngModel)]="newCar.ExpDte" locale="sl-SI"></ion-datetime>
+              </ng-template>
+            </ion-popover>
+            <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>     
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-accordion>
+    <ion-accordion value="second">
+      <ion-item slot="header">
+        <ion-label color="gold">Insurance Details: </ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content" > 
+        <ion-list lines="inset">
+          <ion-item>
+            <ion-label color="gold">Company: </ion-label>
+            <ion-input  type="text" color="purple" [(ngModel)]="newCar.InsComp"></ion-input>
+            <ion-icon name="briefcase" slot="end" color="medium" color="purple"></ion-icon>
+          </ion-item>
+          <ion-item>
+            <ion-label color="gold">Policy No: </ion-label>
+            <ion-input  type="number" color="purple" [(ngModel)]="newCar.InsPolicy"></ion-input>
+            <ion-icon name="barcode" slot="end" color="medium" color="purple"></ion-icon>
+          </ion-item>
+          <ion-item>
+            <ion-label color="gold">Cover Type: </ion-label>
+            <ion-input  type="text" color="purple" [(ngModel)]="newCar.InsType"></ion-input>
+            <ion-icon name="construct" slot="end" color="medium" color="purple"></ion-icon>
+          </ion-item>
+
+          <ion-item>
+            <ion-label  color="gold">Expiry Date: </ion-label>
+            <ion-input value="{{ date | date: 'dd.MM.yyyy' }}" id="date" class="ion-text-end" ></ion-input>
+            <ion-popover trigger="date" size="cover">
+              <ng-template>
+                <ion-datetime presentation="date" [(ngModel)]="newCar.InsExp" locale="sl-SI"></ion-datetime>
+              </ng-template>
+            </ion-popover>
+            <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>     
+          </ion-item>
+        </ion-list>
+        </div>
+    </ion-accordion>
+  </ion-accordion-group>
+
+     <br>
+      <ion-button size="large" expand="block" shape="round" color="gold" (click)="submit()">
+        <ion-text color="dark">Submit</ion-text>
+      </ion-button>
+
+  </ion-item-group>
+
+ 
 
 </ion-content>

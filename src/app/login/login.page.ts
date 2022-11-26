@@ -13,9 +13,10 @@ import { CurrentUser, DataSrvService, Users } from '../data-srv.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
+  currentUser:CurrentUser;
   form: FormGroup;
     constructor(public FBAuth: AngularFireAuth,public router:Router, public toastCtrl:ToastController,public dataSrv:DataSrvService) { 
+      this.currentUser={UserID:''};
       this.initForm();
     }
 
@@ -37,6 +38,10 @@ export class LoginPage implements OnInit {
       //user login
      this.dataSrv.loginUser(this.form.value.email,this.form.value.password).then(
       success => {
+        this.currentUser.ID='Current'
+        this.currentUser.UserID=this.form.value.email;
+        console.log(this.currentUser);
+        this.dataSrv.updateC_User(this.currentUser);
         this.dataSrv.presentToast("You have logged in sucessfully!!");
         this.router.navigate(['/']); //home
     }, 

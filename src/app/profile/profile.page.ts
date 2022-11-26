@@ -13,11 +13,6 @@ export class ProfilePage implements OnInit {
  
   constructor(private DataSrv:DataSrvService,private router: Router) {
 
-
-    this.cars=   [{name:"Lexas", modelno: "es350",image: "assets\\images\\car.png", engine :"3.5" }
-  ,{name:"Honda", modelno: "civic",image: "assets\\images\\car.png", engine :"2.0" }];
-  
-  console.log(this.cars);
   
   }
 

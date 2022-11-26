@@ -4,7 +4,7 @@ import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 import { AlertController, ToastController } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { Cars, DataSrvService, paired, Users } from '../data-srv.service';
+import { Car, CurrentUser, DataSrvService, paired, Users } from '../data-srv.service';
 import { IonModal } from '@ionic/angular';
 import { Router } from '@angular/router';
 
@@ -22,19 +22,20 @@ export class Tab2Page {
   //isModalOpen:boolean=false;//Variable to open and close the modal page
   public User: Observable<Users[]>;//Details about the User will be stored in this variable
   slideOpts = { initialSlide: 0, speed: 400}; // the slide on the homepage
-  public Car: Observable<Cars[]>;
-
+  private CAR: Observable<Car[]>;
+  public currentUser:Observable<CurrentUser[]>;
 
 
   constructor(private bluetooth:BluetoothSerial, private DataSrv:DataSrvService,public router:Router ,private permission:AndroidPermissions) {
     //this.isModalOpen=this.DataSrv.isModalOpen;
    // this.SupportedFlag=this.DataSrv.SupportedFlag;
-    this.BluetoothFlag=this.DataSrv.BluetoothFlag;
+       this.BluetoothFlag=this.DataSrv.BluetoothFlag;
   }
 
 ngOnInit(){
+this.currentUser=this.DataSrv.getCurrentUser();
 this.User=this.DataSrv.getUsers();
-this.Car=this.DataSrv.getCars();//no comment
+this.CAR=this.DataSrv.getCars();//no comment
 }
 
 Pair()
@@ -52,7 +53,18 @@ Pair()
     this.listDevices();
         })
 }
-   
+
+goCarInfo()
+{
+  this.router.navigate(['carinfo']);
+}
+gonewCarInfo()
+{
+  var userID=this.currentUser;
+  
+  this.router.navigate(['addnewcar',{'ID':userID}]);
+}
+
  listDevices() 
 { 
   this.bluetooth.list().then(
