@@ -5,5 +5,89 @@
 </ion-header>
 
 <ion-content>
+  <ion-list lines="full">
+    <ion-list-header ><ion-label color="gold"> Car details</ion-label></ion-list-header>
+  </ion-list>
+  <ion-item-group class="ion-margin-horizontal">
+    
+      <div class="ion-margin-vertical">
+        <ion-item>
+          <ion-label color="gold">Car Make: </ion-label>
+          <ion-icon name="car-outline" slot="end" color="medium" color="purple"></ion-icon>
+        </ion-item>
 
+        <ion-item>
+          <ion-label color="gold">Car Model: </ion-label>
+          <ion-icon name="car-outline" slot="end" color="medium" color="purple"></ion-icon>
+        </ion-item>
+
+        <ion-item>
+          <ion-label color="gold">Car Year: </ion-label>
+          <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>        </ion-item>
+
+        <ion-item>
+          <ion-label color="gold">Plate Number: </ion-label>
+          <ion-icon name="barcode-outline" slot="end" color="medium" color="purple"></ion-icon>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label color="gold">Car Image: </ion-label>
+          <ion-icon name="image-outline" slot="end" color="medium" color="purple"></ion-icon>        
+        </ion-item>
+      </div>
+  <ion-accordion-group [multiple]="true"  >
+      <ion-accordion value="first">
+        <ion-item slot="header" ><ion-label color="gold">Ownership Details: </ion-label></ion-item>
+      <div class="ion-padding m-0 p-0" slot="content">
+        <ion-list lines="inset">
+          <ion-item>
+            <ion-label color="gold">Owner ID: </ion-label>
+            <ion-icon name="person" slot="end" color="medium" color="purple"></ion-icon>
+          </ion-item>
+
+          <ion-item>
+            <ion-label  color="gold">Yearly Inspection: </ion-label>
+            
+            <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>     
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-accordion>
+    <ion-accordion value="second">
+      <ion-item slot="header">
+        <ion-label color="gold">Insurance Details: </ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content" > 
+        <ion-list lines="inset">
+          <ion-item>
+            <ion-label color="gold">Company: </ion-label>
+            <ion-icon name="briefcase" slot="end" color="medium" color="purple"></ion-icon>
+          </ion-item>
+          <ion-item>
+            <ion-label color="gold">Policy No: </ion-label>
+            <ion-icon name="barcode" slot="end" color="medium" color="purple"></ion-icon>
+          </ion-item>
+          <ion-item>
+            <ion-label color="gold">Cover Type: </ion-label>
+            <ion-icon name="construct" slot="end" color="medium" color="purple"></ion-icon>
+          </ion-item>
+
+          <ion-item>
+            <ion-label  color="gold">Expiry Date: </ion-label>
+            
+            <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>     
+          </ion-item>
+        </ion-list>
+        </div>
+    </ion-accordion>
+  </ion-accordion-group>
+
+     <br>
+      <ion-button size="large" expand="block" shape="round" color="gold" >
+        <ion-text color="dark">Submit</ion-text>
+      </ion-button>
+
+  </ion-item-group>
+
+ 
 </ion-content>
