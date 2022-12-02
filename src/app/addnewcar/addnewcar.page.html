@@ -53,10 +53,13 @@
 
           <ion-item>
             <ion-label  color="gold">Yearly Inspection: </ion-label>
-            <ion-input value="{{ date | date: 'dd.MM.yyyy' }}" id="date" class="ion-text-end" ></ion-input>
-            <ion-popover trigger="date" size="cover">
+            <ion-input 
+            value="{{ YearlyInsDte | date: 'MM - YYYY' }}" 
+            id="YearlyInsp"
+            color="purple"></ion-input>
+            <ion-popover trigger="YearlyInsp"  backdropDismiss="false"  [initialBreakpoint]="0.4" [breakpoints]="[0.4]">
               <ng-template>
-                <ion-datetime presentation="date" [(ngModel)]="newCar.ExpDte" locale="sl-SI"></ion-datetime>
+                <ion-datetime [showDefaultButtons]="true" presentation="month" [preferWheel]="true" [(ngModel)]="YearlyInsDte" min="2022" max="2099-10-31"></ion-datetime>
               </ng-template>
             </ion-popover>
             <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>     
@@ -88,12 +91,13 @@
 
           <ion-item>
             <ion-label  color="gold">Expiry Date: </ion-label>
-            <ion-input value="{{ date | date: 'dd.MM.yyyy' }}" id="date" class="ion-text-end" ></ion-input>
-            <ion-popover trigger="date" size="cover">
+            <ion-input 
+            value="{{ InsExpDte | date: 'MM - YYYY' }}" id="InsExpDte" color="purple"></ion-input>
+            <ion-modal trigger="InsExpDte"  [initialBreakpoint]="0.4" [breakpoints]="[0.4]">
               <ng-template>
-                <ion-datetime presentation="date" [(ngModel)]="newCar.InsExp" locale="sl-SI"></ion-datetime>
+                <ion-datetime presentation="month" [showDefaultButtons]="true" [preferWheel]="true" [(ngModel)]="InsExpDte" min="2022" max="2099-10-31"></ion-datetime>
               </ng-template>
-            </ion-popover>
+            </ion-modal>
             <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>     
           </ion-item>
         </ion-list>

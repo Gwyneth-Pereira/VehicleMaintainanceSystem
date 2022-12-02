@@ -46,10 +46,5 @@ export class Tab1Page {
       })
    
   }
-  showSpeed()
-  {
-    this.DataSrv.deviceConnected('04');
-    this.Sped=this.DataSrv.Speed;
-    this.DataSrv.showError("Speed: ",this.Sped);
-  }
+  
 }

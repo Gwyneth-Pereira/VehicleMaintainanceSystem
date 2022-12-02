@@ -10,7 +10,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule}from '@angular/fire/compat/firestore';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { initializeApp } from "firebase/app";
-
+import { LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBrxyWa5AdMkb_NQ7ThTD-mKm_grKCRTG0",
@@ -31,7 +31,7 @@ const firebaseConfig = {
      IonicModule.forRoot(),AngularFireModule.initializeApp(firebaseConfig),
      AngularFirestoreModule,  AngularFireAuthModule,   
      AppRoutingModule],
-  providers: [AndroidPermissions,BluetoothSerial,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [AndroidPermissions,BluetoothSerial,LocalNotifications,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

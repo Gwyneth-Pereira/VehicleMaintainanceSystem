@@ -12,7 +12,7 @@ import { map,take}from'rxjs/operators';
 
 export class DataSrvService {
   queue=['ATZ\r','ATS0\r','ATL0\r','ATSP0\r','0100\r','0902\r'];//Setting Up OBD-II Commands;
-  Speed;
+  CurrentUser:string='';
   /*SupportedOBD=[{Text:'Monitor status since DTCs cleared',Value:'-'},
   {Text:'Freeze DTC',Value:'-'},
   {Text:'Fuel system status',Value:'-'},
