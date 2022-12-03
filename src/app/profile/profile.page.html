@@ -46,24 +46,22 @@
     Your Cars
    </h3>
    <ion-list >
-    
-    <ion-card  class="d-flex justify-content-between mt-0 "  style="border-radius:15px !important;"  *ngFor="let x of (CAR | async )">
-     <div  *ngIf="uid==x.userId"> 
-      <ion-card-header  class="d-flex align-items-center" >
-       <h6 style="color:gold;" >
-        {{x.make}}
-      </h6>
-      
-      </ion-card-header>
-      <ion-card-content class="pt-2 pb-2 d-flex justify-content-end">
-        <img src="assets\images\car.png" class="w-75 ">
+    <div   *ngFor="let x of (CAR | async )">
+    <ion-card  class=" mt-1 mb-2 pb-1 "  style="border-radius:15px !important;" *ngIf="uid==x.userId" [routerLink]="'/carinfo/'+ uid" >
+       
+       <ion-card-content class="pt-2 pb-2 m-1 d-flex justify-content-between">
+        <ion-label style="color:gold;" class="d-flex justify-content-start " >
+          {{x.make}}
+        </ion-label>
+         <div class="d-flex justify-content-end "> 
+        <img src="assets\images\car.png" class="w-50 ">
+        </div> 
       </ion-card-content>
-    </div>
+    
     </ion-card>
-   
-    <ion-card style="border-radius:15px !important;">
-      
-      <ion-card-content class="d-flex flex-row justify-content-center p-4" >
+  </div>
+    <ion-card class="mt-2 pt-1" style="border-radius:15px !important;">
+        <ion-card-content class="d-flex flex-row justify-content-center p-4" >
         <ion-icon name="add-outline"  size="large" color="gold"></ion-icon> <h6 style="color:gold;" class="d-flex align-items-center">Add Car</h6>
       </ion-card-content>
     </ion-card>

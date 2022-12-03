@@ -23,6 +23,10 @@ const routes: Routes = [
     loadChildren: () => import('./carinfo/carinfo.module').then( m => m.CarinfoPageModule)
   },
   {
+    path: 'carinfo/:uid',
+    loadChildren: () => import('./carinfo/carinfo.module').then( m => m.CarinfoPageModule)
+  },
+  {
     path: 'addnewcar',
     loadChildren: () => import('./addnewcar/addnewcar.module').then( m => m.AddnewcarPageModule)
   },
