@@ -20,19 +20,20 @@ public CAR: Observable<Car[]>;
   }
 
  ngOnInit(){
-  this.User=this.DataSrv.getUsers();
+   this.User=this.DataSrv.getUsers();
    this.CAR=this.DataSrv.getCars();//no comment
    this.route.params.subscribe(params => {
         //console.log(params['uid'] );
         this.uid=params['uid'];
    });
+  }
     
-    }
-    onLogOut()
+  onLogOut()
     {
       this.DataSrv.logoutUser().then( sucess=> {this.DataSrv.presentToast("Logged out Sucessfully").then(sucess=> { this.router.navigate(['/login']);});});      
-    }
-    onDelete()
+  }
+    
+  onDelete()
     {
 
       this.DataSrv.showChoice("Alert","Sure you want to delete your account??").then( sucess=>
@@ -51,9 +52,10 @@ public CAR: Observable<Car[]>;
         console.log(this.DataSrv.roleMessage);
       }
     });
-    }
+  }
     
-    showpassword() {
+  showpassword() 
+  {
       if( this.s)
       this.s=false;
       else
