@@ -3,8 +3,10 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/compat/firestore';
 import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 import { AlertController, ToastController } from '@ionic/angular';
-import { Observable } from 'rxjs';
-import { map,take}from'rxjs/operators';
+import { BehaviorSubject, from, Observable, of } from 'rxjs';
+import { filter, map,switchMap,take}from'rxjs/operators';
+import { Storage } from '@ionic/storage';
+import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 @Injectable({
   providedIn: 'root'
@@ -13,106 +15,39 @@ import { map,take}from'rxjs/operators';
 export class DataSrvService {
   queue=['ATZ\r','ATS0\r','ATL0\r','ATSP0\r','0100\r','0902\r'];//Setting Up OBD-II Commands;
   CurrentUser:string='';
-  /*SupportedOBD=[{Text:'Monitor status since DTCs cleared',Value:'-'},
-  {Text:'Freeze DTC',Value:'-'},
-  {Text:'Fuel system status',Value:'-'},
-  {Text:'Calculated engine load',Value:'-'},
-  {Text:'Engine coolant temperature',Value:'-'},
-  {Text:'Short term fuel trim (bank 1)',Value:'-'},
-  {Text:'Long term fuel trim (bank 1)',Value:'-'},
-  {Text:'Short term fuel trim (bank 2)',Value:'-'},
-  {Text:'Long term fuel trim (bank 2)',Value:'-'},
-  {Text:'Fuel pressure (gauge pressure)',Value:'-'},
-  {Text:'Intake manifold absolute pressure',Value:'-'},
-  {Text:'Engine speed',Value:'-'},
-  {Text:'Vehicle speed',Value:'-'},
-  {Text:'Timing advance',Value:'-'},
-  {Text:'Intake air temperature',Value:'-'},
-  {Text:'Mass air flow sensor air flow rate',Value:'-'},
-  {Text:'Throttle position',Value:'-'},
-  {Text:'Commanded secondary air status',Value:'-'},
-  {Text:'Oxygen sensors present (2 banks)',Value:'-'},
-  {Text:'Oxygen sensor 1 (voltage)',Value:'-'},
-  {Text:'Oxygen sensor 2 (voltage)',Value:'-'},
-  {Text:'Oxygen sensor 3 (voltage)',Value:'-'},
-  {Text:'Oxygen sensor 4 (voltage)',Value:'-'},
-  {Text:'Oxygen sensor 5 (voltage)',Value:'-'},
-  {Text:'Oxygen sensor 6 (voltage)',Value:'-'},
-  {Text:'Oxygen sensor 7 (voltage)',Value:'-'},
-  {Text:'Oxygen sensor 8 (voltage)',Value:'-'},
-  {Text:'OBD standards the vehicle conforms to',Value:'-'},
-  {Text:'Oxygen sensors present (4 banks)',Value:'-'},
-  {Text:'Auxiliary input status',Value:'-'},
-  {Text:'Run time since engine start',Value:'-'},
-  {Text:'PIDs supported [21 - 40]',Value:'-'}];//An Array that Contains all the data related to 0100 Response
-  SupportedPIDS;//Decimal Response Converted from Hex response that came from OBD*/
+  private storageBehaviour = new BehaviorSubject(false);
   index=0;//Index to guide the obd command array to the next point
+  private data;
+  
   public user: Observable<Users[]>;
   private userCollection:AngularFirestoreCollection<Users>;
+  
+  public car: Observable<Car[]>;
+  private carCollection:AngularFirestoreCollection<Car>;
 
-  static:any;
+  private SPFlag:Observable<boolean>;//LiveData Database
+  private SPFlagCollection:AngularFirestoreCollection<boolean>;
+
   private PushingInterval;
   private WritingInterval;
   private LiveDataArray;
   private OBD_Queue:string[];
-
-
-  public car: Observable<Car[]>;
-  private carCollection:AngularFirestoreCollection<Car>;
-  private SPFlag:Observable<boolean>;
-  private SPFlagCollection:AngularFirestoreCollection<boolean>;
-
-  //public loguser: Observable<loginUser[]>;
-  public fuser: Observable<UserFirebase[]>; // to connect to firebase
-
-  public curentuser: Observable<CurrentUser[]>;
-  private currentuserCollection:AngularFirestoreCollection<CurrentUser>;
-  public Support
+  
   BluetoothFlag: boolean=true;
   SupportedFlag: boolean=false;
   isModalOpen:boolean=false;//Variable to open and close the modal page
   TroubleCodes:string[];
   recurring: string;
-  public livedata: Observable<LiveData[]>;
-  private livedataCollection:AngularFirestoreCollection<LiveData>;
+  
 
 
-  constructor(private afs:AngularFirestore, private toastctrl:ToastController,private alert: AlertController, public bluetooth:BluetoothSerial, public afAuth:AngularFireAuth){
+  constructor(private afs:AngularFirestore,private storage: Storage, private toastctrl:ToastController,private alert: AlertController, public bluetooth:BluetoothSerial, public afAuth:AngularFireAuth){
     this.TroubleCodes=[];
     this.recurring='0';
     this.LiveDataArray;
-    
-    this.livedataCollection=this.afs.collection<LiveData>('LiveData');
-    this.livedata= this.livedataCollection.snapshotChanges().pipe
-    
-    (
-    map(actions=>{
-    return actions.map(a=>{
-    const data =a.payload.doc.data();
-    const id = a.payload.doc.id;
-    return{id,...data};
-    });
-    })
-    );
+    this.ngOnInit();
 
-    this.SPFlagCollection=this.afs.collection<boolean>('LiveData');
-    this.livedata= this.livedataCollection.snapshotChanges().pipe
-    
-    (
-    map(actions=>{
-    return actions.map(a=>{
-    const data =a.payload.doc.data();
-    const id = a.payload.doc.id;
-    return{id,...data};
-    });
-    })
-    );
-
-
-
-
-
-    this.userCollection=this.afs.collection<Users>('Car');
+    this.userCollection=this.afs.collection<Users>('User');
     this.user= this.userCollection.snapshotChanges().pipe
     
     (
@@ -138,90 +73,60 @@ export class DataSrvService {
     })
     );
 
-    this.currentuserCollection=this.afs.collection<CurrentUser>('CurrentUser');
-    this.curentuser= this.currentuserCollection.snapshotChanges().pipe
-    (
-    map(actions=>{
-    return actions.map(a=>{
-    const data =a.payload.doc.data();
-    const id = a.payload.doc.id;
-    return{id,...data};
-    });
-    })
-    );
-  
-    //this.productsCollectionRef = this.afs.collection('products');
-    // this.products = this.productsCollectionRef.valueChanges();
-
-
-
+   
   }
 
+getUsers():Observable<Users[]>{ return this.user;}
 
- // get data from the firebase users table 
-getUsers():Observable<Users[]>{
-return this.user;
-}
-getLiveData():Observable<LiveData[]>{return this.livedata;}
-//authenticate user login email, passsword
-loginUser(newEmail: string, newPassword: string): Promise<any> {
-  return this.afAuth.signInWithEmailAndPassword(newEmail, newPassword);
-  }
-// get data from the firebase cars table 
-getCars():Observable<Car[]>{
-  return this.car;
-  }
-
-getCurrentUser():Observable<CurrentUser[]>{
-return this.curentuser;
-}
-
+getCars():Observable<Car[]>{  return this.car;  }
 
 getUser(id: string): Observable<Users>{
-return this.userCollection.doc<Users>(id).valueChanges().pipe(
-map(idea=>{
-idea.userID=id;
-return idea
-})
-);
+  return this.userCollection.doc<Users>(id).valueChanges().pipe(
+  map(idea=>{
+  idea.userID=id;
+  return idea
+  })
+  );}
+
+loginUser(newEmail: string, newPassword: string): Promise<any> { return this.afAuth.signInWithEmailAndPassword(newEmail, newPassword);}
+
+resetPassword(email: string): Promise<void> {   return this.afAuth.sendPasswordResetEmail(email); }
+
+logoutUser(): Promise<void> { return this.afAuth.signOut();}
+
+signupUser(newEmail: string, newPassword: string): Promise<any>{  return this.afAuth.createUserWithEmailAndPassword(newEmail, newPassword); }
+
+addUser(idea:Users):Promise<DocumentReference>{ return this.userCollection.add(idea); }
+
+addCar(idea:Car):Promise<DocumentReference>{  return this.carCollection.add(idea);   }
+
+updateUser(idea:Users):Promise<void>{return this.userCollection.doc(idea.userID).update(idea);}
+
+deleteUser(id: string): Promise<void>{return this.userCollection.doc(id).delete();}
+
+async ngOnInit() {
+  console.log('Init Storage');
+  await this.storage.defineDriver(CordovaSQLiteDriver);
+   await this.storage.create();
+   this.storageBehaviour.next(true);
+   console.log(' Storage Created');
+  
 }
-addUser(idea:Users):Promise<DocumentReference>{
-return this.userCollection.add(idea); 
+async setValue(key: string, value: any) {
+  return this.storage.set(key, value);
 }
-addCar(idea:Car):Promise<DocumentReference>{
-  return this.carCollection.add(idea); 
-  }
-
-
-
-
-resetPassword(email: string): Promise<void> {
-  return this.afAuth.sendPasswordResetEmail(email);
- }
- 
- //log out the user
- logoutUser(): Promise<void> {
-   return this.afAuth.signOut();
- }
- //create record in auth database 
- signupUser(newEmail: string, newPassword: string): Promise<any>
- {
-   return this.afAuth.createUserWithEmailAndPassword(newEmail, newPassword);
- }
-
-updateUser(idea:Users):Promise<void>{
-return this.userCollection.doc(idea.userID).update(idea);
+getValues(key) {
+  console.log('Get Values Called');
+  return this.storageBehaviour.pipe(
+    filter(ready=>ready),
+    switchMap(_=>{
+      console.log('Green Light');
+      return from(this.storage.get(key)) || of([]);
+    })
+  )
+  
+  
 }
-updateC_User(idea:CurrentUser):Promise<any>{
-  return this.currentuserCollection.doc(idea.ID).update(idea);
-}
-
-
-
-deleteUser(id: string): Promise<void>{
-return this.userCollection.doc(id).delete();
-}
-
 
 InitiateOBD(cmd)
 {
@@ -454,55 +359,29 @@ export interface Users {
   
 }
 
-// add account needs 
-export interface UserFirebase {
-  userID?: string;
-  Name: string;
-  phoneNum: number;
-  password: string;
-  img: string;
-  licenseExp: Date;
-    
+export interface Setting{
+  ID?;
+  InspR:boolean;
+  InsuR:boolean;
+  OilR:boolean;
+  PairR:boolean;
+  dailyR:boolean;
 }
-//add car need
 
+export interface paired {
+  "class": number,
+  "id": string,
+  "address": string,
+  "name": string,
+  
+}
 
-
-
-
-
-
-
-  export interface CurrentUser{
-    ID?:string;
-    UserID: string;
-    
-
-  }
-  export interface paired {
-    "class": number,
-    "id": string,
-    "address": string,
-    "name": string,
-    
-  }
-  export interface obdmetric {
-    "metricSelectedToPoll":boolean,
-    "name":string,
-    "description":string,
-    "value":string,
-    "unit": string
-  }
-  export interface support{
-    "Text":string;
-    "Value":string;
-  }
-  export interface LiveData{
-    "Code":string;
-    "Description":string;
-    "Value":string;
-  }
-  export interface Car{
+export interface LiveData{
+  "Code":string;
+  "Description":string;
+  "Value":string;
+}
+export interface Car{
 ID?:string;
 VIN?:string;
 make:string;

@@ -14,10 +14,10 @@
           <ion-label color="gold">Notifications</ion-label>
         </ion-item>
         <div class="ion-padding m-0  p-0 " slot="content">
-          <ion-list lines="inset">
+          <ion-list lines="inset" >
             <ion-item>
               <ion-label color="gold">Enable Daily Reminder</ion-label>
-              <ion-toggle color="gold" slot="end"></ion-toggle>
+              <ion-toggle color="gold" slot="end" ></ion-toggle>
             </ion-item>
             <ion-item>
               <ion-label color="gold">Enable Cars Inspection Reminder</ion-label>
@@ -71,6 +71,7 @@
           </div>
       </ion-accordion>
     </ion-accordion-group>
+    <ion-button (click)="SaveSetting()">Save</ion-button>
   </div>
  </div>
 </ion-content>

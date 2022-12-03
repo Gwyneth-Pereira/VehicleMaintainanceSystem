@@ -4,7 +4,7 @@ import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 import { AlertController, ToastController } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { Car, CurrentUser, DataSrvService, paired, Users } from '../data-srv.service';
+import { Car, DataSrvService, paired, Users } from '../data-srv.service';
 import { IonModal } from '@ionic/angular';
 import { Router } from '@angular/router';
 
@@ -16,6 +16,8 @@ import { Router } from '@angular/router';
 export class Tab2Page {
   @ViewChild(IonModal) modal: IonModal;
   Devices:paired[];//For Adding Paired Devices
+  UserID; 
+  intervalID;
  // SupportedOBD;
   BluetoothFlag:boolean;//Bluetooth Flag to Change Buttons
   SupportedFlag:Observable<boolean>;//Supported Flag to Open up Live Data
@@ -23,19 +25,27 @@ export class Tab2Page {
   public User: Observable<Users[]>;//Details about the User will be stored in this variable
   slideOpts = { initialSlide: 0, speed: 400}; // the slide on the homepage
   private CAR: Observable<Car[]>;
-  public currentUser:Observable<CurrentUser[]>;
+  
 
 
   constructor(private bluetooth:BluetoothSerial, private DataSrv:DataSrvService,public router:Router ,private permission:AndroidPermissions) {
-    //this.isModalOpen=this.DataSrv.isModalOpen;
-   // this.SupportedFlag=this.DataSrv.SupportedFlag;
-       this.BluetoothFlag=this.DataSrv.BluetoothFlag;
+    this.User=this.DataSrv.getUsers();
+    this.CAR=this.DataSrv.getCars();//no comment
+  this.BluetoothFlag=this.DataSrv.BluetoothFlag;
   }
 
-ngOnInit(){
-this.currentUser=this.DataSrv.getCurrentUser();
-this.User=this.DataSrv.getUsers();
-this.CAR=this.DataSrv.getCars();//no comment
+  ionViewDidLoad(){
+  this.intervalID=setInterval(this.loadUser(),500);
+
+
+}
+
+loadUser():any
+{console.log('reached tab2 loaduser')
+  this.DataSrv.getValues('userID').subscribe(res=>{
+    this.UserID=res;
+    return clearInterval(this.intervalID);
+  });
 }
 
 Pair()
@@ -61,9 +71,8 @@ editCarDetails(Y)
 }
 gonewCarInfo()
 {
-  var userID=this.currentUser;
-  
-  this.router.navigate(['addnewcar',{'ID':userID}]);
+   
+  //this.router.navigate(['addnewcar',{'ID':userID}]);
 }
 
  listDevices() 

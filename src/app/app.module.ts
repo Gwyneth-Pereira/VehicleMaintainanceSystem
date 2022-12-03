@@ -11,6 +11,9 @@ import { AngularFirestoreModule}from '@angular/fire/compat/firestore';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { initializeApp } from "firebase/app";
 import { LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
+import { IonicStorageModule } from '@ionic/storage-angular';
+import { Drivers } from '@ionic/storage';
+import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBrxyWa5AdMkb_NQ7ThTD-mKm_grKCRTG0",
@@ -28,10 +31,18 @@ const firebaseConfig = {
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule,
-     IonicModule.forRoot(),AngularFireModule.initializeApp(firebaseConfig),
+     IonicModule.forRoot(),
+     IonicStorageModule.forRoot(
+      {
+       name: 'Cogear DB',
+       driverOrder:[CordovaSQLiteDriver._driver,Drivers.LocalStorage,Drivers.IndexedDB]
+      }
+     ),AngularFireModule.initializeApp(firebaseConfig),
      AngularFirestoreModule,  AngularFireAuthModule,   
      AppRoutingModule],
-  providers: [AndroidPermissions,BluetoothSerial,LocalNotifications,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [AndroidPermissions,
+              BluetoothSerial,
+              LocalNotifications,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
