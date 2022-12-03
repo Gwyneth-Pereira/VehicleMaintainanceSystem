@@ -38,10 +38,11 @@ export class LoginPage implements OnInit {
       //user login
      this.dataSrv.loginUser(this.form.value.email,this.form.value.password).then(
       success => {
-        this.currentUser.ID='Current'
-        this.currentUser.UserID=this.form.value.email;
-        console.log(this.currentUser);
-        this.dataSrv.updateC_User(this.currentUser);
+       // this.currentUser.ID='Current'
+        //this.currentUser.UserID=this.form.value.email;
+        //console.log(this.currentUser);
+        //this.dataSrv.updateC_User(this.currentUser);
+        this.dataSrv.CurrentUser=this.form.value.email;
         this.dataSrv.presentToast("You have logged in sucessfully!!");
         this.router.navigate(['/']); //home
     }, 

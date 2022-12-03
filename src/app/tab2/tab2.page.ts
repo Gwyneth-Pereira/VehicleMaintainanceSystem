@@ -55,8 +55,9 @@ Pair()
         })
 }
 
-goCarInfo()
+editCarDetails(Y)
 {
+  this.DataSrv.CurrentUser=Y;
   this.router.navigate(['carinfo']);
 }
 gonewCarInfo()

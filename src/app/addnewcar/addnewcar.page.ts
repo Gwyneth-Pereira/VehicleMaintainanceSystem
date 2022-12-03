@@ -13,8 +13,9 @@ import { Car, DataSrvService } from '../data-srv.service';
 
 
 export class AddnewcarPage implements OnInit {
-
-  newCar:Car={ID:'',VIN:'',make:'',model:'',year:0,numPlate:'',carimg:'',ownerID:0,ExpDte:'',InsComp:'',InsPolicy:0, InsType:'',InsExp:'',
+  private YearlyInsDte;
+  private InsExpDte;
+  private newCar:Car={ID:'',VIN:'',make:'',model:'',year:0,numPlate:'',carimg:'',ownerID:0,ExpDte:'',InsComp:'',InsPolicy:0, InsType:'',InsExp:'',
     document:[],userId:''};
     getValue;
   form: FormGroup;
@@ -32,13 +33,18 @@ export class AddnewcarPage implements OnInit {
 
   submit()
   {
+    this.YearlyInsDte=this.YearlyInsDte.split('T');
+    this.InsExpDte=this.InsExpDte.split('T');
+    this.newCar.ExpDte=this.YearlyInsDte[0];
+    this.newCar.InsExp=this.InsExpDte[0];
+     console.log(this.YearlyInsDte[0]);
     this.dataSrv.addCar(this.newCar).then(suc=>{
       this.router.navigate(['tabs/tab2']);
       this.dataSrv.presentToast("Car Added Successfully");
     }).catch(err=>{
       this.dataSrv.showError("Error ",err);
       this.router.navigate(['tabs/tab2']);
-    })
+    });
 
     
   }
