@@ -3,7 +3,7 @@
   <ion-toolbar color="dark"  class="me-1 pe-1" *ngFor="let x of (currentUser | async ) ">
     <ion-title color="gold" class="ion-text-start" > Hello {{x.UserID}}, </ion-title>   
       <ion-avatar slot="end"  style="height: 36px; width: 36px;">
-        <img  src="assets\images\user.jpg"  routerLink="/profile" >
+        <img  src="assets\images\user.jpg"  [routerLink]="'/profile/'+ x.UserID" >
        
       </ion-avatar>
 
@@ -26,7 +26,7 @@
         <ion-card-content class="ps-0 pe-0">
           <img src="assets\images\car.png" alt="..." class="w-75 d-inline-block"  >
           <ion-item lines="none">
-          <ion-icon name="bluetooth-outline"  slot="end"></ion-icon>
+          <ion-icon name="bluetooth-outline" color="gold" slot="end"></ion-icon>
           </ion-item>
         </ion-card-content>
       </ion-card>

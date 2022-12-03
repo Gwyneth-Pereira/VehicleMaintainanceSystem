@@ -15,6 +15,10 @@ const routes: Routes = [
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
   {
+    path: 'profile/:uid',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
     path: 'carinfo',
     loadChildren: () => import('./carinfo/carinfo.module').then( m => m.CarinfoPageModule)
   },

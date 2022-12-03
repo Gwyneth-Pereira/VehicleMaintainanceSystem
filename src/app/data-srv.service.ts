@@ -112,7 +112,7 @@ export class DataSrvService {
 
 
 
-    this.userCollection=this.afs.collection<Users>('Car');
+    this.userCollection=this.afs.collection<Users>('User');
     this.user= this.userCollection.snapshotChanges().pipe
     
     (

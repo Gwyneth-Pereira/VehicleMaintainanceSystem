@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { DataSrvService, Users } from '../data-srv.service';
+import { Car, CurrentUser, DataSrvService, paired, Users } from '../data-srv.service';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -10,18 +11,39 @@ import { DataSrvService, Users } from '../data-srv.service';
 export class ProfilePage implements OnInit {
  public cars : CAR[] =[];
  public person: Observable<Users[]>;
- 
-  constructor(private DataSrv:DataSrvService,private router: Router) {
+ public uid :string;
+public s: boolean; //to show password
+ public User: Observable<Users[]>;//Details about the User will be stored in this variable
+  private CAR: Observable<Car[]>;
+  public currentUser:Observable<CurrentUser[]>;
 
+
+  constructor(private DataSrv:DataSrvService,private router: Router,private route: ActivatedRoute) {
+  this.s=true;
   
   }
 
  ngOnInit(){
-    this.person=this.DataSrv.getUsers();
-     
-    console.log(this.person);
+  this.person=this.DataSrv.getUsers();
+      
+  this.currentUser=this.DataSrv.getCurrentUser();
+  this.User=this.DataSrv.getUsers();
+   this.CAR=this.DataSrv.getCars();//no comment
+   this.route.queryParams
+  .subscribe(params => {
+    console.log(params); // { brand: "bmw" }
     
+    this.uid=params.uid;
+    console.log(this.uid); // bmw
+  }
+);
+   
+   this.route.params.subscribe(params => {
+        console.log(params['uid']);
+        this.uid=params['uid'];
+   })  
     
+
     }
     onLogOut()
     {
@@ -52,7 +74,17 @@ export class ProfilePage implements OnInit {
       }
     });
     }
+    
 
+    
+    showpassword() {
+      if( this.s)
+      this.s=false;
+      else
+      this.s=true;
+    }
+
+    
 
 
 }
