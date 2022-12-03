@@ -1,9 +1,9 @@
 
 <ion-header [translucent]="true">
   <ion-toolbar color="dark"  class="me-1 pe-1">
-    <ion-title color="gold" class="ion-text-start" >{{UserID}}, </ion-title>   
+    <ion-title color="gold" class="ion-text-start" >Hello {{UserID}}, </ion-title>   
       <ion-avatar slot="end"  style="height: 36px; width: 36px;">
-        <img  src="assets\images\user.jpg"  routerLink="/profile" >
+        <img  src="assets\images\user.jpg"  [routerLink]="'/profile/'+ x.UserID" >
        
       </ion-avatar>
 
@@ -17,20 +17,22 @@
   <div >
     
   
-      <ion-slides pager="true" [options]="slideOpts" >
+    <ion-slides pager="true" [options]="slideOpts" >
         
     <ion-slide  *ngFor="let x of (CAR | async ) ">
       
-      <ion-card class="colour" class="ps-0 pe-0" style="height: 220px!important; width: 340px!important;"  *ngIf="x.userId=='a@gmail.com'" (click)="editCarDetails(y.UserID)">
+      <ion-card class="colour" class="ps-0 pe-0" style="height: 220px!important; width: 340px!important;" [routerLink]="'/carinfo/'+ x.userId" *ngIf="x.userId=='a@gmail.com'" >
+        
         <ion-card-header>
           <ion-card-title color="gold">{{x.make}} {{x.model}}</ion-card-title>
         </ion-card-header>
         <ion-card-content class="ps-0 pe-0">
           <img src="assets\images\car.png" alt="..." class="w-75 d-inline-block"  >
           <ion-item lines="none">
-          <ion-icon name="bluetooth-outline"  slot="end"></ion-icon>
+          <ion-icon name="bluetooth-outline" color="danger" slot="end"></ion-icon>
           </ion-item>
         </ion-card-content>
+      
       </ion-card>
  
     </ion-slide>

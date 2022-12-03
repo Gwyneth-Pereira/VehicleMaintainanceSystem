@@ -33,6 +33,12 @@ npm install @awesome-cordova-plugins/android-permissions
 
 ionic cap sync
 
+
+
+
+# third 
+npm install date-fns --save --force
+
 npm install firebase @angular/fire --save
 
 # third

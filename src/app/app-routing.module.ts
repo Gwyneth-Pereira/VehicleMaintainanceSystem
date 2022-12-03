@@ -15,7 +15,15 @@ const routes: Routes = [
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
   {
+    path: 'profile/:uid',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
     path: 'carinfo',
+    loadChildren: () => import('./carinfo/carinfo.module').then( m => m.CarinfoPageModule)
+  },
+  {
+    path: 'carinfo/:uid',
     loadChildren: () => import('./carinfo/carinfo.module').then( m => m.CarinfoPageModule)
   },
   {
@@ -38,7 +46,11 @@ const routes: Routes = [
   {
     path: 'forgot-password',
     loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+  },  {
+    path: 'loader',
+    loadChildren: () => import('./loader/loader.module').then( m => m.LoaderPageModule)
   }
+
 
 
 ];
