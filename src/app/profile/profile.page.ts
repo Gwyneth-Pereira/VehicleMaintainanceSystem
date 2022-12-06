@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Car, CurrentUser, DataSrvService, paired, Users } from '../data-srv.service';
+import { Car, DataSrvService, paired, Users } from '../data-srv.service';
 
 @Component({
   selector: 'app-profile',
