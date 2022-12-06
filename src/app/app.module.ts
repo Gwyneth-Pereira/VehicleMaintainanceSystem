@@ -12,7 +12,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { initializeApp } from "firebase/app";
 import { LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
-import { Drivers } from '@ionic/storage';
+import {Drivers}  from '@ionic/storage';
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -36,6 +36,7 @@ const firebaseConfig = {
       {
        name: 'Cogear DB',
        driverOrder:[CordovaSQLiteDriver._driver,Drivers.LocalStorage,Drivers.IndexedDB]
+       ///
       }
      ),AngularFireModule.initializeApp(firebaseConfig),
      AngularFirestoreModule,  AngularFireAuthModule,   
