@@ -57,6 +57,9 @@ npm install cordova-sqlite-storage --force
 
 # seven
 
+# For image upload with camera
+npm i @capacitor/camera --force
+npm i @ionic/pwa-elements --force
 
 
 
