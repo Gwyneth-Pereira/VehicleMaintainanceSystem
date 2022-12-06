@@ -49,3 +49,17 @@ npm install firebase @angular/fire --save
 npm install date-fns --save --force
 
 # six
+
+npm install @ionic/storage-angular --force
+npm install localforage-cordovasqlitedriver --force
+npm install cordova-sqlite-storage --force
+
+
+# seven
+
+# For image upload with camera
+npm i @capacitor/camera --force
+npm i @ionic/pwa-elements --force
+
+
+

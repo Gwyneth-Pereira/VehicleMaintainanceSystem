@@ -1,6 +1,6 @@
 <ion-header  class="ion-no-border">
   <ion-toolbar color="dark">
-    <ion-icon  color="purple" name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1"  routerLink="/"></ion-icon>
+    <ion-icon  color="purple" name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1"  (click)="goback()"></ion-icon>
     <ion-label color="gold">Add Car Details</ion-label>
   </ion-toolbar>
 </ion-header>
@@ -53,15 +53,12 @@
 
           <ion-item>
             <ion-label  color="gold">Yearly Inspection: </ion-label>
-            <ion-input 
-            value="{{ YearlyInsDte | date: 'MM - YYYY' }}" 
-            id="YearlyInsp"
-            color="purple"></ion-input>
-            <ion-popover trigger="YearlyInsp"  backdropDismiss="false"  [initialBreakpoint]="0.4" [breakpoints]="[0.4]">
+            <ion-input value="{{ YearDte | date: 'dd-MMM-YYYY' }}" id="YearlyInsp" color="purple"></ion-input>
+            <ion-modal trigger="YearlyInsp"  id="YearlyInspModal"  [initialBreakpoint]="0.35" [breakpoints]="[0.25,0.35]">
               <ng-template>
-                <ion-datetime [showDefaultButtons]="true" presentation="month" [preferWheel]="true" [(ngModel)]="YearlyInsDte" min="2022" max="2099-10-31"></ion-datetime>
+                <ion-datetime id="YearlyInspInput" presentation="date" showDefaultButtons="true"  [preferWheel]="true" [(ngModel)]="YearDte" (ngModelChange)="YearDte" min="{{minDate}}" max="2099-10-31"></ion-datetime>
               </ng-template>
-            </ion-popover>
+            </ion-modal>
             <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>     
           </ion-item>
         </ion-list>
@@ -91,11 +88,10 @@
 
           <ion-item>
             <ion-label  color="gold">Expiry Date: </ion-label>
-            <ion-input 
-            value="{{ InsExpDte | date: 'MM - YYYY' }}" id="InsExpDte" color="purple"></ion-input>
-            <ion-modal trigger="InsExpDte"  [initialBreakpoint]="0.4" [breakpoints]="[0.4]">
+            <ion-input value="{{ InsDte | date: 'dd-MMM-YYYY' }}" id="InsExpDte" color="purple"></ion-input>
+            <ion-modal trigger="InsExpDte" id="InsExpDteModal" [initialBreakpoint]="0.35" [breakpoints]="[0.25,0.35]">
               <ng-template>
-                <ion-datetime presentation="month" [showDefaultButtons]="true" [preferWheel]="true" [(ngModel)]="InsExpDte" min="2022" max="2099-10-31"></ion-datetime>
+                <ion-datetime id="InsExpDteInput" presentation="date" showDefaultButtons="true"  [preferWheel]="true" [(ngModel)]="InsDte" (ngModelChange)="InsDte" min="{{minDate}}" max="2099-10-31"></ion-datetime>
               </ng-template>
             </ion-modal>
             <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>     

@@ -6,7 +6,7 @@ import { ActionSheetController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Car, DataSrvService, paired, Users } from '../data-srv.service';
 import { IonModal } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab2',
@@ -28,25 +28,22 @@ export class Tab2Page {
   
 
 
-  constructor(private bluetooth:BluetoothSerial, private DataSrv:DataSrvService,public router:Router ,private permission:AndroidPermissions) {
+  constructor(private bluetooth:BluetoothSerial,private route: ActivatedRoute, private DataSrv:DataSrvService,public router:Router ,private permission:AndroidPermissions) {
+    this.route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation().extras.state) {
+        this.UserID = this.router.getCurrentNavigation().extras.state.userID;
+        console.log("ID: "+this.UserID);
+      }
+    });
+   
     this.User=this.DataSrv.getUsers();
     this.CAR=this.DataSrv.getCars();//no comment
   this.BluetoothFlag=this.DataSrv.BluetoothFlag;
   }
 
-  ionViewDidLoad(){
-  this.intervalID=setInterval(this.loadUser(),500);
+ 
 
 
-}
-
-loadUser():any
-{console.log('reached tab2 loaduser')
-  this.DataSrv.getValues('userID').subscribe(res=>{
-    this.UserID=res;
-    return clearInterval(this.intervalID);
-  });
-}
 
 Pair()
 {
@@ -71,8 +68,9 @@ editCarDetails(Y)
 }
 gonewCarInfo()
 {
-   
-  //this.router.navigate(['addnewcar',{'ID':userID}]);
+  let navigationExtras: NavigationExtras = {
+    state: {userID: this.UserID }   };
+  this.router.navigate(['addnewcar'],navigationExtras);
 }
 
  listDevices() 

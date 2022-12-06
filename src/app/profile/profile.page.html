@@ -1,6 +1,7 @@
 <ion-header  class="ion-no-border">
   <ion-toolbar color="dark" >
-    <ion-icon  color="purple" name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1"  routerLink="/"></ion-icon>
+    <ion-icon  color="purple" name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1" (click)="goback()" ></ion-icon>
+    
   
     
   </ion-toolbar>
@@ -8,7 +9,7 @@
 
 <ion-content>
   <div *ngFor="let y of (User | async ) ">  
-    <div *ngIf="uid==y.UserID"> 
+    <div *ngIf="uid==y.userID"> 
   <div class="d-flex justify-content-center m-2 p-2">
     <ion-avatar style="height: 150px; width:150px;">
    <img alt="..." src="assets\images\user.jpg"  />
@@ -58,9 +59,9 @@
         </div> 
       </ion-card-content>
     
-    </ion-card>
+    </ion-card >
   </div>
-    <ion-card class="mt-2 pt-1" style="border-radius:15px !important;">
+    <ion-card class="mt-2 pt-1" style="border-radius:15px !important;"(click)="goNewCar()">
         <ion-card-content class="d-flex flex-row justify-content-center p-4" >
         <ion-icon name="add-outline"  size="large" color="gold"></ion-icon> <h6 style="color:gold;" class="d-flex align-items-center">Add Car</h6>
       </ion-card-content>
@@ -68,7 +69,7 @@
   </ion-list>
 
   
-  <div class="p-2"> <ion-button fill="outline" color="danger" expand="block" routerLink="/login">Log Out</ion-button></div>
+  <div class="p-2"> <ion-button fill="outline" color="danger" expand="block" (click)="onLogOut()">Log Out</ion-button></div>
   <div class="p-2"> <ion-button  color="danger" expand="block" (click)="onDelete()">Delete account</ion-button></div>
 
 </ion-content>

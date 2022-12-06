@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Router } from'@angular/router';
+import { NavigationExtras, Router } from'@angular/router';
 import { ToastController } from '@ionic/angular';
 import {  Observable }from'rxjs';
 import {  DataSrvService, Setting, Users } from '../data-srv.service';
@@ -37,20 +37,14 @@ export class LoginPage implements OnInit {
         this.form.markAllAsTouched();
         return;
       }
-      //user login
-      console.log('ID: '+this.form.value.email+', Pass: '+this.form.value.password);
-      
       this.dataSrv.loginUser(this.form.value.email,this.form.value.password).then(
       success => {
-        this.dataSrv.setValue('userID',this.form.value.email);        ;
-        this.dataSrv.setValue('setting',this.settng);
-        //this.dataSrv.getValues('userID').then((res)=>{console.log('User ID: '+res)})
+       
         this.dataSrv.presentToast("You have logged in sucessfully!!");
-        this.router.navigate(['/']); //home
-        
-         
-        
-        
+        let navigationExtras: NavigationExtras = {
+          state: {userID: this.form.value.email }   };
+        this.router.navigate(['/'],navigationExtras); //home
+    
     }, 
       ).catch(error=>{ 
         console.log(error)

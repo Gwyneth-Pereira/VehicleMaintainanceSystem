@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Car, DataSrvService, paired, Users } from '../data-srv.service';
-
+import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -15,10 +15,20 @@ public s: boolean; //to show password
 public User: Observable<Users[]>;//Details about the User will be stored in this variable
 public CAR: Observable<Car[]>;
 
-  constructor(private DataSrv:DataSrvService,private router: Router,private route: ActivatedRoute) {
+  constructor(private DataSrv:DataSrvService,private navCtrl: NavController,private router: Router,private route: ActivatedRoute) {
   this.s=true; 
   }
 
+  goback()
+  {
+    this.navCtrl.back();
+  }
+  goNewCar()
+  {
+    let navigationExtras: NavigationExtras = {
+      state: {userID: this.uid }   };
+    this.router.navigate(['addnewcar'],navigationExtras);
+  }
  ngOnInit(){
    this.User=this.DataSrv.getUsers();
    this.CAR=this.DataSrv.getCars();//no comment
@@ -30,8 +40,11 @@ public CAR: Observable<Car[]>;
     
   onLogOut()
     {
-      this.DataSrv.logoutUser().then( sucess=> {this.DataSrv.presentToast("Logged out Sucessfully").then(sucess=> { this.router.navigate(['/login']);});});      
-  }
+     this.DataSrv.logoutUser().then( sucess=> 
+      {this.DataSrv.presentToast("Logged out Sucessfully");
+      this.router.navigate(['login']);
+    });      
+    }
     
   onDelete()
     {

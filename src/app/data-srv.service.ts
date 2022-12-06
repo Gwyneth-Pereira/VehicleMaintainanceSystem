@@ -390,11 +390,11 @@ year:number;
 numPlate:string;
 carimg:string;
 ownerID:number;
-ExpDte:string;
+ExpDte:Date;
 InsComp:string;
 InsPolicy:number;
 InsType:string;
-InsExp:string;
+InsExp:Date;
 document:string[];
 userId:string;
   }
