@@ -78,7 +78,8 @@ export class Tab3Page {
             title:result[i].make+' '+result[i].model+' '+result[i].year,
             text:'Car Insurance Coming Next Month',
             data:{mydata:'Please get your Car Insured'},
-            trigger:{at:new Date()}
+            trigger:{at:new Date()},
+            foreground:true
           })
         }
       }

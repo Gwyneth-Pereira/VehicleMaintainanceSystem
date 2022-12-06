@@ -3,7 +3,7 @@
   <ion-toolbar color="dark"  class="me-1 pe-1">
     <ion-title color="gold" class="ion-text-start" >Hello {{UserID}}, </ion-title>   
       <ion-avatar slot="end"  style="height: 36px; width: 36px;">
-        <img  src="assets\images\user.jpg"  [routerLink]="'/profile/'+ x.UserID" >
+        <img  src="assets\images\user.jpg"  [routerLink]="'/profile/'+ UserID" >
        
       </ion-avatar>
 
@@ -14,14 +14,16 @@
 
 <ion-content [fullscreen]="true">
   
-  <div >
+  
     
   
-    <ion-slides pager="true" [options]="slideOpts" >
-        
-    <ion-slide  *ngFor="let x of (CAR | async ) ">
+   
+  <div *ngFor="let x of (CAR | async ) ">  
+         <ion-slides pager="true" [options]="slideOpts" *ngIf="UserID==x.userId"   >
+       
+    <ion-slide  >
       
-      <ion-card class="colour" class="ps-0 pe-0" style="height: 220px!important; width: 340px!important;" [routerLink]="'/carinfo/'+ x.userId" *ngIf="x.userId=='a@gmail.com'" >
+      <ion-card class="colour" class="ps-0 pe-0" style="height: 220px!important; width: 340px!important;" [routerLink]="'/carinfo/'+ x.userId" >
         
         <ion-card-header>
           <ion-card-title color="gold">{{x.make}} {{x.model}}</ion-card-title>
@@ -34,9 +36,8 @@
         </ion-card-content>
       
       </ion-card>
- 
     </ion-slide>
-  
+
     <ion-slide (click)="gonewCarInfo()">
       <ion-card style="height: 220px!important; width: 340px!important;">
         <ion-card-content class="d-flex flex-row justify-content-center my-5 py-5">
@@ -46,17 +47,19 @@
       </ion-card>
  
     </ion-slide>
+  </ion-slides>
+ 
+</div>
     
   
 
-</ion-slides>
- </div>
+
+ 
     
   <ion-row>
     <ion-col size="12" class="ion-text-center">
       <ion-button id="open-modal" color="gold" class="p-2 m-2" *ngIf="BluetoothFlag" style="height:65px; width:150px;" (click)="Pair()">Pair Car</ion-button>
       <ion-button  color="gold" class="p-2 m-2" *ngIf="!BluetoothFlag" style="height:65px; width:150px;" (click)="diconnect()">Unpair Car</ion-button>
-      <ion-button  color="gold" class="p-2 m-2"  style="height:65px; width:150px;" (click)="loadUser()">loadUser</ion-button>
 
     </ion-col>
   </ion-row>
