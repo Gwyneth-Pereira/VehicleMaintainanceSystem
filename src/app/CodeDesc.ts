@@ -113,9 +113,14 @@ export class codesdesc{
             {code:"P00b7", description:"Engine Coolant Flow Low/Performance " },
             {code:"P0100", description:"Mass or Volume Air flow Circuit Malfunction " },
             
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
+
+ 
+ 
+
+
+            {code:"P0101", description:" Mass or Volume Air flow Circuit Range/Performance Problem " },
+            {code:"P0102", description:" Mass or Volume Air Flow Circuit low Input" },
+            {code:"P0103", description:"Mass or Volume Air flow Circuit High Input " },
             {code:"", description:" " },
             {code:"", description:" " },
             {code:"", description:" " },
