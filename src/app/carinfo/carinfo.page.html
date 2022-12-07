@@ -10,13 +10,19 @@
   
   <div *ngFor="let x of (CAR | async )"> 
     <div *ngIf="uid==x.numPlate"> 
+      <!-- -->
 
  
   <ion-card >
     <ion-card-header>
        <ion-card-title >  {{x.make}} {{x.model}} {{x.year}}</ion-card-title>
-      <div class="d-flex justify-content-center mt-2 pt-2 "> 
-        <img src="assets\images\car.png" class="w-75 ">
+      <div class="d-flex justify-content-center mt-2 pt-2 " (click)="changeImage(x.numPlate)"> 
+        
+          <img *ngIf="x?.carimg; else placeholder;" src={{x.carimg}}  class="w-75 "/>
+          <ng-template #placeholder>
+           <img src="assets/images/car.png"  class="w-75 "/>
+          </ng-template>
+       
       </div>
     </ion-card-header>
   

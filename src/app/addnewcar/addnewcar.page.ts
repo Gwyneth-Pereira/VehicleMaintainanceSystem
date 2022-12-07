@@ -58,7 +58,10 @@ export class AddnewcarPage implements OnInit {
     this.newCar.ExpDte=this.YDte[0];
     this.newCar.InsExp=this.IDte[0];
     this.Firebase.addCar(this.newCar).then(suc=>{
-      this.newCar.ExpDte=this.parseDate(this.newCar.ExpDte);
+
+      this.newCar.ID=suc.id;
+      this.Firebase.updateCar(this.newCar).then(rec=>{
+        this.newCar.ExpDte=this.parseDate(this.newCar.ExpDte);
       this.newCar.ExpDte.setDate(this.newCar.ExpDte.getTime()-7);
       this.newCar.ExpDte.toLocaleDateString('de-DE');
       this.localNotify.schedule({
@@ -81,6 +84,8 @@ export class AddnewcarPage implements OnInit {
       this.loading.dismiss();
       this.goback();
       this.dataSrv.presentToast("Car Added Successfully");
+      })
+      
     }).catch(err=>{
       this.loading.dismiss();
       this.dataSrv.showError("Error ",err);

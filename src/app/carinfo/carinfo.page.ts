@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ActivatedRoute } from '@angular/router';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
@@ -18,6 +19,7 @@ export class CarinfoPage implements OnInit {
  public title:string;
  public User: Observable<Users[]>;//Details about the User will be stored in this variable
  public CAR: Observable<Car[]>;
+ private updatedCar:Car={}as Car;
  InsDte;
  private minDate= new Date().toISOString();
 
@@ -30,6 +32,7 @@ export class CarinfoPage implements OnInit {
     private loading:LoadingController,
     private localNotify:LocalNotifications,
     private androidPermissions:AndroidPermissions,
+    private storage:AngularFireStorage
     ) { }
 
   goback()
@@ -76,7 +79,81 @@ export class CarinfoPage implements OnInit {
       
       load.dismiss();
       
+    }}
+
+    async changeImage(num)
+    {
+      console.log("numplate: "+num);
+      const image =await Camera.getPhoto({
+        quality:90,
+        allowEditing: false,
+        resultType:CameraResultType.Uri,
+        source:CameraSource.Photos,
+      });
+      
+      if(image)
+      {
+        const response=await fetch(image.webPath);
+        const blob=await response.blob();
+
+        const load=await this.loading.create();
+        await load.present();
+        this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
+          async result => 
+          { 
+          const path ='Documents/'+this.uid+'/Cars/'+num+'.'+image.format;
+          const storageRef=this.storage.ref(path);
+          try{
+          await this.storage.upload(path,blob);
+          const imageURL=await storageRef.getDownloadURL();
+          this.CAR.subscribe((result)=>
+          {
+            
+            for(let i =0;i<result.length;i++)
+            {
+              if(result[i].numPlate==num)
+              {
+                console.log("found car: "+result[i]);
+                this.updatedCar=result[i];
+                                
+              }
+            }
+          })
+          imageURL.subscribe(re=>{
+            
+            this.updatedCar.carimg=re;
+            console.log("CAR URL: "+this.updatedCar.carimg);
+            console.log(this.updatedCar);
+            
+            this.Firebase.updateCar(this.updatedCar).then(succ=>{
+              this.DataSrv.presentToast('File Uploaded Successfully');
+              
+            },errir=>{
+              this.DataSrv.showError("Error",errir);
+            });
+
+
+
+            })
+            
+          
+         
+    
+
+    }catch(e){
+      console.log(e)
+      this.DataSrv.showError("Error",e);
+      return null
+    }
+              },
+          err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA)
+        );
+        
+        load.dismiss();
+        
+      }
+
     }
   }
  
-}
+
