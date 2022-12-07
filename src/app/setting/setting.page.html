@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-toolbar color="dark">
-    <ion-icon name="arrow-back-outline" slot="start"  color="gold" class="ms-1 ps-1" size="large"  routerLink="/"></ion-icon>
+  <ion-toolbar >
+    <ion-icon name="arrow-back-outline" slot="start"  color="sky" class="ms-1 ps-1" size="large"  routerLink="/"></ion-icon>
     <ion-title>Settings</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -11,67 +11,40 @@
     <ion-accordion-group [multiple]="true"  >
       <ion-accordion value="first" >
         <ion-item slot="header">
-          <ion-label color="gold">Notifications</ion-label>
+          <ion-label >Notifications</ion-label>
         </ion-item>
         <div class="ion-padding m-0  p-0 " slot="content">
           <ion-list lines="inset" >
             <ion-item>
-              <ion-label color="gold">Enable Daily Reminder</ion-label>
-              <ion-toggle color="gold" slot="end" ></ion-toggle>
+              <ion-label >Enable Daily Reminder</ion-label>
+              <ion-toggle color="sky" slot="end" ></ion-toggle>
             </ion-item>
-            <ion-item>
-              <ion-label color="gold">Enable Cars Inspection Reminder</ion-label>
-              <ion-toggle color="gold" slot="end"></ion-toggle>
-            </ion-item>
-            <ion-item>
-              <ion-label color="gold">Enable Cars Insurance Reminder</ion-label>
-              <ion-toggle color="gold" slot="end"></ion-toggle>
-            </ion-item>
-            <ion-item>
-              <ion-label color="gold">Enable Cars Pair Up Reminder</ion-label>
-              <ion-toggle color="gold" slot="end"></ion-toggle>
-            </ion-item>
-            <ion-item>
-              <ion-label color="gold">Enable Change Oil Reminder</ion-label>
-              <ion-toggle color="gold" slot="end"></ion-toggle>
-            </ion-item>
+           
           </ion-list>
         </div>
       </ion-accordion>
       <ion-accordion value="second">
         <ion-item slot="header" >
-          <ion-label color="gold">Second Accordion</ion-label>
+          <ion-label >Live data setting</ion-label>
         </ion-item>
         <div class="ion-padding m-0 p-0" slot="content">
-          
           <ion-list lines="inset">
             <ion-item>
-              <ion-label color="gold">Inset Lines</ion-label>
-              <ion-toggle color="gold" slot="end"></ion-toggle>
+              <ion-label >Inset Lines</ion-label>
+              <ion-toggle color="sky" slot="end"></ion-toggle>
             </ion-item>
             <ion-item>
-              <ion-label color="gold">Inset Lines</ion-label>
-              <ion-toggle slot="end" color="gold"></ion-toggle>
+              <ion-label >Inset Lines</ion-label>
+              <ion-toggle slot="end" color="sky"></ion-toggle>
             </ion-item>
-            <ion-item>
-              <ion-label color="gold">Inset Lines</ion-label>
-              <ion-toggle color="gold" slot="end"></ion-toggle>
-            </ion-item>
+            
           </ion-list>
         </div>
       </ion-accordion>
-      <ion-accordion value="third">
-        <ion-item slot="header">
-          <ion-label color="gold">Third Accordion</ion-label>
-        </ion-item>
-        <div class="ion-padding" slot="content" > 
-          <ion-label color="gold"> 
-            Third Content
-          </ion-label>
-          </div>
-      </ion-accordion>
+      
     </ion-accordion-group>
-    <ion-button (click)="SaveSetting()">Save</ion-button>
+    <div class="p-2 m-1 d-flex flex-row-reverse">
+    <ion-button (click)="SaveSetting()">Save</ion-button></div>
     <div class="p-2"> <ion-button  color="danger" expand="block" (click)="onDelete()">Delete account</ion-button></div>
 
   </div>

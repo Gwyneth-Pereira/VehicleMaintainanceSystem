@@ -1,15 +1,15 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="dark">
+  <ion-toolbar >
     <ion-title class="ion-text-start" > Notifications </ion-title>
-    <ion-icon name="settings-outline"  color="purple" class="me-1 pe-1" size="large" slot="end" routerLink="/setting" routerDirection="forward"></ion-icon>
- 
+    <ion-icon name="settings-outline"   class="me-1 pe-1" size="large" slot="end" routerLink="/setting" routerDirection="forward"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="d-flex justify-content-center m-2 p-2">
-     <ion-button color="gold" class="m-2 p-2 w-50" (click)="getAll()">getAll</ion-button>
-     <ion-button color="gold"  class="m-2 p-2 w-50" (click)="del()">Delete</ion-button>
+
+  <div class="d-flex justify-content-end m-2 p-2">
+     <ion-button   (click)="getAll()">getAll</ion-button>
+     <ion-button color="sky"  (click)="del()">Delete</ion-button>
   </div>
  
   <ion-list>
