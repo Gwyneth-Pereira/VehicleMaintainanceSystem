@@ -7,8 +7,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button (click)="getAll()">getAll</ion-button>
-  <ion-button (click)="del()">Delete</ion-button>
+  <div class="d-flex justify-content-center m-2 p-2">
+     <ion-button color="gold" class="m-2 p-2 w-50" (click)="getAll()">getAll</ion-button>
+     <ion-button color="gold"  class="m-2 p-2 w-50" (click)="del()">Delete</ion-button>
+  </div>
+ 
   <ion-list>
     <li *ngFor="let x of Sceduled">
       <p>{{x.title}}</p>
