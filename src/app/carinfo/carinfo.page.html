@@ -1,20 +1,21 @@
 <ion-header>
-  <ion-toolbar color="dark">
+  <ion-toolbar>
     <ion-title>Car Information</ion-title>
-    <ion-icon  color="purple" name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1"  (click)="goback()"></ion-icon>
+    <ion-icon  color="sky" name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1"  (click)="goback()"></ion-icon>
   
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  
   <div *ngFor="let x of (CAR | async )"> 
     <div *ngIf="uid==x.userId"> 
 
  
   <ion-card >
     <ion-card-header>
-       <ion-card-title color="gold">  {{x.make}} {{x.model}} {{x.year}}</ion-card-title>
-      <div class="d-flex justify-content-center "> 
+       <ion-card-title >  {{x.make}} {{x.model}} {{x.year}}</ion-card-title>
+      <div class="d-flex justify-content-center mt-2 pt-2 "> 
         <img src="assets\images\car.png" class="w-75 ">
       </div>
     </ion-card-header>
@@ -22,8 +23,8 @@
     <ion-card-content>
       <ion-list >
         <ion-item lines="none" >
-        <ion-label color="purple">Plate Number: </ion-label>  
-        <ion-label color="gold">:{{x.numPlate}} </ion-label>
+        <ion-label color="medium">Plate Number: </ion-label>  
+        <ion-label >{{x.numPlate}} </ion-label>
         </ion-item>
      </ion-list>  
       
@@ -32,26 +33,26 @@
 
   <ion-card>
     <ion-card-header>
-      <h3 style="color:gold"> Insurance Details</h3>
+      <h3 > Insurance Details</h3>
        </ion-card-header>
   
     <ion-card-content>
       <ion-list>
           <ion-item lines="none" >
-          <ion-label color="purple">Company: </ion-label>  
-          <ion-label color="gold">:{{x.InsComp}} </ion-label>
+          <ion-label color="medium">Company: </ion-label>  
+          <ion-label >:{{x.InsComp}} </ion-label>
         </ion-item>
         <ion-item lines="none" >
-          <ion-label color="purple">Policy No: </ion-label>  
-          <ion-label color="gold">:{{x.InsPolicy}} </ion-label>
+          <ion-label color="medium">Policy No: </ion-label>  
+          <ion-label >:{{x.InsPolicy}} </ion-label>
         </ion-item>
         <ion-item lines="none" >
-          <ion-label color="purple">Cover Type: </ion-label>  
-          <ion-label color="gold">:{{x.InsType}} </ion-label>
+          <ion-label color="medium">Cover Type: </ion-label>  
+          <ion-label >:{{x.InsType}} </ion-label>
         </ion-item>
         <ion-item lines="none" >
-          <ion-label color="purple">Expiry Date: </ion-label>  
-          <ion-label color="gold">:{{x.InsExp}} </ion-label>
+          <ion-label color="medium">Expiry Date: </ion-label>  
+          <ion-label >:{{x.InsExp}} </ion-label>
         </ion-item>
       </ion-list>
    </ion-card-content>
@@ -59,19 +60,19 @@
 
   <ion-card>
     <ion-card-header>
-      <h3 style="color:gold">Ownership Details</h3>
+      <h3 >Ownership Details</h3>
       </ion-card-header>
   
     <ion-card-content>
       <ion-list>
       <ion-item lines="none" >
-        <ion-label color="purple">Owner ID: </ion-label>  
-        <ion-label color="gold">:{{x.ownerID}} </ion-label>
+        <ion-label color="medium">Owner ID: </ion-label>  
+        <ion-label >:{{x.ownerID}} </ion-label>
       
       </ion-item>
       <ion-item lines="none" >
-        <ion-label color="purple">Yearly Inspection: </ion-label>  
-        <ion-label color="gold">:{{x.ExpDte}} </ion-label>
+        <ion-label color="medium">Yearly Inspection: </ion-label>  
+        <ion-label >:{{x.ExpDte}} </ion-label>
       
       </ion-item>
    </ion-list> 
@@ -80,16 +81,16 @@
   </ion-card>
     <ion-card>
       <ion-card-header>
-        <h3 style="color:gold">Add Documents</h3>
+        <h3 >Add Documents</h3>
         </ion-card-header>
         <ion-card-content>
           <ion-item>
-            <ion-label color="gold">Title: </ion-label>
+            <ion-label >Title: </ion-label>
             <ion-input [(ngModel)]="title"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label  color="gold">Expiry Date: </ion-label>
-            <ion-input value="{{ InsDte | date: 'dd-MMM-YYYY' }}" id="InsExpDte" color="purple"></ion-input>
+            <ion-label>Expiry Date: </ion-label>
+            <ion-input value="{{ InsDte | date: 'dd-MMM-YYYY' }}" id="InsExpDte" color="medium"></ion-input>
             <ion-modal trigger="InsExpDte" id="InsExpDteModal" [initialBreakpoint]="0.35" [breakpoints]="[0.25,0.35]">
               <ng-template>
                 <ion-datetime id="InsExpDteInput" presentation="date" showDefaultButtons="true"  [preferWheel]="true" [(ngModel)]="InsDte" (ngModelChange)="InsDte" min="{{minDate}}" max="2099-10-31"></ion-datetime>
@@ -98,7 +99,7 @@
             <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>     
           </ion-item>
         </ion-card-content>
-        <ion-button (click)="uploadpic()"><ion-icon name="image-outline"></ion-icon></ion-button>
+        <ion-button color="sky" (click)="uploadpic()"><ion-icon name="image-outline"></ion-icon></ion-button>
     </ion-card>
   </div>
 </div>
