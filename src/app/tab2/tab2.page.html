@@ -1,7 +1,6 @@
-
 <ion-header [translucent]="true">
-  <ion-toolbar color="dark"  class="me-1 pe-1">
-    <ion-title color="gold" class="ion-text-start" >Hello {{UserID}}, </ion-title>   
+  <ion-toolbar   class="me-1 pe-1">
+    <ion-title  class="ion-text-start" >Hello {{UserID}}, </ion-title>   
       <ion-avatar slot="end"  style="height: 36px; width: 36px;">
         <img  src="assets\images\user.jpg"  [routerLink]="'/profile/'+ UserID" >
        
@@ -13,11 +12,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
-  
-    
-  
-   
   <div *ngFor="let x of (CAR | async ) ">  
          <ion-slides pager="true" [options]="slideOpts" *ngIf="UserID==x.userId"   >
        
@@ -26,7 +20,7 @@
       <ion-card class="colour" class="ps-0 pe-0" style="height: 220px!important; width: 340px!important;" [routerLink]="'/carinfo/'+ x.userId" >
         
         <ion-card-header>
-          <ion-card-title color="gold">{{x.make}} {{x.model}}</ion-card-title>
+          <ion-card-title >{{x.make}} {{x.model}}</ion-card-title>
         </ion-card-header>
         <ion-card-content class="ps-0 pe-0">
           <img src="assets\images\car.png" alt="..." class="w-75 d-inline-block"  >
@@ -41,7 +35,7 @@
     <ion-slide (click)="gonewCarInfo()">
       <ion-card style="height: 220px!important; width: 340px!important;">
         <ion-card-content class="d-flex flex-row justify-content-center my-5 py-5">
-           <ion-icon class="mt-1 me-2" color="light" name="add-outline" size="large"></ion-icon>  <h1 style="color:white" class=" pt-1 " >Add Car</h1>
+           <ion-icon class="mt-1 me-2"  name="add-outline" size="large"></ion-icon>  <h1  class=" pt-1 " >Add Car</h1>
         
          </ion-card-content>
       </ion-card>
@@ -58,14 +52,14 @@
     
   <ion-row>
     <ion-col size="12" class="ion-text-center">
-      <ion-button id="open-modal" color="gold" class="p-2 m-2" *ngIf="BluetoothFlag" style="height:65px; width:150px;" (click)="Pair()">Pair Car</ion-button>
-      <ion-button  color="gold" class="p-2 m-2" *ngIf="!BluetoothFlag" style="height:65px; width:150px;" (click)="diconnect()">Unpair Car</ion-button>
+      <ion-button id="open-modal" color="sky" class="p-2 m-2" *ngIf="BluetoothFlag" style="height:65px; width:150px;" (click)="Pair()">Pair Car</ion-button>
+      <ion-button  color="sky" class="p-2 m-2" *ngIf="!BluetoothFlag" style="height:65px; width:150px;" (click)="diconnect()">Unpair Car</ion-button>
 
     </ion-col>
   </ion-row>
   <ion-list *ngIf="SupportedFlag">
-    <h2 color="purple">Supported OBD-II</h2>
-    <ion-item color="purple" *ngFor="let x of SupportedOBD ">
+    <h2 >Supported OBD-II</h2>
+    <ion-item  *ngFor="let x of SupportedOBD ">
       <ion-label>{{x.Text}}</ion-label>
       <ion-label slot="end">{{x.Value}}</ion-label>
     </ion-item>
@@ -73,19 +67,19 @@
   
  
   
-  <ion-modal #modal trigger="open-modal" color="primary" [initialBreakpoint]="0.4" [breakpoints]="[0, 0.4, 0.5, 0.75]">
+  <ion-modal #modal trigger="open-modal" color="sky" [initialBreakpoint]="0.4" [breakpoints]="[0, 0.4, 0.5, 0.75]">
     <ng-template>
       <ion-header [translucent]="true">
-        <ion-toolbar color="dark">
-          <ion-button slot="start" color="gold" (click)="modal.dismiss()">Close</ion-button>
+        <ion-toolbar >
+          <ion-button slot="start" color="sky" (click)="modal.dismiss()">Close</ion-button>
           <ion-title class="ion-text-start">Select Device</ion-title>  
-          <ion-button color="gold" slot='end' (click)="Pair()">Refresh</ion-button>
+          <ion-button color="sky" slot='end' (click)="Pair()">Refresh</ion-button>
       </ion-toolbar>
       </ion-header>
       <ion-content>
         <ion-list>
           <ion-item *ngFor="let device of Devices" (click)="connect(device)">
-            <ion-label color="light">
+            <ion-label >
               <h2>{{device.name || device.address}}</h2>
               <p>Paired</p>
             </ion-label>
