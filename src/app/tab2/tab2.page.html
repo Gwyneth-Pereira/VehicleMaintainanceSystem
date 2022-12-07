@@ -12,13 +12,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div *ngFor="let x of (CAR | async ) ">  
-         <ion-slides pager="true" [options]="slideOpts" *ngIf="UserID==x.userId"   >
-       
-    <ion-slide  >
-      
-      <ion-card class="colour" class="ps-0 pe-0" style="height: 220px!important; width: 340px!important;" [routerLink]="'/carinfo/'+ x.userId" >
-        
+  <div >  
+  <ion-slides pager="true" [options]="slideOpts"  >
+    <div *ngFor="let x of (CAR | async ) ">
+      <ion-slide *ngIf="UserID==x.userId" >
+      <ion-card   class="colour" class="ps-0 pe-0" style="height: 220px!important; width: 340px!important;" [routerLink]="'/carinfo/'+ x.numPlate" >
         <ion-card-header>
           <ion-card-title >{{x.make}} {{x.model}}</ion-card-title>
         </ion-card-header>
@@ -28,10 +26,10 @@
           <ion-icon name="bluetooth-outline" color="danger" slot="end"></ion-icon>
           </ion-item>
         </ion-card-content>
-      
       </ion-card>
     </ion-slide>
-
+</div>
+    
     <ion-slide (click)="gonewCarInfo()">
       <ion-card style="height: 220px!important; width: 340px!important;">
         <ion-card-content class="d-flex flex-row justify-content-center my-5 py-5">
