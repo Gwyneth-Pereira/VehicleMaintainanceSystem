@@ -49,11 +49,11 @@
           </ion-item>
 
           <ion-item>
-            <ion-label  >Yearly Inspection: </ion-label>
-            <ion-input value="{{ YearDte | date: 'dd-MMM-YYYY' }}" id="YearlyInsp" color="medium"></ion-input>
-            <ion-modal trigger="YearlyInsp"  id="YearlyInspModal"  [initialBreakpoint]="0.35" [breakpoints]="[0.25,0.35]">
+            <ion-label  color="gold">Yearly Inspection: </ion-label>
+            <ion-datetime-button slot="end" datetime="date1"></ion-datetime-button>
+            <ion-modal [keepContentsMounted]="true">
               <ng-template>
-                <ion-datetime id="YearlyInspInput" presentation="date" showDefaultButtons="true"  [preferWheel]="true" [(ngModel)]="YearDte" (ngModelChange)="YearDte" min="{{minDate}}" max="2099-10-31"></ion-datetime>
+                <ion-datetime id="date1" min="{{minDate}}" max="2099-10-31" [(ngModel)]="YearDte"  format="YYYY-MM-DD" presentation="date"></ion-datetime>
               </ng-template>
             </ion-modal>
             <ion-icon name="calendar-outline" slot="end" color="medium" ></ion-icon>     
@@ -84,15 +84,15 @@
           </ion-item>
 
           <ion-item>
-            <ion-label>Expiry Date: </ion-label>
-            <ion-input value="{{ InsDte | date: 'dd-MMM-YYYY' }}" id="InsExpDte" color="medium"></ion-input>
-            <ion-modal trigger="InsExpDte" id="InsExpDteModal" [initialBreakpoint]="0.35" [breakpoints]="[0.25,0.35]">
+            <ion-label  color="gold">Expiry Date: </ion-label>
+            <ion-datetime-button slot="end" datetime="date2"></ion-datetime-button>
+            <ion-modal [keepContentsMounted]="true">
               <ng-template>
-                <ion-datetime id="InsExpDteInput" presentation="date" showDefaultButtons="true"  [preferWheel]="true" [(ngModel)]="InsDte" (ngModelChange)="InsDte" min="{{minDate}}" max="2099-10-31"></ion-datetime>
+                <ion-datetime id="date2" min="{{minDate}}" max="2099-10-31" [(ngModel)]="InsDte"  format="YYYY-MM-DD" presentation="date"></ion-datetime>
               </ng-template>
             </ion-modal>
-            <ion-icon name="calendar-outline" slot="end" color="medium" ></ion-icon>     
-          </ion-item>
+            <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>  
+            </ion-item>
         </ion-list>
         </div>
     </ion-accordion>

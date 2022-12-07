@@ -79,12 +79,12 @@ export class AddnewcarPage implements OnInit {
         foreground:true
       });
       this.loading.dismiss();
-      this.router.navigate(['tabs/tab2']);
+      this.goback();
       this.dataSrv.presentToast("Car Added Successfully");
     }).catch(err=>{
       this.loading.dismiss();
       this.dataSrv.showError("Error ",err);
-      this.router.navigate(['tabs/tab2']);
+      this.goback();
     });
 
     

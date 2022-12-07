@@ -110,7 +110,7 @@ export class FirebaseService {
   
   addCar(idea:Car):Promise<DocumentReference>{  return this.carCollection.add(idea);   }
   
-  updateUser(idea:Users):Promise<void>{return this.userCollection.doc(idea.userID).update(idea);}
+  updateUser(idea:Users):Promise<void>{return this.userCollection.doc(idea.ID).update(idea);}
   updateCar(idea:Car):Promise<void>{return this.carCollection.doc(idea.ID).update(idea);}
   
 
@@ -162,7 +162,8 @@ export class FirebaseService {
   }
 }
 export interface Users {
-userID?: string;
+ID?:string;
+userID: string;
 Name: string;
 phoneNum: number;
 password: string;

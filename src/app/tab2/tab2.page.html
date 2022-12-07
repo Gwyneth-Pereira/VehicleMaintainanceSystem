@@ -1,14 +1,27 @@
 <ion-header [translucent]="true">
-  <ion-toolbar   class="me-1 pe-1">
-    <ion-title  class="ion-text-start" >Hello {{UserID}}, </ion-title>   
-      <ion-avatar slot="end"  style="height: 36px; width: 36px;">
-        <img  src="assets\images\user.jpg"  [routerLink]="'/profile/'+ UserID" >
-       
-      </ion-avatar>
+  <div *ngFor="let x of (User | async ) ">
+  <ion-toolbar   class="me-1 pe-1" *ngIf="UserID==x?.userID && UserID?.length!=null; else guestlogin;" >
+    
+    <ion-title  class="ion-text-start" >Hello {{x.Name}}, </ion-title>   
+    <ion-avatar slot="end"  style="height: 36px; width: 36px;"  [routerLink]="'/profile/'+ UserID" >
+      <img *ngIf="x?.img; else placeholder;" src={{x.img}}  />
+      <ng-template #placeholder>
+       <img src="assets/images/default.png"  />
+      </ng-template>
+   
+    </ion-avatar>  
+    <ng-template #guestlogin>
+      <ion-title  class="ion-text-start" >Hello Guest, </ion-title>
+      <ion-avatar slot="end"  style="height: 36px; width: 36px;"  [routerLink]="'/profile/'+ UserID" >
+         <img src="assets/images/default.png" />
+      </ion-avatar> 
+     </ng-template>
+    
 
     <ion-progress-bar type="indeterminate" *ngIf="checking"></ion-progress-bar>
 
   </ion-toolbar>
+</div>
 </ion-header>
 
 <ion-content [fullscreen]="true">
