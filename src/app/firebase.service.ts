@@ -94,18 +94,15 @@ export class FirebaseService {
   logoutUser()
   { return this.FireAuth.signOut();}
   
-  async signupUser(newEmail: string, newPassword: string)
+  signupUser(newEmail: string, newPassword: string):boolean
   { 
-    try
-    {
-      const user =await this.FireAuth.createUserWithEmailAndPassword(newEmail,newPassword);
-      return user;
-    }
-    catch(ex)
-    {
-      return null;
-
-    }
+    let checker=false;
+    this.FireAuth.createUserWithEmailAndPassword(newEmail,newPassword).then(
+      success=>{
+       checker=true;
+      },
+      error=>{this.DataSrv.showError("Error",error)});
+    return checker;
      
   }
   

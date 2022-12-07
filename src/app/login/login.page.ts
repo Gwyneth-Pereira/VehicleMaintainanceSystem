@@ -46,7 +46,7 @@ export class LoginPage implements OnInit {
         let navigationExtras: NavigationExtras = { state: {userID: this.form.value.email }   };
         this.router.navigate(['/'],navigationExtras); 
         }).catch(error=>{
-          this.dataSrv.showError("Error"," No account with this email or incorrect password. <br/> please try again.");
+          this.dataSrv.showError("Error",error);
 
         })
      
