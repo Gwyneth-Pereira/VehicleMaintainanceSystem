@@ -1,17 +1,16 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="dark">
+  <ion-toolbar >
     <ion-title class="ion-text-start"> Car name </ion-title>
-    <ion-icon name="settings-outline" color="gold" class="me-1 pe-1" size="large" slot="end" routerLink="/setting" routerDirection="forward"></ion-icon>
+    <ion-icon name="settings-outline" color="sky" class="me-1 pe-1" size="large" slot="end" routerLink="/setting" routerDirection="forward"></ion-icon>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-segment color="gold" swipe-gesture="true" value="Sensor" (ionChange)="segmentChanged($event)" class="mt-4 " >
-    <ion-segment-button color="light" value="Sensor">
-       <ion-label color="light" > Sensors</ion-label>
+  <ion-segment  swipe-gesture="true" value="Sensor" (ionChange)="segmentChanged($event)" class="mt-4 " >
+    <ion-segment-button value="Sensor">
+       <ion-label  > Sensors</ion-label>
     </ion-segment-button>
     <ion-segment-button value="livedata">
-      <ion-label color="light" >Live data</ion-label>
+      <ion-label >Live data</ion-label>
     </ion-segment-button>
   </ion-segment>
 <!-- sensor part -->
@@ -21,14 +20,14 @@
         <img src="assets\images\light.png" alt="..." class="w-50 d-inline-block"  >  
       </div>
       <ion-card-content >
-        <ion-button color="gold" expand="block" (click)="Scan()" class=" pb-0  mb-0">Tap to scan</ion-button>
+        <ion-button color="sky" expand="block" (click)="Scan()" class=" pb-0  mb-0">Tap to scan</ion-button>
       </ion-card-content>
       
     </ion-card>
 <!-- list scan results -->
 <div>
-  <ion-label color="light" class="d-flex justify-content-center mt-3">Last Updated 5 hrs Ago</ion-label>
-<ion-card *ngFor="let x of TroubleCodes"  color="light" class="d-flex justify-content-center mt-3">
+  <ion-label class="d-flex justify-content-center mt-3">Last Updated 5 hrs Ago</ion-label>
+<ion-card *ngFor="let x of TroubleCodes"  class="d-flex justify-content-center mt-3">
   <ion-card-content><h2>Code: {{x}}</h2></ion-card-content><br>
   <ion-card-content>Description: lorem</ion-card-content>
 
@@ -39,14 +38,9 @@
 <!-- live data part -->
   <div *ngIf="selectedSegment=='livedata'">
     <br>
-    <ion-button color="gold" expand="block" (click)="FetchLiveData()" class=" pb-0  mb-0">Fetch Live Data</ion-button>
-
-      <ion-card color="light" *ngFor="let data of (LiveDataObservable | async)">
+    <ion-button color="sky" expand="block" (click)="FetchLiveData()" class=" pb-0  mb-0">Fetch Live Data</ion-button>
+      <ion-card  *ngFor="let data of (LiveDataObservable | async)">
         <ion-card-content>{{data.description}}</ion-card-content>
       </ion-card>
-     
-    
-  
   </div>
-
 </ion-content>
