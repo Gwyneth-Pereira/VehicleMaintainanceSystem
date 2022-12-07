@@ -43,7 +43,7 @@ export class DataSrvService {
 
 async ngOnInit() {
   console.log('Init Storage');
-  await this.storage.defineDriver(CordovaSQLiteDriver);
+ // await this.storage.defineDriver(CordovaSQLiteDriver);
    await this.storage.create();
    this.storageBehaviour.next(true);
    console.log(' Storage Created');
