@@ -14,6 +14,10 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { SwiperModule } from 'swiper/angular';
+
+
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBrxyWa5AdMkb_NQ7ThTD-mKm_grKCRTG0",
@@ -37,6 +41,7 @@ const firebaseConfig = {
      AngularFirestoreModule, 
      AngularFireStorageModule,
      AngularFireAuthModule,
+     SwiperModule ,
      AppRoutingModule],
   providers: [AndroidPermissions,
               BluetoothSerial,
