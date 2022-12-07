@@ -1,6 +1,6 @@
 <ion-header  class="ion-no-border">
-  <ion-toolbar color="dark" >
-    <ion-icon  color="purple" name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1" (click)="goback()" ></ion-icon>
+  <ion-toolbar >
+    <ion-icon  color="sky" name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1" (click)="goback()" ></ion-icon>
     
   
     
@@ -19,23 +19,23 @@
  </div>
 
 <div class="d-flex justify-content-center">
-  <ion-label color="light">
+  <ion-label >
     {{y.Name}}
   </ion-label>
 </div>
   <ion-list  >
     <ion-item lines="none" >
-      <ion-label color="purple" >Login Id</ion-label> <ion-label slot="end" color="gold"> {{y.UserID}}</ion-label>
+      <ion-label color="medium" >Login Id</ion-label> <ion-label slot="end"> {{y.UserID}}</ion-label>
     </ion-item >
     
     <ion-item lines="none">
-      <ion-label color="purple"> Phone Number</ion-label> <ion-label slot="end" color="gold"> {{y.PhoneNum}}</ion-label>
+      <ion-label color="medium"> Phone Number</ion-label> <ion-label slot="end" > {{y.PhoneNum}}</ion-label>
     </ion-item >
     <ion-item lines="full">
-      <ion-label color="purple">Password</ion-label> <ion-label  *ngIf="s" id="hiddenpass" slot="end" color="gold">****** </ion-label>
-      <ion-label *ngIf="!s"  id="pass" slot="end" color="gold">{{y.Password}} </ion-label>
-      <ion-icon *ngIf="s"  name="eye-outline" id="eyeOn"  color="purple"  (click)="showpassword()"></ion-icon>
-      <ion-icon *ngIf="!s"  name="eye-off-outline" id="eyeOff"  color="purple"  (click)="showpassword()"></ion-icon>
+      <ion-label color="medium">Password</ion-label> <ion-label  *ngIf="s" id="hiddenpass" slot="end">****** </ion-label>
+      <ion-label *ngIf="!s"  id="pass" slot="end" >{{y.Password}} </ion-label>
+      <ion-icon *ngIf="s"  name="eye-outline" id="eyeOn"  color="sky"  (click)="showpassword()"></ion-icon>
+      <ion-icon *ngIf="!s"  name="eye-off-outline" id="eyeOff"  color="sky"  (click)="showpassword()"></ion-icon>
        </ion-item>
  
   </ion-list>
@@ -43,7 +43,7 @@
 
 </div><!-- the end of firebase searching -->
 </div> <!-- the end of firebase loop for users -->
-    <h3 class="mb-0 pb-1 m-2  p-2 " style="color:gold;">
+    <h3 class="mb-0 pb-1 m-2  p-2 " >
     Your Cars
    </h3>
    <ion-list >
@@ -51,7 +51,7 @@
     <ion-card  class=" mt-1 mb-2 pb-1 "  style="border-radius:15px !important;" *ngIf="uid==x.userId" [routerLink]="'/carinfo/'+ uid" >
        
        <ion-card-content class="pt-2 pb-2 m-1 d-flex justify-content-between">
-        <ion-label style="color:gold;" class="d-flex justify-content-start " >
+        <ion-label  class="d-flex justify-content-start " >
           {{x.make}}
         </ion-label>
          <div class="d-flex justify-content-end "> 
@@ -63,7 +63,7 @@
   </div>
     <ion-card class="mt-2 pt-1" style="border-radius:15px !important;"(click)="goNewCar()">
         <ion-card-content class="d-flex flex-row justify-content-center p-4" >
-        <ion-icon name="add-outline"  size="large" color="gold"></ion-icon> <h6 style="color:gold;" class="d-flex align-items-center">Add Car</h6>
+        <ion-icon name="add-outline"  size="large" color="sky"></ion-icon> <h6  class="d-flex align-items-center">Add Car</h6>
       </ion-card-content>
     </ion-card>
   </ion-list>
