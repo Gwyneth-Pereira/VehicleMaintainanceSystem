@@ -46,25 +46,18 @@ export class CreateAccountPage implements OnInit {
     this.NewAccount.Name= this.form.value.name;
     this.NewAccount.phoneNum = this.form.value.phone ;
     this.NewAccount.password=this.form.value.password;
-    const user =await this.Firebase.signupUser(this.form.value.email,this.form.value.password);
-    await loading.dismiss();
-    if(user)
-    {
-      this.Firebase.addUser(this.NewAccount).then( 
-        onfulfilled=> { 
-          this.datasrv.presentToast("created account sucessfully ");
-          console.log(this.NewAccount);
+    this.Firebase.signupUser(this.form.value.email,this.form.value.password);
+    this.Firebase.addUser(this.NewAccount).then( 
+        onfulfilled=>
+         { 
+          this.datasrv.presentToast("Account Created Successfully");
           this.router.navigate(['/login']); //go to homepage });
              }, ).catch(err => { 
               this.datasrv.showError("Error ",err);
              });
+      await loading.dismiss();
 
-    }else
-    {
-      this.datasrv.showError("Error ","Existing account with this email. <br/> please use another email address.");
-
-    }
-    
+      
   
     }
   }
