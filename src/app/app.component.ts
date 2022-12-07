@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { DataSrvService } from './data-srv.service';
 import { Tab2Page } from './tab2/tab2.page';
@@ -10,19 +11,10 @@ import { Tab2Page } from './tab2/tab2.page';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  rootPage:any;
-  constructor(platform: Platform,afAuth: AngularFireAuth, private DataSrv:DataSrvService) {
+ 
+  constructor(platform: Platform,afAuth: AngularFireAuth, private DataSrv:DataSrvService, private router:Router) {
     
-    const authObserver = afAuth.authState.subscribe(
-        user => {
-        if (user) {
-        this.rootPage = Tab2Page;
-        authObserver.unsubscribe();
-        } else {
-                    this.rootPage = 'LoginPage';
-                  authObserver.unsubscribe();
-                }
-      });
+  
 }
 
 }

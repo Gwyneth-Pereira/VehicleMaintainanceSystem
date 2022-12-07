@@ -4,6 +4,7 @@ import { DataSrvService} from '../data-srv.service';
 import { Router } from '@angular/router';
 import { FirebaseService, Users } from '../firebase.service';
 import { LoadingController } from '@ionic/angular';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-create-account',
@@ -13,7 +14,12 @@ import { LoadingController } from '@ionic/angular';
 export class CreateAccountPage implements OnInit {
   NewAccount: Users={userID:null,Name:null, phoneNum:null, password:null, img:'',licenseExp:null};
   form: FormGroup;
-  constructor(public datasrv:DataSrvService,private router: Router, private Firebase:FirebaseService,private loading:LoadingController) { 
+  constructor(
+    public datasrv:DataSrvService,
+    private router: Router, 
+    private Firebase:FirebaseService,
+    private loading:LoadingController,
+    public FireAuth:AngularFireAuth) { 
     this.initForm();
   }
 
@@ -38,7 +44,8 @@ export class CreateAccountPage implements OnInit {
   async onSubmit() {
     const loading=await this.loading.create();
     await loading.present();
-    if(!this.form.valid) {
+    if(!this.form.valid) 
+    {
       this.form.markAllAsTouched();
       return;
     }
@@ -46,16 +53,26 @@ export class CreateAccountPage implements OnInit {
     this.NewAccount.Name= this.form.value.name;
     this.NewAccount.phoneNum = this.form.value.phone ;
     this.NewAccount.password=this.form.value.password;
-    this.Firebase.signupUser(this.form.value.email,this.form.value.password);
-    this.Firebase.addUser(this.NewAccount).then( 
-        onfulfilled=>
+    this.FireAuth.createUserWithEmailAndPassword(this.form.value.email,this.form.value.password).then(
+    success=>
+    {
+      this.Firebase.addUser(this.NewAccount).then( 
+        async onfulfilled=>
          { 
           this.datasrv.presentToast("Account Created Successfully");
-          this.router.navigate(['/login']); //go to homepage });
-             }, ).catch(err => { 
-              this.datasrv.showError("Error ",err);
-             });
-      await loading.dismiss();
+          this.router.navigate(['/login']);
+          await loading.dismiss(); 
+          },error=>{
+            this.datasrv.showError("Error ",error);
+            this.router.navigate(['/login']);
+          } );
+    },error=>{
+      this.datasrv.showError("Error",error);
+      this.router.navigate(['/login']);
+    });
+   
+   
+    
 
       
   
