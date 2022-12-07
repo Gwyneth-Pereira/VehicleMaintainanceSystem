@@ -49,7 +49,7 @@ export class CreateAccountPage implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-    this.NewAccount.userID=this.form.value.email;
+    this.NewAccount.userID=this.form.value.email.toLowerCase();
     this.NewAccount.Name= this.form.value.name;
     this.NewAccount.phoneNum = this.form.value.phone ;
     this.NewAccount.password=this.form.value.password;
@@ -59,9 +59,16 @@ export class CreateAccountPage implements OnInit {
       this.Firebase.addUser(this.NewAccount).then( 
         async onfulfilled=>
          { 
-          this.datasrv.presentToast("Account Created Successfully");
+          this.NewAccount.ID=onfulfilled.id;
+          this.Firebase.updateUser(this.NewAccount).then(async truth=>
+            {
+              this.datasrv.presentToast("Account Created Successfully");
           this.router.navigate(['/login']);
-          await loading.dismiss(); 
+          await loading.dismiss();
+              
+            })
+          console.log()
+           
           },error=>{
             this.datasrv.showError("Error ",error);
             this.router.navigate(['/login']);

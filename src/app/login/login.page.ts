@@ -43,7 +43,7 @@ export class LoginPage implements OnInit {
       this.Firebase.loginUser(this.form.value.email,this.form.value.password).then(
         succ=>{
           this.dataSrv.presentToast("You have logged in sucessfully!!");
-        let navigationExtras: NavigationExtras = { state: {userID: this.form.value.email }   };
+        let navigationExtras: NavigationExtras = { state: {userID: this.form.value.email.toLowerCase() }   };
         this.router.navigate(['/'],navigationExtras); 
         }).catch(error=>{
           this.dataSrv.showError("Error",error);
