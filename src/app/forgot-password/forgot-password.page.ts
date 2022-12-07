@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DataSrvService } from '../data-srv.service';
+import { FirebaseService } from '../firebase.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -10,7 +10,7 @@ import { DataSrvService } from '../data-srv.service';
 export class ForgotPasswordPage implements OnInit {
   form: FormGroup;
 
-  constructor( public datasrv:DataSrvService) { 
+  constructor(private Firebase:FirebaseService) { 
     this.initForm();
   }
 
@@ -30,7 +30,7 @@ export class ForgotPasswordPage implements OnInit {
      console.log( this.form.value.email );
 
      //user password reset
-    this.datasrv.resetPassword(this.form.value.email);
+    this.Firebase.resetPassword(this.form.value.email);
 
   }
 

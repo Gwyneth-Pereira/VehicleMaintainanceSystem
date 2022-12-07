@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Car, DataSrvService, Users } from '../data-srv.service';
+import { DataSrvService} from '../data-srv.service';
 import { Router } from '@angular/router';
+import { FirebaseService, Users } from '../firebase.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-create-account',
@@ -9,9 +11,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-account.page.scss'],
 })
 export class CreateAccountPage implements OnInit {
-  NewAccount: Users={userID:null,Name:null, phoneNum:null, password:null, img:'',licenseExp:null,Car:[]};
+  NewAccount: Users={userID:null,Name:null, phoneNum:null, password:null, img:'',licenseExp:null};
   form: FormGroup;
-  constructor(public datasrv:DataSrvService,private router: Router) { 
+  constructor(public datasrv:DataSrvService,private router: Router, private Firebase:FirebaseService,private loading:LoadingController) { 
     this.initForm();
   }
 
@@ -33,7 +35,9 @@ export class CreateAccountPage implements OnInit {
 
 
 
-  onSubmit() {
+  async onSubmit() {
+    const loading=await this.loading.create();
+    await loading.present();
     if(!this.form.valid) {
       this.form.markAllAsTouched();
       return;
@@ -42,22 +46,24 @@ export class CreateAccountPage implements OnInit {
     this.NewAccount.Name= this.form.value.name;
     this.NewAccount.phoneNum = this.form.value.phone ;
     this.NewAccount.password=this.form.value.password;
-    
-    this.datasrv.signupUser(this.form.value.email,this.form.value.password ).then(
-      success => { 
-      this.datasrv.addUser(this.NewAccount).then( 
-      onfulfilled=> { 
-        this.datasrv.presentToast("created account sucessfully ");
-        console.log(this.NewAccount);
-        this.router.navigate(['/login']); //go to homepage });
-           }, ).catch(err => { 
-            this.datasrv.showError("Error ",err);
-           });
-      }).catch(
-          error => { 
-                this.datasrv.showError("Error ",error+"Existing account with this email. <br/> please use another email address.");
-               });
+    const user =await this.Firebase.signupUser(this.form.value.email,this.form.value.password);
+    await loading.dismiss();
+    if(user)
+    {
+      this.Firebase.addUser(this.NewAccount).then( 
+        onfulfilled=> { 
+          this.datasrv.presentToast("created account sucessfully ");
+          console.log(this.NewAccount);
+          this.router.navigate(['/login']); //go to homepage });
+             }, ).catch(err => { 
+              this.datasrv.showError("Error ",err);
+             });
 
+    }else
+    {
+      this.datasrv.showError("Error ","Existing account with this email. <br/> please use another email address.");
+
+    }
     
   
     }

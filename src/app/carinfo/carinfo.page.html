@@ -78,7 +78,28 @@
      
     </ion-card-content>
   </ion-card>
-    
+    <ion-card>
+      <ion-card-header>
+        <h3 style="color:gold">Add Documents</h3>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-label color="gold">Title: </ion-label>
+            <ion-input [(ngModel)]="title"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label  color="gold">Expiry Date: </ion-label>
+            <ion-input value="{{ InsDte | date: 'dd-MMM-YYYY' }}" id="InsExpDte" color="purple"></ion-input>
+            <ion-modal trigger="InsExpDte" id="InsExpDteModal" [initialBreakpoint]="0.35" [breakpoints]="[0.25,0.35]">
+              <ng-template>
+                <ion-datetime id="InsExpDteInput" presentation="date" showDefaultButtons="true"  [preferWheel]="true" [(ngModel)]="InsDte" (ngModelChange)="InsDte" min="{{minDate}}" max="2099-10-31"></ion-datetime>
+              </ng-template>
+            </ion-modal>
+            <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>     
+          </ion-item>
+        </ion-card-content>
+        <ion-button (click)="uploadpic()"><ion-icon name="image-outline"></ion-icon></ion-button>
+    </ion-card>
   </div>
 </div>
 </ion-content>

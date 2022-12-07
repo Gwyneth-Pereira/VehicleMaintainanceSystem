@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DataSrvService, Setting } from '../data-srv.service';
+import { DataSrvService} from '../data-srv.service';
+import { Setting } from '../firebase.service';
 
 @Component({
   selector: 'app-setting',

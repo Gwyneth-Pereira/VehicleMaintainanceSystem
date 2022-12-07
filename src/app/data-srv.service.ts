@@ -6,6 +6,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 import { BehaviorSubject, from, Observable, of } from 'rxjs';
 import { filter, map,switchMap,take}from'rxjs/operators';
 import { Storage } from '@ionic/storage';
+
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 @Injectable({
@@ -18,16 +19,6 @@ export class DataSrvService {
   private storageBehaviour = new BehaviorSubject(false);
   index=0;//Index to guide the obd command array to the next point
   private data;
-  
-  public user: Observable<Users[]>;
-  private userCollection:AngularFirestoreCollection<Users>;
-  
-  public car: Observable<Car[]>;
-  private carCollection:AngularFirestoreCollection<Car>;
-
-  private SPFlag:Observable<boolean>;//LiveData Database
-  private SPFlagCollection:AngularFirestoreCollection<boolean>;
-
   private PushingInterval;
   private WritingInterval;
   private LiveDataArray;
@@ -41,68 +32,14 @@ export class DataSrvService {
   
 
 
-  constructor(private afs:AngularFirestore,private storage: Storage, private toastctrl:ToastController,private alert: AlertController, public bluetooth:BluetoothSerial, public afAuth:AngularFireAuth){
+  constructor(private storage: Storage, private toastctrl:ToastController,private alert: AlertController, public bluetooth:BluetoothSerial){
     this.TroubleCodes=[];
     this.recurring='0';
     this.LiveDataArray;
     this.ngOnInit();
 
-    this.userCollection=this.afs.collection<Users>('User');
-    this.user= this.userCollection.snapshotChanges().pipe
-    
-    (
-    map(actions=>{
-    return actions.map(a=>{
-    const data =a.payload.doc.data();
-    const id = a.payload.doc.id;
-    return{id,...data};
-    });
-    })
-    );
-
-    this.carCollection=this.afs.collection<Car>('Car');
-    this.car= this.carCollection.snapshotChanges().pipe
-    
-    (
-    map(actions=>{
-    return actions.map(a=>{
-    const data =a.payload.doc.data();
-    const id = a.payload.doc.id;
-    return{id,...data};
-    });
-    })
-    );
-
-   
   }
 
-getUsers():Observable<Users[]>{ return this.user;}
-
-getCars():Observable<Car[]>{  return this.car;  }
-
-getUser(id: string): Observable<Users>{
-  return this.userCollection.doc<Users>(id).valueChanges().pipe(
-  map(idea=>{
-  idea.userID=id;
-  return idea
-  })
-  );}
-
-loginUser(newEmail: string, newPassword: string): Promise<any> { return this.afAuth.signInWithEmailAndPassword(newEmail, newPassword);}
-
-resetPassword(email: string): Promise<void> {   return this.afAuth.sendPasswordResetEmail(email); }
-
-logoutUser(): Promise<void> { return this.afAuth.signOut();}
-
-signupUser(newEmail: string, newPassword: string): Promise<any>{  return this.afAuth.createUserWithEmailAndPassword(newEmail, newPassword); }
-
-addUser(idea:Users):Promise<DocumentReference>{ return this.userCollection.add(idea); }
-
-addCar(idea:Car):Promise<DocumentReference>{  return this.carCollection.add(idea);   }
-
-updateUser(idea:Users):Promise<void>{return this.userCollection.doc(idea.userID).update(idea);}
-
-deleteUser(id: string): Promise<void>{return this.userCollection.doc(id).delete();}
 
 async ngOnInit() {
   console.log('Init Storage');
@@ -271,33 +208,6 @@ dataReceived(data,mode)
    
      
 }
-FetchLiveData()
-  {
-     var self=this;
-     this.PushingInterval = setInterval(function () 
-      {
-       try{ 
-        for (let i = 0; i < self.LiveDataArray.length; i++) 
-        self.queue.push(self.LiveDataArray[i]); 
-      }catch{
-        self.presentToast("Error Pushing Command catch Block");
-        clearInterval(self.PushingInterval);
-      } 
-      }, 1000);
-     
-     this.WritingInterval = setInterval(function(){
-      if (self.OBD_Queue.length > 0)
-        try{
-            var cmd=self.OBD_Queue.shift();
-            self.InitiateOBD(cmd);
-          }catch(error){
-            self.presentToast("Error Writing Command catch Block");
-            clearInterval(self.WritingInterval);
-          }
-      
-    },1000);
-  
-    }
 
 async showError(Header,msg) {
   let  alert = await this.alert.create({
@@ -308,6 +218,16 @@ async showError(Header,msg) {
   await alert.present(); 
   }
 
+// popup message alert.
+async  presentToast(msg) {
+  let toast = await this.toastctrl.create({
+  message: msg,
+  duration: 2000,
+  position:"top"
+  })
+  toast.present();
+  }
+  
  public  handlerMessage = '';
  public roleMessage = '';
 // alert with choice to confirm delete or abort action.
@@ -337,36 +257,8 @@ async showError(Header,msg) {
     this.roleMessage = `Dismissed with role: ${role}`;
     }
 
-
-// popup message alert.
-async  presentToast(msg) {
-  let toast = await this.toastctrl.create({
-  message: msg,
-  duration: 2000,
-  position:"top"
-  })
-  toast.present();
-  }
-}
-export interface Users {
-  userID?: string;
-  Name: string;
-  phoneNum: number;
-  password: string;
-  img: string;
-  licenseExp: Date;
-  Car:Car[];
-  
 }
 
-export interface Setting{
-  ID?;
-  InspR:boolean;
-  InsuR:boolean;
-  OilR:boolean;
-  PairR:boolean;
-  dailyR:boolean;
-}
 
 export interface paired {
   "class": number,
@@ -376,25 +268,5 @@ export interface paired {
   
 }
 
-export interface LiveData{
-  "Code":string;
-  "Description":string;
-  "Value":string;
-}
-export interface Car{
-ID?:string;
-VIN?:string;
-make:string;
-model:string;
-year:number;
-numPlate:string;
-carimg:string;
-ownerID:number;
-ExpDte:Date;
-InsComp:string;
-InsPolicy:number;
-InsType:string;
-InsExp:Date;
-document:string[];
-userId:string;
-  }
+
+

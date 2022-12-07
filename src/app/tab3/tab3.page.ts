@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { ELocalNotificationTriggerUnit, LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
 import { AlertController, Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { ResultFunc } from 'rxjs/internal/observable/generate';
-import { Car, DataSrvService } from '../data-srv.service';
+import {  DataSrvService } from '../data-srv.service';
 import {add} from "date-fns";
+import { Car, FirebaseService } from '../firebase.service';
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
@@ -14,11 +14,15 @@ export class Tab3Page {
   private CarDetails: Observable<Car[]>;
   Sceduled;
 
-  constructor(private localNotifications: LocalNotifications,private DataSrv:DataSrvService,private plt:Platform,private alertCtrl:AlertController, ) 
+  constructor(private localNotifications: LocalNotifications,
+              private DataSrv:DataSrvService,
+              private plt:Platform,
+              private alertCtrl:AlertController,
+              private Firebase:FirebaseService ) 
   {
     
     
-    this.CarDetails=this.DataSrv.getCars();
+    this.CarDetails=this.Firebase.getCars();
     this.plt.ready().then(()=>{
       this.localNotifications.on('click').subscribe(res=>{
         console.log("click"+res);

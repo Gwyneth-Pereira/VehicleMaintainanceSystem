@@ -1,12 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
-import { AlertController, ToastController } from '@ionic/angular';
-import { ActionSheetController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { Car, DataSrvService, paired, Users } from '../data-srv.service';
+import {DataSrvService, paired } from '../data-srv.service';
 import { IonModal } from '@ionic/angular';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { Car, FirebaseService, Users } from '../firebase.service';
 
 @Component({
   selector: 'app-tab2',
@@ -28,7 +27,13 @@ export class Tab2Page {
   
 
 
-  constructor(private bluetooth:BluetoothSerial,private route: ActivatedRoute, private DataSrv:DataSrvService,public router:Router ,private permission:AndroidPermissions) {
+  constructor(
+    private bluetooth:BluetoothSerial,
+    private route: ActivatedRoute, 
+    private DataSrv:DataSrvService,
+    public router:Router ,
+    private permission:AndroidPermissions,
+    private Firebase: FirebaseService) {
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.UserID = this.router.getCurrentNavigation().extras.state.userID;
@@ -36,8 +41,9 @@ export class Tab2Page {
       }
     });
    
-    this.User=this.DataSrv.getUsers();
-    this.CAR=this.DataSrv.getCars();//no comment
+    this.User=this.Firebase.getUsers();
+    this.CAR=this.Firebase.getCars();
+    console.log("Before Sub; "+this.CAR);
   this.BluetoothFlag=this.DataSrv.BluetoothFlag;
   }
 

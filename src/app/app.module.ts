@@ -6,14 +6,14 @@ import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions
 import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFirestoreModule}from '@angular/fire/compat/firestore';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { initializeApp } from "firebase/app";
 import { LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { Drivers } from '@ionic/storage';
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBrxyWa5AdMkb_NQ7ThTD-mKm_grKCRTG0",
@@ -32,13 +32,11 @@ const firebaseConfig = {
   declarations: [AppComponent],
   imports: [BrowserModule,
      IonicModule.forRoot(),
-     IonicStorageModule.forRoot(
-      {
-       name: 'Cogear DB',
-       driverOrder:[CordovaSQLiteDriver._driver,Drivers.LocalStorage,Drivers.IndexedDB]
-      }
-     ),AngularFireModule.initializeApp(firebaseConfig),
-     AngularFirestoreModule,  AngularFireAuthModule,   
+     IonicStorageModule.forRoot({name: 'Cogear DB',driverOrder:[CordovaSQLiteDriver._driver,Drivers.LocalStorage,Drivers.IndexedDB]}),
+     AngularFireModule.initializeApp(firebaseConfig),
+     AngularFirestoreModule, 
+     AngularFireStorageModule,
+     AngularFireAuthModule,
      AppRoutingModule],
   providers: [AndroidPermissions,
               BluetoothSerial,
