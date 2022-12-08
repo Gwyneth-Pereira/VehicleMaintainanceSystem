@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { Car, FirebaseService, Users } from '../firebase.service';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page {
+export class Tab2Page  implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
   Devices:paired[];//For Adding Paired Devices
   UserID; 
@@ -24,9 +24,7 @@ export class Tab2Page {
   public User: Observable<Users[]>;//Details about the User will be stored in this variable
   slideOpts = { initialSlide: 0, speed: 400}; // the slide on the homepage
   private CAR: Observable<Car[]>;
-  
-
-
+  public cars:Car[];
   constructor(
     private bluetooth:BluetoothSerial,
     private route: ActivatedRoute, 
@@ -46,8 +44,13 @@ export class Tab2Page {
     console.log("Before Sub; "+this.CAR);
   this.BluetoothFlag=this.DataSrv.BluetoothFlag;
   }
-
- 
+  ngOnInit() {
+  //   this.CAR=this.Firebase.getCars();
+  //  //cut down the array of cars 
+  //  for(let x of this.CAR )
+  //  if (this.UserID==x.userId)
+  //  this.cars=x;
+  }
 
 
 

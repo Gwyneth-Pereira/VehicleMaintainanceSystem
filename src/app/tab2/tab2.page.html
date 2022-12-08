@@ -52,9 +52,9 @@
 
   
   <ion-slides pager="true" [options]="slideOpts"  >
-    <div *ngFor="let x of (CAR | async ) ">
-      <ion-slide *ngIf="UserID==x.userId" >
-      <ion-card   class="colour" class="ps-0 pe-0" style="height: 220px!important; width: 340px!important;" [routerLink]="'/carinfo/'+ x.numPlate" >
+    
+      <ion-slide *ngFor="let x of (CAR | async ) ">
+      <ion-card *ngIf="UserID==x.userId"  class="colour" class="ps-0 pe-0" style="height: 220px!important; width: 340px!important;" [routerLink]="'/carinfo/'+ x.numPlate" >
         <ion-card-header>
           <ion-card-title >{{x.make}} {{x.model}}</ion-card-title>
         </ion-card-header>
@@ -66,13 +66,7 @@
         </ion-card-content>
       </ion-card>
     </ion-slide>
-</div>
-
-
-
-
-
-    
+ 
     <ion-slide (click)="gonewCarInfo()">
       <ion-card style="height: 220px!important; width: 340px!important;">
         <ion-card-content class="d-flex flex-row justify-content-center my-5 py-5">
