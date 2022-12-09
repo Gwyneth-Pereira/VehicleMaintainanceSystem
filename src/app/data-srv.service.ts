@@ -8,6 +8,8 @@ import { filter, map,switchMap,take}from'rxjs/operators';
 import { Storage } from '@ionic/storage';
 
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +34,7 @@ export class DataSrvService {
   
 
 
-  constructor(private storage: Storage, private toastctrl:ToastController,private alert: AlertController, public bluetooth:BluetoothSerial){
+  constructor(private storage: Storage,private androidPermissions:AndroidPermissions, private toastctrl:ToastController,private alert: AlertController, public bluetooth:BluetoothSerial){
     this.TroubleCodes=[];
     this.recurring='0';
     this.LiveDataArray;
@@ -73,6 +75,17 @@ InitiateOBD(cmd)
   this.presentToast("Error Writing OBD-II Command");
   }
 }
+async getImage()
+{
+  const image =await Camera.getPhoto({
+    quality:90,
+    allowEditing: false,
+    resultType:CameraResultType.Uri,
+    source:CameraSource.Photos,
+  });
+  return image;
+}
+
 deviceConnected(mode)
 {
 this.bluetooth.subscribe('>').subscribe

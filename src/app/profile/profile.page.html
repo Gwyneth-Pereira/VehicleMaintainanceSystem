@@ -50,7 +50,7 @@
    </h3>
    <ion-list >
     <div   *ngFor="let x of (CAR | async )">
-    <ion-card  class=" mt-1 mb-2 pb-1 "  style="border-radius:15px !important;" *ngIf="uid==x.userId" [routerLink]="'/carinfo/'+ uid" >
+    <ion-card  class=" mt-1 mb-2 pb-1 "  style="border-radius:15px !important;" *ngIf="uid==x.userId" (click)="OpenCarInfo(x.numPlate)" >
        
        <ion-card-content class="pt-2 pb-2 m-1 d-flex justify-content-between">
         <ion-label  class="d-flex justify-content-start " >

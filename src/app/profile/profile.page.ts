@@ -46,7 +46,13 @@ private updatedUser:Users={}as Users;
    this.CAR=this.Firebase.getCars();
    this.route.params.subscribe(params => {  this.uid=params['uid'];  });
   }
-    
+  OpenCarInfo(value)
+  {
+    console.log("num plate: "+value);
+    let GoToCarInfo: NavigationExtras = { state: {CarID: value }   };
+    this.router.navigate(['carinfo'],GoToCarInfo);
+
+  }
  onLogOut()
     {
      this.Firebase.logoutUser().then( sucess=> 

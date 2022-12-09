@@ -10,86 +10,129 @@
   
   <div *ngFor="let x of (CAR | async )"> 
     <div *ngIf="uid==x.numPlate"> 
-      <!-- -->
-
- 
-  <ion-card >
-    <ion-card-header>
-       <ion-card-title >  {{x.make}} {{x.model}} {{x.year}}</ion-card-title>
-      <div class="d-flex justify-content-center mt-2 pt-2 " (click)="changeImage(x.numPlate)"> 
-        
+     <ion-card>
+        <ion-card-header>
+        <ion-card-title >  {{x.make}} {{x.model}} {{x.year}}</ion-card-title>
+        <div class="d-flex justify-content-center mt-2 pt-2 " (click)="changeImage(x.numPlate)"> 
           <img *ngIf="x?.carimg; else placeholder;" src={{x.carimg}}  class="w-75 "/>
           <ng-template #placeholder>
-           <img src="assets/images/car.png"  class="w-75 "/>
+          <img src="assets/images/car.png"  class="w-75 "/>
           </ng-template>
-       
-      </div>
-    </ion-card-header>
-  
-    <ion-card-content>
-      <ion-list >
-        <ion-item lines="none" >
-        <ion-label color="medium">Plate Number: </ion-label>  
-        <ion-label >{{x.numPlate}} </ion-label>
-        </ion-item>
-     </ion-list>  
-      
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header>
-      <h3 > Insurance Details</h3>
-       </ion-card-header>
-  
-    <ion-card-content>
-      <ion-list>
-          <ion-item lines="none" >
-          <ion-label color="medium">Company: </ion-label>  
-          <ion-label >:{{x.InsComp}} </ion-label>
-        </ion-item>
-        <ion-item lines="none" >
-          <ion-label color="medium">Policy No: </ion-label>  
-          <ion-label >:{{x.InsPolicy}} </ion-label>
-        </ion-item>
-        <ion-item lines="none" >
-          <ion-label color="medium">Cover Type: </ion-label>  
-          <ion-label >:{{x.InsType}} </ion-label>
-        </ion-item>
-        <ion-item lines="none" >
-          <ion-label color="medium">Expiry Date: </ion-label>  
-          <ion-label >:{{x.InsExp}} </ion-label>
-        </ion-item>
-      </ion-list>
-   </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header>
-      <h3 >Ownership Details</h3>
-      </ion-card-header>
-  
-    <ion-card-content>
-      <ion-list>
-      <ion-item lines="none" >
-        <ion-label color="medium">Owner ID: </ion-label>  
-        <ion-label >:{{x.ownerID}} </ion-label>
-      
-      </ion-item>
-      <ion-item lines="none" >
-        <ion-label color="medium">Yearly Inspection: </ion-label>  
-        <ion-label >:{{x.ExpDte}} </ion-label>
-      
-      </ion-item>
-   </ion-list> 
-     
-    </ion-card-content>
-  </ion-card>
-    <ion-card>
-      <ion-card-header>
-        <h3 >Add Documents</h3>
+        </div>
         </ion-card-header>
         <ion-card-content>
+          <ion-list >
+          <ion-item lines="none" >
+            <ion-label color="medium">Plate Number: </ion-label>  
+            <ion-label >{{x.numPlate}} </ion-label>
+          </ion-item>
+          </ion-list>  
+        </ion-card-content>
+      </ion-card>
+     <ion-card>
+      <ion-card-header>
+        <h3 > Insurance Details</h3>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item lines="none" >
+            <ion-label color="medium">Company: </ion-label>  
+            <ion-label >:{{x.InsComp}} </ion-label>
+          </ion-item>
+          <ion-item lines="none" >
+            <ion-label color="medium">Policy No: </ion-label>  
+            <ion-label >:{{x.InsPolicy}} </ion-label>
+          </ion-item>
+          <ion-item lines="none" >
+            <ion-label color="medium">Cover Type: </ion-label>  
+            <ion-label >:{{x.InsType}} </ion-label>
+          </ion-item>
+          <ion-item lines="none" >
+            <ion-label color="medium">Expiry Date: </ion-label>  
+            <ion-label >:{{x.InsExp}} </ion-label>
+          </ion-item>
+       </ion-list>
+      </ion-card-content>
+     </ion-card>
+     <ion-card>
+      <ion-card-header>
+        <h3 >Ownership Details</h3>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item lines="none" >
+            <ion-label color="medium">Owner ID: </ion-label>  
+            <ion-label >:{{x.ownerID}} </ion-label>
+          </ion-item>
+          <ion-item lines="none" >
+            <ion-label color="medium">Yearly Inspection: </ion-label>  
+            <ion-label >:{{x.ExpDte}} </ion-label>
+          </ion-item>
+        </ion-list> 
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-card>
+      <ion-card-header>
+       
+        <ion-card-title>Documents</ion-card-title>
+        
+        <ion-button id="open-modal" color="sky" ><ion-icon slot="icon-only" name="add-circle-outline"></ion-icon></ion-button>
+        <ion-modal trigger="open-modal"  color="sky" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5]">
+          <ng-template>
+            <ion-header>
+              <ion-toolbar>
+                <ion-buttons slot="start">
+                  <ion-button (click)="cancel()">Cancel</ion-button>
+                </ion-buttons>
+                <ion-title>Add Document</ion-title>
+                
+              </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+            <ion-card>
+             <ion-card-content>
+                <ion-item fill="solid">
+                  <ion-label position="stacked">Title: </ion-label>
+                  <ion-input type="text"[(ngModel)]="Document.Title"  placeholder="Your Title"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="stacked">Select Image: </ion-label>
+                  <ion-input type="text" value="{{this.Document.Img}}" [readonly]="true" placeholder="Please Select"  (click)="AddImage()"></ion-input>
+                </ion-item>
+                <ion-row>
+                  <ion-col size="12" class="ion-text-center">
+                    <ion-button (click)="Submit()" color="sky" class="p-2 m-2" style="height:60px; width:120px;">Upload</ion-button>
+      
+                  </ion-col>
+                </ion-row>
+                
+              </ion-card-content>
+              </ion-card>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+        </ion-card-header>
+      <ion-card-content *ngFor="let y of x.document">
+          <ion-label>{{y.Title}}</ion-label>
+          <div class="d-flex justify-content-center mt-2 pt-2 " > 
+            <img *ngIf="y?.Img; else placeholder;" src={{y.Img}}  class="w-75 "/>
+            <ng-template #placeholder>
+            <img src="assets/images/car.png"  class="w-75 "/>
+            </ng-template>
+          </div>
+    </ion-card-content>
+        
+    </ion-card>
+    
+  </div>
+</div>
+ 
+
+
+</ion-content>
+<!--
+  <ion-card-content>
           <ion-item>
             <ion-label >Title: </ion-label>
             <ion-input [(ngModel)]="title"></ion-input>
@@ -105,8 +148,6 @@
             <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>     
           </ion-item>
         </ion-card-content>
-        <ion-button class="d-flex justify-content-center" color="sky" (click)="uploadpic()"><ion-icon name="image-outline"></ion-icon></ion-button>
-    </ion-card>
-  </div>
-</div>
-</ion-content>
+               
+
+-->

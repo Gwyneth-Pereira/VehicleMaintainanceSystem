@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Document</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-item>
+  <ion-label>Title: </ion-label>
+  <ion-input type="text"[(ngModel)]="Document.Title"  ></ion-input>
+</ion-item>
+<ion-item (click)="AddImage()">
+  <ion-label>Select Image: </ion-label>
+  <ion-input type="text" value="{{this.Document.Img}}" ></ion-input>
+</ion-item>
+<ion-button (click)="Submit()">Submit</ion-button>
+</ion-content>

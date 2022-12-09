@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DataSrvService } from './data-srv.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class FirebaseService {
 
   private SPFlag:Observable<boolean>;//LiveData Database
   private SPFlagCollection:AngularFirestoreCollection<boolean>;
-  constructor(private storage:AngularFireStorage,private DataSrv:DataSrvService ,private afs:AngularFirestore,public FireAuth:AngularFireAuth) 
+  constructor(private storage:AngularFireStorage,private androidPermissions:AndroidPermissions,private DataSrv:DataSrvService ,private afs:AngularFirestore,public FireAuth:AngularFireAuth) 
   { 
     
     this.userCollection=this.afs.collection<Users>('User');
@@ -54,8 +55,15 @@ export class FirebaseService {
   }
   getUsers():Observable<Users[]>{ return this.user;}
 
-  getCars():Observable<Car[]>{  return this.car;  }
-  
+  getCars():Observable<Car[]>
+  {  return this.car;  }
+  getCar(id: string): Observable<Car>{
+    return this.carCollection.doc<Car>(id).valueChanges().pipe(
+    map(idea=>{
+    idea.userId=id;
+    return idea
+    })
+    );}
   getUser(id: string): Observable<Users>{
     return this.userCollection.doc<Users>(id).valueChanges().pipe(
     map(idea=>{
@@ -116,50 +124,27 @@ export class FirebaseService {
 
   deleteUser(id: string): Promise<void>{return this.userCollection.doc(id).delete();}
   
-
-  
-  async uploadImage(ID, cameraFile:Photo, name:string)
+  async uploadImage(image:Photo,Path:string)
   {
-    this.AllCars=this.getCars();
-    const path ='Documents/'+ID+'/'+name+'.'+cameraFile.format;
-    const storageRef=this.storage.ref(path);
-
-    try{
-      await this.storage.upload(path,cameraFile);
+    const response=await fetch(image.webPath);
+    const blob=await response.blob();
+     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA).then(
+      async result => 
+      { 
+      const path =Path+image.format;
+      const storageRef=this.storage.ref(path);
+      try{
+      await this.storage.upload(path,blob);
       const imageURL=await storageRef.getDownloadURL();
-     // console.log("Before Sub; "+(this.AllCars));
-      /**this.AllCars.subscribe((result)=>
-        {
-          console.log("in sub: "+result);
-          for(let i =0;i<result.length;i++)
-          {
-            if(result[i].userId==ID)
-            {
-              console.log("Found One: "+result[i]);
-              this.updatedCar=result[i];
-              console.log("Found Array: "+this.updatedCar.InsPolicy);
-              console.log("Found loc: "+this.updatedCar.ID);
-            }
-          }
-        })
-        this.updatedCar.document.push(imageURL);
-        
-        this.updateCar(this.updatedCar).then(succ=>{
-          this.DataSrv.presentToast('File Uploaded Successfully');
-          return true;
-        },errir=>{
-          return null;
-        })
-       */
-      
-
+      return imageURL;
     }catch(e){
-      console.log(e)
       this.DataSrv.showError("Error",e);
       return null
-    }
-
+    }},err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA));
+    return null;
   }
+  
+  
 }
 export interface Users {
 ID?:string;

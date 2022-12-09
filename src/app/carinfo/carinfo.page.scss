@@ -2,3 +2,17 @@ ion-item {
     --background: none!important;
     opacity:1;
   }
+.wide-modal{
+    
+    &::part(content)
+    {
+        width:75%;
+        height:60%;
+        margin:auto;
+        border-radius: 10px;
+        backdrop-filter: blur(12px);
+        
+    }
+    
+   
+}

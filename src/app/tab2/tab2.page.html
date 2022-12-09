@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <div *ngFor="let x of (User | async ) ">
-  <ion-toolbar   class="me-1 pe-1" *ngIf="UserID==x?.userID && UserID?.length!=null; else guestlogin;" >
+  <ion-toolbar   class="me-1 pe-1" *ngIf="UserID==x?.userID; else guestlogin;" >
     
     <ion-title  class="ion-text-start" >Hello {{x.Name}}, </ion-title>   
     <ion-avatar slot="end"  style="height: 36px; width: 36px;"  [routerLink]="'/profile/'+ UserID" >
@@ -53,8 +53,8 @@
   
   <ion-slides pager="true" [options]="slideOpts"  >
     
-      <ion-slide *ngFor="let x of (CAR | async ) ">
-      <ion-card *ngIf="UserID==x.userId"  class="colour" class="ps-0 pe-0" style="height: 220px!important; width: 340px!important;" [routerLink]="'/carinfo/'+ x.numPlate" >
+      <ion-slide *ngFor="let x of (Cars|async) ">
+      <ion-card class="colour" class="ps-0 pe-0" style="height: 220px!important; width: 340px!important;" (click)="OpenCarInfo(x.numPlate)">
         <ion-card-header>
           <ion-card-title >{{x.make}} {{x.model}}</ion-card-title>
         </ion-card-header>

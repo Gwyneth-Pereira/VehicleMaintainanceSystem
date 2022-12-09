@@ -15,7 +15,7 @@ import { Car, FirebaseService, Users } from '../firebase.service';
 export class Tab2Page  implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
   Devices:paired[];//For Adding Paired Devices
-  UserID; 
+  UserID=null; 
   intervalID;
  // SupportedOBD;
   BluetoothFlag:boolean;//Bluetooth Flag to Change Buttons
@@ -23,7 +23,8 @@ export class Tab2Page  implements OnInit {
   //isModalOpen:boolean=false;//Variable to open and close the modal page
   public User: Observable<Users[]>;//Details about the User will be stored in this variable
   slideOpts = { initialSlide: 0, speed: 400}; // the slide on the homepage
-  private CAR: Observable<Car[]>;
+  private Cars: Observable<Car[]>;
+  private nCAR: Observable<Car[]>;
   public cars:Car[];
   constructor(
     private bluetooth:BluetoothSerial,
@@ -40,18 +41,53 @@ export class Tab2Page  implements OnInit {
     });
    
     this.User=this.Firebase.getUsers();
-    this.CAR=this.Firebase.getCars();
-    console.log("Before Sub; "+this.CAR);
-  this.BluetoothFlag=this.DataSrv.BluetoothFlag;
+    this.BluetoothFlag=this.DataSrv.BluetoothFlag;
   }
   ngOnInit() {
-  //   this.CAR=this.Firebase.getCars();
+    this.Cars=this.Firebase.getCars();
+    if(this.UserID==null)
+    {
+      this.router.navigate(['login']);
+    }
+   
+   /*
+    if(this.UserID==null)
+    {
+      this.router.navigate(['login']);
+    }else
+    {
+      
+    }
+    
+    this.nCAR=this.Firebase.getCars();
+    this.nCAR.subscribe(res=>
+      {
+        for(let i=0;i<res.length;i++)
+        {
+          if(this.UserID==res[i].userId)
+          {
+            this.cars.push(res[i]);
+            console.log("in res:"+res[i]);
+            
+          }
+          
+        }
+        
+      });
+      console.log("data:"+this.cars); */
+
   //  //cut down the array of cars 
   //  for(let x of this.CAR )
   //  if (this.UserID==x.userId)
   //  this.cars=x;
   }
+  OpenCarInfo(value)
+  {
+    console.log("num plate: "+value);
+    let GoToCarInfo: NavigationExtras = { state: {CarID: value }   };
+    this.router.navigate(['carinfo'],GoToCarInfo);
 
+  }
 
 
 Pair()
