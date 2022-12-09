@@ -2,7 +2,7 @@
   <div *ngFor="let x of (User | async ) ">
   <ion-toolbar   class="me-1 pe-1" *ngIf="UserID==x?.userID; else guestlogin;" >
     
-    <ion-title  class="ion-text-start" >Hello {{x.Name}}, </ion-title>   
+    <ion-title class="m-2 d-flex justify-content-start ion-text-start" >Hello {{x.Name}}, </ion-title>   
     <ion-avatar slot="end"  style="height: 36px; width: 36px;"  [routerLink]="'/profile/'+ UserID" >
       <img *ngIf="x?.img; else placeholder;" src={{x.img}}  />
       <ng-template #placeholder>
