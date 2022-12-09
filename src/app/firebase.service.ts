@@ -12,7 +12,7 @@ import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions
   providedIn: 'root'
 })
 export class FirebaseService {
-  private updatedCar:Car={ID:'',VIN:'',make:'',model:'',year:null,numPlate:'',carimg:'',ownerID:null,ExpDte:null,InsComp:'',InsPolicy:null, InsType:'',InsExp:null,document:[],userId:''};
+  private updatedCar:Car={ID:'',VIN:'',make:'',model:'',year:null,numPlate:'',carimg:'',ownerID:null,ExpDte:null,InsComp:'',InsPolicy:null, InsType:'',InsExp:null,document:[],userId:'',blue:'danger'};
   private AllCars:Observable<Car[]>;
   public user: Observable<Users[]>;
   private userCollection:AngularFirestoreCollection<Users>;
@@ -20,13 +20,26 @@ export class FirebaseService {
   public car: Observable<Car[]>;
   private carCollection:AngularFirestoreCollection<Car>;
 
-  private SPFlag:Observable<boolean>;//LiveData Database
-  private SPFlagCollection:AngularFirestoreCollection<boolean>;
+  private SPFlag:Observable<LiveData[]>;//LiveData Database
+  private SPFlagCollection:AngularFirestoreCollection<LiveData>;
   constructor(private storage:AngularFireStorage,private androidPermissions:AndroidPermissions,private DataSrv:DataSrvService ,private afs:AngularFirestore,public FireAuth:AngularFireAuth) 
   { 
     
+    
     this.userCollection=this.afs.collection<Users>('User');
     this.user= this.userCollection.snapshotChanges().pipe
+    
+    (
+    map(actions=>{
+    return actions.map(a=>{
+    const data =a.payload.doc.data();
+    const id = a.payload.doc.id;
+    return{id,...data};
+    });
+    })
+    );
+    this.SPFlagCollection=this.afs.collection<LiveData>('LiveData');
+    this.SPFlag= this.SPFlagCollection.snapshotChanges().pipe
     
     (
     map(actions=>{
@@ -54,6 +67,7 @@ export class FirebaseService {
    
   }
   getUsers():Observable<Users[]>{ return this.user;}
+  getLiveData():Observable<LiveData[]>{ return this.SPFlag;}
 
   getCars():Observable<Car[]>
   {  return this.car;  }
@@ -181,10 +195,11 @@ InsType:string;
 InsExp:Date;
 document:any[];
 userId:string;
+blue:string;
 }
 
 export interface LiveData{
 Code:string;
 Description:string;
-Value:string;
+Value:boolean;
 }

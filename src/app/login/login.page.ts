@@ -34,12 +34,13 @@ export class LoginPage implements OnInit {
     }
 
     async onSubmit() {
-      const loading=await this.loading.create();
-      await loading.present();
+      
       if(!this.form.valid) {
         this.form.markAllAsTouched();
         return;
       }
+      const loading=await this.loading.create();
+      await loading.present();
       this.Firebase.loginUser(this.form.value.email,this.form.value.password).then(
         succ=>{
           this.dataSrv.presentToast("You have logged in sucessfully!!");

@@ -21,7 +21,7 @@ export class AddnewcarPage implements OnInit {
   private IDte:any[];
   private minDate= new Date().toISOString();
   private newCar:Car={ID:'',VIN:'',make:'',model:'',year:null,numPlate:'',carimg:'',ownerID:null,ExpDte:null,InsComp:'',InsPolicy:null, InsType:'',InsExp:null,
-    document:[],userId:''};
+    document:[],userId:'',blue:'Dark'};
     getValue;
   form: FormGroup;
     constructor(

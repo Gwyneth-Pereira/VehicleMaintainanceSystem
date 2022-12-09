@@ -51,9 +51,10 @@
     "loader-utils": "^3.2.1",
     "localforage": "^1.10.0",
     "localforage-cordovasqlitedriver": "^1.8.0",
+    "modal-service": "^1.0.1",
     "npm": "^9.1.1",
     "rxjs": "~6.6.0",
-    "swiper": "^8.4.4",
+    "swiper": "^8.4.5",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
   },

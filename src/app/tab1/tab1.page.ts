@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
+import { Observable } from '@firebase/util';
 import { DataSrvService } from '../data-srv.service';
 
 @Component({
@@ -8,12 +9,16 @@ import { DataSrvService } from '../data-srv.service';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit {
   private selectedSegment: string ='Sensor';
-  TroubleCodes:string[];
+  Codes:Observable<string[]>;
+  
   Sped;
   constructor(public bluetooth:BluetoothSerial, public router:Router,public DataSrv:DataSrvService) {
-    this.TroubleCodes=[];
+   
+  }
+  ngOnInit()
+   {
   }
 
   segmentChanged(event : any){
@@ -27,8 +32,8 @@ export class Tab1Page {
       {
         this.bluetooth.isConnected().then(rsp=>
           {
-            this.DataSrv.deviceConnected('03');
-            this.TroubleCodes=this.DataSrv.TroubleCodes;
+            this.DataSrv.deviceConnected('03','00');
+           
           }
           ,er=>
           {

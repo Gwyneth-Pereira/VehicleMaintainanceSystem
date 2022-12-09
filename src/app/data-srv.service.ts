@@ -24,11 +24,13 @@ export class DataSrvService {
   private PushingInterval;
   private WritingInterval;
   private LiveDataArray;
+ public VehicleIDError={ID:'',Msg:''};
   private OBD_Queue:string[];
   
   BluetoothFlag: boolean=true;
   SupportedFlag: boolean=false;
   isModalOpen:boolean=false;//Variable to open and close the modal page
+  public TroubleCodes$:Observable<string[]>;
   TroubleCodes:string[];
   recurring: string;
   
@@ -51,18 +53,22 @@ async ngOnInit() {
    console.log(' Storage Created');
   
 }
+getTroubleCodes()
+{
+  return this.TroubleCodes$.toPromise();
+}
 async setValue(key: string, value: any) {
   return this.storage.set(key, value);
 }
-getValues(key) {
+  getValues(key) {
   console.log('Get Values Called');
   return this.storageBehaviour.pipe(
     filter(ready=>ready),
-    switchMap(_=>{
+    switchMap( _=>{
       console.log('Green Light');
-      return from(this.storage.get(key)) || of([]);
+      return  from(this.storage.get(key)) || of([]);
     })
-  )
+  ).toPromise();
   
   
 }
@@ -86,11 +92,12 @@ async getImage()
   return image;
 }
 
-deviceConnected(mode)
+deviceConnected(mode, VIN)
 {
+
 this.bluetooth.subscribe('>').subscribe
 (success=>{
-this.dataReceived(success,mode);
+this.dataReceived(success,mode,VIN);
 }, error => {
   this.showError("Error During Receivng Data",error);
   this.Disconnect();
@@ -104,19 +111,21 @@ if(this.recurring=='1')
   {
   console.log("//Fetch Live Data");
   }
+  
 }
 Disconnect()
 {
+  //={ID:'',Msg:''};
+  //this.VehicleIDError=null;
   this.BluetoothFlag=true;
   this.index=0;
   this.SupportedFlag=false;
   this.isModalOpen=false;
   this.bluetooth.disconnect();
-  this.presentToast("Bluetooth Disconnected");
 }
 
 
-dataReceived(data,mode)
+dataReceived(data,mode,VIN)
 {
   var cmd, totalcmds, SingleString;
   cmd=data.toString('utf8');
@@ -132,18 +141,26 @@ dataReceived(data,mode)
       if(multipleRes[0]==='0902')
       {
         if(multipleRes[3]==='NO DATA')//If the Car Desnt Support Mode 9
-          this.showError("Alert","This Car Does not Support Mode 09(Vehicle Identification Number). Hence No Data will be Saved to Cloud")
-        else if(multipleRes)//if the VIN from the car (that we get from firebase) has a default value.
         {
-          //this is the first time pairing with the car
-          //Save the VIN into the database
+          this.VehicleIDError={ID:'NO DATA',Msg:"Your Car Doesn't have a Vehicle ID.<br>No Data will be Saved to Firebase"};
+          
         }
-        else//If the VIN from the car (that we get from firebase) does not match the VIN from the OBD Scan
+        else if(VIN === undefined || VIN === null)//if the VIN from the car (that we get from firebase) has a default value.
         {
-          this.showError("Error", "Please Connect with the correct Car to Save your Data");
-          this.Disconnect();
+          this.VehicleIDError={ID:multipleRes[3],Msg:"First Time Pairing.<br> Linking VID with Car"};
+
+        }
+        else if(VIN===multipleRes[3])//If the VIN from the car (that we get from firebase) does not match the VIN from the OBD Scan
+        {
+          this.VehicleIDError={ID:multipleRes[3],Msg:"Linking Successfull"};
+
+          
+        }else
+        {
+          this.VehicleIDError={ID:multipleRes[3],Msg:"Please Connect with the correct Car to Save your Data"};
           
         }  
+        this.setValue('VID',this.VehicleIDError);
       }
       if(multipleRes[0]==='03')
       {
@@ -198,8 +215,10 @@ dataReceived(data,mode)
             }
               
               
-            }          
-            
+            }  
+            for(let q=0;q<this.TroubleCodes.length;q++)
+            this.TroubleCodes$=of[this.TroubleCodes[q]]        
+           // this.TCode=this.fetchModel(this.TroubleCodes);
     
             }else{
               //console.log("no codes found");
@@ -221,6 +240,7 @@ dataReceived(data,mode)
    
      
 }
+
 
 async showError(Header,msg) {
   let  alert = await this.alert.create({

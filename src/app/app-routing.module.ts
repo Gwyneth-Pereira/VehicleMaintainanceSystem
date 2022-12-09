@@ -46,13 +46,6 @@ const routes: Routes = [
   {
     path: 'forgot-password',
     loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
-  },
-  {
-    path: 'loader',
-    loadChildren: () => import('./loader/loader.module').then( m => m.LoaderPageModule)
-  },  {
-    path: 'add-doc',
-    loadChildren: () => import('./add-doc/add-doc.module').then( m => m.AddDocPageModule)
   }
 
 

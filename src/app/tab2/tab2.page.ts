@@ -3,9 +3,11 @@ import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions
 import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 import { Observable } from 'rxjs';
 import {DataSrvService, paired } from '../data-srv.service';
-import { IonModal } from '@ionic/angular';
+import { IonModal, IonSlide, LoadingController } from '@ionic/angular';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Car, FirebaseService, Users } from '../firebase.service';
+import { IonSlides } from '@ionic/angular';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tab2',
@@ -14,24 +16,29 @@ import { Car, FirebaseService, Users } from '../firebase.service';
 })
 export class Tab2Page  implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
+  @ViewChild(IonSlides) slides: IonSlides;
   Devices:paired[];//For Adding Paired Devices
   UserID=null; 
+  SlideIndex=0;
   intervalID;
  // SupportedOBD;
   BluetoothFlag:boolean;//Bluetooth Flag to Change Buttons
   SupportedFlag:Observable<boolean>;//Supported Flag to Open up Live Data
   //isModalOpen:boolean=false;//Variable to open and close the modal page
   public User: Observable<Users[]>;//Details about the User will be stored in this variable
-  slideOpts = { initialSlide: 0, speed: 400}; // the slide on the homepage
+  slideOpts = { initialSlide: 0, speed: 400, onlyExternal: false}; // the slide on the homepage
   private Cars: Observable<Car[]>;
-  private nCAR: Observable<Car[]>;
+  private UpdatedCar:Car={}as Car;
   public cars:Car[];
+  private VIDError={ID:'',Msg:''};
   constructor(
     private bluetooth:BluetoothSerial,
     private route: ActivatedRoute, 
     private DataSrv:DataSrvService,
     public router:Router ,
+    
     private permission:AndroidPermissions,
+    private loading:LoadingController,
     private Firebase: FirebaseService) {
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -45,11 +52,17 @@ export class Tab2Page  implements OnInit {
   }
   ngOnInit() {
     this.Cars=this.Firebase.getCars();
+    this.Cars.pipe(take(1)).subscribe(async res=>{
+      console.log('Slide Index: '+this.SlideIndex);
+      this.UpdatedCar= res[this.SlideIndex];
+     
+        },error=>{  console.log("Error Subscribing to Car Observable during slidechange ");  this.DataSrv.showError('Error',error)});
+    
     if(this.UserID==null)
     {
       this.router.navigate(['login']);
     }
-   
+  
    /*
     if(this.UserID==null)
     {
@@ -92,9 +105,11 @@ export class Tab2Page  implements OnInit {
 
 Pair()
 {
+  console.log("Pair Button Clicked");
+  this.modal.present();
   //need someway to know which slide the user has selected.
   //get the car "ID" of that car so that later when we are saving the "VIN" we have an index. 
-  this.DataSrv.isModalOpen=true;
+ 
   //this.isModalOpen=this.DataSrv.isModalOpen;
   this.bluetooth.isEnabled().then(
   res=>{
@@ -125,42 +140,71 @@ gonewCarInfo()
   error => {this.DataSrv.showError("Error",error);}); 
 
 }
+slideChange(e)
+{
+ this.slides.getActiveIndex().then(index=>{  this.SlideIndex=index; });
+ this.Cars.pipe(take(1)).subscribe(async res=>{
+  console.log('Slide Index: '+this.SlideIndex);
+  this.UpdatedCar= res[this.SlideIndex];
  
-connect(dvc)
+    },error=>{  console.log("Error Subscribing to Car Observable during slidechange ");  this.DataSrv.showError('Error',error)});
+
+}
+ChangeSlideStatus(lock:boolean)
+{
+  this.slides.lockSwipes(lock);
+
+}
+async connect(dvc)
 {
 if(dvc.address=="")
 this.DataSrv.showError("Alert","No Address Found. Please Try Again");
 else{
-this.bluetooth.connect(dvc.address).subscribe(success=>
-{
-this.DataSrv.presentToast("Connected Successfully");
-this.DataSrv.BluetoothFlag=false;
-this.BluetoothFlag=this.DataSrv.BluetoothFlag;
-this.DataSrv.deviceConnected('00'); 
-this.modal.dismiss();
-this.BluetoothFlag=this.DataSrv.BluetoothFlag;
-//this.SupportedFlag=this.DataSrv.SupportedFlag;
-//this.isModalOpen=this.DataSrv.isModalOpen;
-//this.router.navigate(['tabs/tab1']);
-
-
-
-},error=>{
-  this.DataSrv.showError("Connection Timed Out",error);
-
-
-})
-
-}
-}
-
-diconnect()
-{
-  this.BluetoothFlag=true;
-  //this.SupportedFlag=false;
-  //this.isModalOpen=false;
-  this.DataSrv.Disconnect();
   
+  const load3=await this.loading.create();
+  await load3.present();
+  this.ChangeSlideStatus(true);
+  this.bluetooth.connect(dvc.address).subscribe(async success=>
+    {
+    this.BluetoothFlag=false;
+    console.log("VIN "+this.UpdatedCar.VIN);
+    this.DataSrv.deviceConnected('00',this.UpdatedCar.VIN); 
+    this.UpdateCar('success');
+    this.cancel();
+    this.DataSrv.presentToast("Connected Successfully");
+    this.DataSrv.getValues('VID').then(re=>{this.DataSrv.showError(re.ID,re.Msg)})
+  
+    
+    },error=>{this.DataSrv.showError("Connection Timed Out",error);});
+  load3.dismiss();   
+}
+//this.DataSrv.showError("Alert",");
+}
+UpdateCar(color:string)
+{
+  console.log(this.UpdatedCar);
+  this.UpdatedCar.blue=color;
+  this.Firebase.updateCar(this.UpdatedCar).then(r=>
+     {console.log("Updated Car Color to "+color);},
+  e=>{ console.log("Error Updating Car Color to "+color); this.DataSrv.showError('Error',e)})
+  
+
+}
+cancel()
+{
+  this.modal.dismiss(null, 'cancel');
+}
+async diconnect()
+{ const load4=await this.loading.create();
+  await load4.present();
+  this.ChangeSlideStatus(false);
+  this.BluetoothFlag=true;
+  this.DataSrv.Disconnect();
+  this.UpdateCar('Dark');
+  
+  this.DataSrv.presentToast("Bluetooth Disconnected");
+
+  await load4.dismiss();
 }
 
 
