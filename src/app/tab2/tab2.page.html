@@ -51,7 +51,7 @@
 
 
   
-  <ion-slides pager="true" [options]="slideOpts" (ionDrag)="onIonDrag($event)"  (ionSlideDidChange)="slideChange()">
+  <ion-slides pager="true" [options]="slideOpts"  (ionSlideDidChange)="slideChange()">
     
       <ion-slide *ngFor="let x of (Cars|async) ">
       <ion-card class="colour" class="ps-0 pe-0" style="height: 220px!important; width: 340px!important;" (click)="OpenCarInfo(x.numPlate)">

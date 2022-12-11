@@ -30,6 +30,7 @@ export class Tab2Page  implements OnInit {
   private Cars: Observable<Car[]>;
   private UpdatedCar:Car={}as Car;
   public cars:Car[];
+  private C: Observable<Car[]>;
   private VIDError={ID:'',Msg:''};
   constructor(
     private bluetooth:BluetoothSerial,
@@ -46,13 +47,14 @@ export class Tab2Page  implements OnInit {
   }
   async ngOnInit() {
     this.Cars=this.Firebase.getCars();
+    
     this.Cars.pipe(take(1)).subscribe(async res=>{
       console.log('Slide Index: '+this.SlideIndex);
       this.UpdatedCar= res[this.SlideIndex];
      
         },error=>{  console.log("Error Subscribing to Car Observable during slidechange ");  this.DataSrv.showError('Error',error)});
     this.UserID= await this.DataSrv.GetVariable('userID');
-    
+    //this.C=this.Firebase.get_specific_user_cars(this.UserID);
   
    /*
     if(this.UserID==null)

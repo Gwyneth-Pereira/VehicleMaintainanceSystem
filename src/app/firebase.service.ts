@@ -13,6 +13,7 @@ import { AlertController } from '@ionic/angular';
   providedIn: 'root'
 })
 export class FirebaseService {
+  private updatedCar:Car[]={}as Car[];
   
   public user: Observable<Users[]>;
   private userCollection:AngularFirestoreCollection<Users>;
@@ -80,6 +81,20 @@ export class FirebaseService {
     return idea
     })
     );}
+  //  get_specific_user_cars(uid :string): Observable<Car[]>{
+   
+  //   return this.carCollection.doc<Car[]>().valueChanges().pipe(
+  //   map(idea=>{
+  //  idea.forEach(element => { 
+  //   if(element.userId==uid)
+  //       this.updatedCar.push(element);
+  //     });
+  //     return Observable(this.updatedCar);
+  //   })
+    
+  //   );
+  // return;}
+
   getUser(id: string): Observable<Users>{
     return this.userCollection.doc<Users>(id).valueChanges().pipe(
     map(idea=>{
