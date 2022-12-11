@@ -42,7 +42,7 @@ export class Tab1Page implements OnInit {
           }
           ,er=>
           {
-            this.router.navigate(['tabs/tab2']);
+            this.router.navigate(['tab/tabs/tab2']);
             this.DataSrv.presentToast("Connection Timed Out! Please Pair Again")
 
           })
@@ -52,7 +52,7 @@ export class Tab1Page implements OnInit {
       ,error=>
       {
         this.bluetooth.enable();
-        this.router.navigate(['tabs/tab2']);
+        this.router.navigate(['tab/tabs/tab2']);
       })
    
   }
