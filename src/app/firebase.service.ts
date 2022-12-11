@@ -7,13 +7,13 @@ import { map } from 'rxjs/operators';
 import { DataSrvService } from './data-srv.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
+import { AlertController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
-  private updatedCar:Car={ID:'',VIN:'',make:'',model:'',year:null,numPlate:'',carimg:'',ownerID:null,ExpDte:null,InsComp:'',InsPolicy:null, InsType:'',InsExp:null,document:[],userId:'',blue:'danger'};
-  private AllCars:Observable<Car[]>;
+  
   public user: Observable<Users[]>;
   private userCollection:AngularFirestoreCollection<Users>;
   
@@ -22,7 +22,9 @@ export class FirebaseService {
 
   private SPFlag:Observable<LiveData[]>;//LiveData Database
   private SPFlagCollection:AngularFirestoreCollection<LiveData>;
-  constructor(private storage:AngularFireStorage,private androidPermissions:AndroidPermissions,private DataSrv:DataSrvService ,private afs:AngularFirestore,public FireAuth:AngularFireAuth) 
+  //private LiveData:Observable<LiveData[]>;
+  private UpdatedLiveData:LiveData={}as LiveData;
+  constructor(private storage:AngularFireStorage,private alert: AlertController,private androidPermissions:AndroidPermissions ,private afs:AngularFirestore,public FireAuth:AngularFireAuth) 
   { 
     
     
@@ -88,15 +90,9 @@ export class FirebaseService {
   
   async loginUser(newEmail: string, newPassword: string)
   {
-    try
-    {
-      const user =await this.FireAuth.signInWithEmailAndPassword(newEmail,newPassword);
+    const user =await this.FireAuth.signInWithEmailAndPassword(newEmail,newPassword);
       return user;
-    }
-    catch(ex)
-    {
-      return null;
-    }
+  
     }
   
   async resetPassword(email: string)
@@ -123,7 +119,7 @@ export class FirebaseService {
       success=>{
        checker=true;
       },
-      error=>{this.DataSrv.showError("Error",error)});
+      error=>{this.showError("Error",error)});
     return checker;
      
   }
@@ -134,9 +130,31 @@ export class FirebaseService {
   
   updateUser(idea:Users):Promise<void>{return this.userCollection.doc(idea.ID).update(idea);}
   updateCar(idea:Car):Promise<void>{return this.carCollection.doc(idea.ID).update(idea);}
+  updateLiveData(idea:LiveData):Promise<void>{return this.SPFlagCollection.doc(idea.ID).update(idea);}
+
   
 
   deleteUser(id: string): Promise<void>{return this.userCollection.doc(id).delete();}
+
+  updateLiveDataValues(code,result)
+{
+  this.SPFlag.subscribe(res=>{
+    for(let  i=0;i<res.length;i++)
+    {
+      if(res[i].ID==code)
+      {
+        this.UpdatedLiveData=res[i];
+        this.UpdatedLiveData.Value=result;
+
+      }
+
+    }
+    this.updateLiveData(this.UpdatedLiveData).then(happy=>{console.log("Uploaded Result");this.UpdatedLiveData={}as LiveData;},sad=>{this.showError("Error",sad)})
+
+  })
+  
+}
+
   
   async uploadImage(image:Photo,Path:string)
   {
@@ -152,12 +170,19 @@ export class FirebaseService {
       const imageURL=await storageRef.getDownloadURL();
       return imageURL;
     }catch(e){
-      this.DataSrv.showError("Error",e);
+      this.showError("Error",e);
       return null
     }},err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA));
     return null;
   }
-  
+  async showError(Header,msg) {
+    let  alert = await this.alert.create({
+    message: msg,
+    subHeader: Header,
+    buttons: ['OK']
+    });
+    await alert.present(); 
+    }
   
 }
 export interface Users {
@@ -199,7 +224,9 @@ blue:string;
 }
 
 export interface LiveData{
+ID?:string;
 Code:string;
 Description:string;
-Value:boolean;
+Value:string;
+Enabled:boolean
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ELocalNotificationTriggerUnit, LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
 import { AlertController, Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
@@ -10,8 +10,9 @@ import { Car, FirebaseService } from '../firebase.service';
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss']
 })
-export class Tab3Page {
+export class Tab3Page implements OnInit{
   private CarDetails: Observable<Car[]>;
+  private UserID;
   Sceduled;
 
   constructor(private localNotifications: LocalNotifications,
@@ -40,6 +41,11 @@ export class Tab3Page {
 
 
   }
+  async ngOnInit() 
+  {
+    this.UserID= await this.DataSrv.GetVariable('userID');
+
+  }
   del()
   {
     this.localNotifications.cancelAll().then(res=>{
@@ -62,8 +68,8 @@ export class Tab3Page {
     this.CarDetails.subscribe(result=>{
       for(let i=0;i<result.length;i++)
       {
-        console.log("data User: "+this.DataSrv.CurrentUser+'Array User:  '+result[i].userId)
-        if(result[i].userId==this.DataSrv.CurrentUser)
+        console.log("data User: "+this.UserID+'Array User:  '+result[i].userId)
+        if(result[i].userId==this.UserID)
         {
           let date = new Date(result[i].ExpDte);
           let remindInspection = add(date,{months: -1, });

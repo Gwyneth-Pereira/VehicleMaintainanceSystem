@@ -5,11 +5,11 @@ import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 import { AlertController, ToastController } from '@ionic/angular';
 import { BehaviorSubject, from, Observable, of } from 'rxjs';
 import { filter, map,switchMap,take}from'rxjs/operators';
-import { Storage } from '@ionic/storage';
-
-import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+import { Preferences } from '@capacitor/preferences';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
+import { FirebaseService } from './firebase.service';
+//import { FirebaseService} from './firebase.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,61 +17,41 @@ import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions
 
 export class DataSrvService {
   queue=['ATZ\r','ATS0\r','ATL0\r','ATSP0\r','0100\r','0902\r'];//Setting Up OBD-II Commands;
-  CurrentUser:string='';
-  private storageBehaviour = new BehaviorSubject(false);
-  index=0;//Index to guide the obd command array to the next point
-  private data;
-  private PushingInterval;
-  private WritingInterval;
-  private LiveDataArray;
- public VehicleIDError={ID:'',Msg:''};
-  private OBD_Queue:string[];
-  
-  BluetoothFlag: boolean=true;
-  SupportedFlag: boolean=false;
-  isModalOpen:boolean=false;//Variable to open and close the modal page
-  public TroubleCodes$:Observable<string[]>;
+  LiveDataCmds=[];
+  QueueIndex=0;//Index to guide the obd command array to the next point
+  LiveDataIndex=0;
+  public VehicleIDError='';
   TroubleCodes:string[];
-  recurring: string;
+  
   
 
 
-  constructor(private storage: Storage,private androidPermissions:AndroidPermissions, private toastctrl:ToastController,private alert: AlertController, public bluetooth:BluetoothSerial){
+  constructor(private androidPermissions:AndroidPermissions,public Firebase:FirebaseService, private toastctrl:ToastController,private alert: AlertController, public bluetooth:BluetoothSerial){
     this.TroubleCodes=[];
-    this.recurring='0';
-    this.LiveDataArray;
-    this.ngOnInit();
+    
+    
+    
 
   }
 
 
 async ngOnInit() {
-  console.log('Init Storage');
- // await this.storage.defineDriver(CordovaSQLiteDriver);
-   await this.storage.create();
-   this.storageBehaviour.next(true);
-   console.log(' Storage Created');
-  
-}
-getTroubleCodes()
-{
-  return this.TroubleCodes$.toPromise();
-}
-async setValue(key: string, value: any) {
-  return this.storage.set(key, value);
-}
-  getValues(key) {
-  console.log('Get Values Called');
-  return this.storageBehaviour.pipe(
-    filter(ready=>ready),
-    switchMap( _=>{
-      console.log('Green Light');
-      return  from(this.storage.get(key)) || of([]);
-    })
-  ).toPromise();
   
   
 }
+
+async SetVariable(k: string, val: any) {
+    await Preferences.set({
+      key:k,
+      value: val
+    });
+}
+
+  async GetVariable(k)
+  {
+    const ret=await Preferences.get({key:k});
+    return ret.value;
+  }
 
 InitiateOBD(cmd)
 {
@@ -104,23 +84,18 @@ this.dataReceived(success,mode,VIN);
 
 });
 if(mode=='00')
-  this.InitiateOBD(this.queue[this.index++]);
+  this.InitiateOBD(this.queue[this.QueueIndex++]);
 else if(mode=='03')
   this.InitiateOBD('03\r');
-if(this.recurring=='1')
-  {
-  console.log("//Fetch Live Data");
-  }
+else if(mode=='01')
+  this.InitiateOBD(this.LiveDataCmds[this.LiveDataIndex++]);
+
   
 }
 Disconnect()
 {
-  //={ID:'',Msg:''};
-  //this.VehicleIDError=null;
-  this.BluetoothFlag=true;
-  this.index=0;
-  this.SupportedFlag=false;
-  this.isModalOpen=false;
+ 
+  this.QueueIndex=0;
   this.bluetooth.disconnect();
 }
 
@@ -136,31 +111,21 @@ dataReceived(data,mode,VIN)
       if(SingleString==='')
         continue;
       var multipleRes=SingleString.split('\r');
-      console.log("Code: "+multipleRes[0]+", Response: "+multipleRes[3])
+      console.log("Whole Code: "+SingleString+",");
+
+      console.log("Code: "+multipleRes[0].substring(0,2)+", Res 1: "+multipleRes[1]+", Res 2: "+multipleRes[2]+", Res 3: "+multipleRes[3])
      
       if(multipleRes[0]==='0902')
       {
-        if(multipleRes[3]==='NO DATA')//If the Car Desnt Support Mode 9
-        {
-          this.VehicleIDError={ID:'NO DATA',Msg:"Your Car Doesn't have a Vehicle ID.<br>No Data will be Saved to Firebase"};
-          
-        }
-        else if(VIN === undefined || VIN === null)//if the VIN from the car (that we get from firebase) has a default value.
-        {
-          this.VehicleIDError={ID:multipleRes[3],Msg:"First Time Pairing.<br> Linking VID with Car"};
-
-        }
-        else if(VIN===multipleRes[3])//If the VIN from the car (that we get from firebase) does not match the VIN from the OBD Scan
-        {
-          this.VehicleIDError={ID:multipleRes[3],Msg:"Linking Successfull"};
-
-          
-        }else
-        {
-          this.VehicleIDError={ID:multipleRes[3],Msg:"Please Connect with the correct Car to Save your Data"};
-          
-        }  
-        this.setValue('VID',this.VehicleIDError);
+        //If the Car Desnt Support Mode 9
+        if(multipleRes[3]==='NO DATA')this.VehicleIDError="Your Car Returned No Data From OBD-2 Command.<br>No Data will be Saved to Firebase";
+        //if the VIN from the car (that we get from firebase) has a default value.
+        else if((VIN === undefined || VIN === null)&&multipleRes[3]!=='NO DATA')          this.VehicleIDError="First Time Pairing.<br> Linking VID with Car";
+       //If the VIN from the car (that we get from firebase) does not match the VIN from the OBD Scan
+        else if(VIN===multipleRes[3])  this.VehicleIDError="Linking Successfull";  
+        else  this.VehicleIDError="Please Connect with the correct Car to Save your Data";
+        this.SetVariable('VID',this.VehicleIDError);
+        
       }
       if(multipleRes[0]==='03')
       {
@@ -217,7 +182,7 @@ dataReceived(data,mode,VIN)
               
             }  
             for(let q=0;q<this.TroubleCodes.length;q++)
-            this.TroubleCodes$=of[this.TroubleCodes[q]]        
+            this.TroubleCodes=of[this.TroubleCodes[q]]        
            // this.TCode=this.fetchModel(this.TroubleCodes);
     
             }else{
@@ -226,17 +191,42 @@ dataReceived(data,mode,VIN)
           
         
       }
+      else if(multipleRes[0].substring(0,2)==='01')
+      {
+        if(multipleRes[0]=='0103')
+          {
+            var reply = {byteA:0,byteB:0};
+            var byteA=multipleRes[2].substring(0,2);
+            var byteB=multipleRes[2].substring(2,);
+            reply.byteA = parseInt(byteA, 2);
+            if(byteB)
+            reply.byteB = parseInt(byteB, 2);
+            this.Firebase.updateLiveDataValues(multipleRes[0],reply.byteA);     
+    
+              
+          }
+        
+      }
     }
     if(mode=='00')
     {
-      if(this.index<this.queue.length)
-        this.InitiateOBD(this.queue[this.index++]);
+      if(this.QueueIndex<this.queue.length)
+        this.InitiateOBD(this.queue[this.QueueIndex++]);
       else{
         this.presentToast("OBD-II Setup Completed"); 
-        this.recurring='1';
+       
       }
      
-    } 
+    }else if(mode=='01')
+    {
+      if(this.LiveDataIndex<this.LiveDataCmds.length)
+        this.InitiateOBD(this.LiveDataCmds[this.LiveDataIndex++]);
+      else{
+        this.LiveDataIndex=0;
+       
+      }
+
+    }
    
      
 }

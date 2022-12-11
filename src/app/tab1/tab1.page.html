@@ -39,8 +39,19 @@
   <div *ngIf="selectedSegment=='livedata'">
     <br>
     <ion-button color="sky" expand="block" (click)="FetchLiveData()" class=" pb-0  mb-0">Fetch Live Data</ion-button>
-      <ion-card  *ngFor="let data of (LiveDataObservable | async)">
-        <ion-card-content>{{data.description}}</ion-card-content>
-      </ion-card>
+    <ion-grid>
+      <ion-row >
+        <div *ngFor="let data of (LiveData | async)">
+          <ion-col  size="6" *ngIf="data.Enabled">
+            <ion-card >
+            <ion-card-content>{{data.Description}}</ion-card-content>
+            <ion-card-content>{{data.Value}}</ion-card-content>
+          </ion-card>
+        </ion-col>
+        </div>
+        
+    </ion-row>
+    </ion-grid>
+      
   </div>
 </ion-content>

@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import {Drivers}  from '@ionic/storage';
-import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
@@ -36,7 +35,6 @@ const firebaseConfig = {
   declarations: [AppComponent],
   imports: [BrowserModule,
      IonicModule.forRoot(),
-     IonicStorageModule.forRoot({name: 'Cogear DB',driverOrder:[CordovaSQLiteDriver._driver,Drivers.LocalStorage,Drivers.IndexedDB]}),
      AngularFireModule.initializeApp(firebaseConfig),
      AngularFirestoreModule, 
      AngularFireStorageModule,

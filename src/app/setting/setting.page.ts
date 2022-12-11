@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { DataSrvService} from '../data-srv.service';
-import { Setting } from '../firebase.service';
+import { FirebaseService, LiveData, Setting } from '../firebase.service';
 
 @Component({
   selector: 'app-setting',
@@ -9,15 +10,23 @@ import { Setting } from '../firebase.service';
   styleUrls: ['./setting.page.scss'],
 })
 export class SettingPage implements OnInit {
-  private currentSetting:Observable<Setting[]>;
-  constructor(public DataSrv:DataSrvService) { }
+  private LiveData:Observable<LiveData[]>;
+  private select=[];
+  constructor(public DataSrv:DataSrvService, private Firebase:FirebaseService,private navCtrl:NavController,) { }
 
-  ngOnInit() {
+  ngOnInit() 
+  {
+    //this.select=false;
+    this.LiveData=this.Firebase.getLiveData();
    
+  }
+  goback()
+  {
+    this.navCtrl.back();
   }
   SaveSetting()
   {
-
+    console.log(this.select);
   }
 
   onDelete()

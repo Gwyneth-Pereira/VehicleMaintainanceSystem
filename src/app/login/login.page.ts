@@ -34,23 +34,19 @@ export class LoginPage implements OnInit {
     }
 
     async onSubmit() {
-      
+      const load1=await this.loading.create();
+      await load1.present();
       if(!this.form.valid) {
         this.form.markAllAsTouched();
+        await load1.dismiss();
         return;
       }
-      const loading=await this.loading.create();
-      await loading.present();
       this.Firebase.loginUser(this.form.value.email,this.form.value.password).then(
         succ=>{
           this.dataSrv.presentToast("You have logged in sucessfully!!");
-        let navigationExtras: NavigationExtras = { state: {userID: this.form.value.email.toLowerCase() }   };
-        this.router.navigate(['/'],navigationExtras); 
-        }).catch(error=>{
-          this.dataSrv.showError("Error",error);
-
-        })
-     
-      await loading.dismiss();
+          this.dataSrv.SetVariable('userID',this.form.value.email.toLowerCase());
+        this.router.navigate(['tab/tabs/tab2']); 
+        },error=>{this.dataSrv.showError("Error",error);}).catch(error=>{this.dataSrv.showError("Error",error);})
+      await load1.dismiss();
       }
   }

@@ -22,7 +22,7 @@ export class Tab2Page  implements OnInit {
   SlideIndex=0;
   intervalID;
  // SupportedOBD;
-  BluetoothFlag:boolean;//Bluetooth Flag to Change Buttons
+  BluetoothFlag:boolean=true;//Bluetooth Flag to Change Buttons
   SupportedFlag:Observable<boolean>;//Supported Flag to Open up Live Data
   //isModalOpen:boolean=false;//Variable to open and close the modal page
   public User: Observable<Users[]>;//Details about the User will be stored in this variable
@@ -40,28 +40,19 @@ export class Tab2Page  implements OnInit {
     private permission:AndroidPermissions,
     private loading:LoadingController,
     private Firebase: FirebaseService) {
-    this.route.queryParams.subscribe(params => {
-      if (this.router.getCurrentNavigation().extras.state) {
-        this.UserID = this.router.getCurrentNavigation().extras.state.userID;
-        console.log("ID: "+this.UserID);
-      }
-    });
-   
+    
     this.User=this.Firebase.getUsers();
-    this.BluetoothFlag=this.DataSrv.BluetoothFlag;
+    
   }
-  ngOnInit() {
+  async ngOnInit() {
     this.Cars=this.Firebase.getCars();
     this.Cars.pipe(take(1)).subscribe(async res=>{
       console.log('Slide Index: '+this.SlideIndex);
       this.UpdatedCar= res[this.SlideIndex];
      
         },error=>{  console.log("Error Subscribing to Car Observable during slidechange ");  this.DataSrv.showError('Error',error)});
+    this.UserID= await this.DataSrv.GetVariable('userID');
     
-    if(this.UserID==null)
-    {
-      this.router.navigate(['login']);
-    }
   
    /*
     if(this.UserID==null)
@@ -121,11 +112,7 @@ Pair()
         })
 }
 
-editCarDetails(Y)
-{
-  this.DataSrv.CurrentUser=Y;
-  this.router.navigate(['carinfo']);
-}
+
 gonewCarInfo()
 {
   let navigationExtras: NavigationExtras = {
@@ -140,9 +127,11 @@ gonewCarInfo()
   error => {this.DataSrv.showError("Error",error);}); 
 
 }
-slideChange(e)
+slideChange()
 {
- this.slides.getActiveIndex().then(index=>{  this.SlideIndex=index; });
+  this.slides.getActiveIndex().then(index=>{  this.SlideIndex=index; });
+  if(this.SlideIndex==undefined)
+    this.SlideIndex=0;
  this.Cars.pipe(take(1)).subscribe(async res=>{
   console.log('Slide Index: '+this.SlideIndex);
   this.UpdatedCar= res[this.SlideIndex];
@@ -163,19 +152,25 @@ else{
   
   const load3=await this.loading.create();
   await load3.present();
+  this.slideChange();
   this.ChangeSlideStatus(true);
   this.bluetooth.connect(dvc.address).subscribe(async success=>
     {
+   
     this.BluetoothFlag=false;
     console.log("VIN "+this.UpdatedCar.VIN);
     this.DataSrv.deviceConnected('00',this.UpdatedCar.VIN); 
     this.UpdateCar('success');
     this.cancel();
     this.DataSrv.presentToast("Connected Successfully");
-    this.DataSrv.getValues('VID').then(re=>{this.DataSrv.showError(re.ID,re.Msg)})
+    const obj = await this.DataSrv.GetVariable('VID');
+    this.DataSrv.showError("Alert", obj);
+    
   
     
-    },error=>{this.DataSrv.showError("Connection Timed Out",error);});
+    },error=>{
+     
+      this.DataSrv.showError("Connection Timed Out",error);});
   load3.dismiss();   
 }
 //this.DataSrv.showError("Alert",");
@@ -197,6 +192,7 @@ cancel()
 async diconnect()
 { const load4=await this.loading.create();
   await load4.present();
+  
   this.ChangeSlideStatus(false);
   this.BluetoothFlag=true;
   this.DataSrv.Disconnect();
