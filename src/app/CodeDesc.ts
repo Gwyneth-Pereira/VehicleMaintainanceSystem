@@ -121,76 +121,111 @@ export class codesdesc{
             {code:"P0101", description:" Mass or Volume Air flow Circuit Range/Performance Problem " },
             {code:"P0102", description:" Mass or Volume Air Flow Circuit low Input" },
             {code:"P0103", description:"Mass or Volume Air flow Circuit High Input " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-       
-                
-            
+            {code:"P0104", description:"Mass or Volume Air flow Circuit Intermittent " },
+            {code:"P0105", description:"Manifold Absolute Pressure/Barometric Pressure Circuit Malfunction" },
+            {code:"P0106", description:"Manifold Absolute Pressure/Barometric Pressure Circuit Range/Performance Problem " },
+            {code:"P0107", description:"Manifold Absolute Pressure/Barometric Pressure Circuit Low Input" },
+            {code:"P0108", description:"Manifold Absolute Pressure/Barometric Pressure Circuit High Input " },
+            {code:"P0109", description:" Manifold Absolute Pressure/Barometric Pressure Circuit Intermittent " },
+            {code:"P0110", description:"Intake Air Temperature Circuit Malfunction" },
+            {code:"P0111", description:"Intake Air Temperature Circuit Range/Performance Problem " },
+            {code:"P0112", description:"Intake Air Temperature Circuit Low Input" },
+            {code:"P0113", description:" Intake Air Temperature Circuit High Input" },
+            {code:"P0114", description:"Intake Air Temperature Circuit Intermittent " },
+            {code:"P0115", description:"Engine Coolant Temperature Circuit Malfunction " },
+            {code:"P0116", description:"Engine Coolant Temperature Circuit Range/Performance Problem" },
+            {code:"P0117", description:"Engine Coolant Temperature Circuit Low Input " },
+            {code:"P0118", description:"Engine Coolant Temperature Circuit High Input" },
+            {code:"P0119", description:" Engine Coolant Temperature Circuit Intermittent" },
+            {code:"P0120", description:"Throttle Pedal Position Sensor/Switch A Circuit Malfunction" },
+            {code:"P0121", description:"Throttle/Pedal Position Sensor/Switch A Circuit Range/Performance Problem" },
+            {code:"P0122", description:" Throttle/Pedal Position Sensor/Switch A Circuit Low Input" },
+            {code:"P0123", description:" Throttle/Pedal Position Sensor/Switch A Circuit High Input" },
+            {code:"P0124", description:" Throttle/Pedal Position Sensor/Switch A Circuit Intermittent" },
+            {code:"P0125", description:"  Insufficient Coolant Temperature for Closed Loop Fuel Control" },
+            {code:"P0126", description:"Insufficient Coolant Temperature for Stable Operation " },
+            {code:"P0127", description:"Intake Air Temperature Too High " },
+            {code:"P0128", description:"Coolant Thermostat (Coolant Temp Below Thermostat Regulating Temperature) " },
+            {code:"P0129", description:"Barometric Pressure Too Low" },
+            {code:"P0130", description:" O2 Sensor Circuit Malfunction (Bank 1 Sensor 1)" },
+            {code:"P0131", description:"O2 Sensor Circuit Low Voltage (Bank 1 Sensor 1) " },
+            {code:"P0132", description:"O2 Sensor Circuit High Voltage (Bank 1 Sensor 1)" },
+            {code:"P0133", description:" O2 Sensor Circuit Slow Response (Bank 1 Sensor 1)" },
+            {code:"P0134", description:"O2 Sensor Circuit No Activity Detected (Bank 1 Sensor 1)" },
+            {code:"P0135", description:"O2 Sensor Heater Circuit Malfunction (Bank 1 Sensor 1) " },
+            {code:"P0136", description:" O2 Sensor Circuit Malfunction (Bank 1 Sensor 2)            " },
+            {code:"P0137", description:" O2 Sensor Circuit Low Voltage (Bank 1 Sensor 2)" },
+            {code:"P0138", description:" O2 Sensor Circuit High Voltage (Bank 1 Sensor 2)            " },
+            {code:"P0139", description:" O2 Sensor Circuit Slow Response (Bank 1 Sensor 2)            " },
+            {code:"P0140", description:" O2 Sensor Circuit No Activity Detected (Bank 1 Sensor 2)            " },
+            {code:"P0141", description:" O2 Sensor Heater Circuit Malfunction (Bank 1 Sensor 2)            " },
+            {code:"P0142", description:" O2 Sensor Circuit Malfunction (Bank 1 Sensor 3) " },
+            {code:"P0143", description:"  O2 Sensor Circuit Low Voltage (Bank 1 Sensor 3)            " },
+            {code:"P0144", description:"O2 Sensor Circuit High Voltage (Bank 1 Sensor 3) " },
+            {code:"P0145", description:" O2 Sensor Circuit Slow Response (Bank 1 Sensor 3)            " },
+            {code:"P0146", description:"O2 Sensor Circuit No Activity Detected (Bank 1 Sensor 3)            " },
+            {code:"P0147", description:"O2 Sensor Heater Circuit Malfunction (Bank 1 Sensor 3) " },
+            {code:"P0148", description:"Fuel Delivery Error " },
+            {code:"P0149", description:"Fuel Timing Error            " },
+            {code:"P0150", description:"O2 Sensor Circuit Malfunction (Bank 2 Sensor 1)            " },
+            {code:"P0151", description:" O2 Sensor Circuit Low Voltage (Bank 2 Sensor 1)            " },
+            {code:"P0152", description:"O2 Sensor Circuit High Voltage (Bank 2 Sensor 1)            " },
+            {code:"P0153", description:" O2 Sensor Circuit Slow Response (Bank 2 Sensor 1)            " },
+            {code:"P0154", description:"O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 1)            " },
+            {code:"P0155", description:"O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 1) " },
+            {code:"P0156", description:" O2 Sensor Circuit Malfunction (Bank 2 Sensor 2)" },
+            {code:"P0157", description:" O2 Sensor Circuit Low Voltage (Bank 2 Sensor 2)            " },
+            {code:"P0158", description:" O2 Sensor Circuit High Voltage (Bank 2 Sensor 2)            " },
+            {code:"P0159", description:"O2 Sensor Circuit Slow Response (Bank 2 Sensor 2)            " },
+            {code:"P0160", description:"  O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 2)            " },
             
              
+
+
+            {code:"P0161", description:" O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 2)" },
+            {code:"P0162", description:"O2 Sensor Circuit Malfunction (Bank 2 Sensor 3) " },
+            {code:"P0163", description:" O2 Sensor Circuit Low Voltage (Bank 2 Sensor 3)" },
+            {code:"P0164", description:" O2 Sensor Circuit High Voltage (Bank 2 Sensor 3)" },
+            {code:"P0165", description:"O2 Sensor Circuit Slow Response (Bank 2 Sensor 3) " },
+            {code:"P0166", description:"O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 3) " },
+            {code:"P0167", description:" O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 3)" },
+            {code:"P0168", description:"Engine Fuel Temperature Too High  " },
+            {code:"P0169", description:"Incorrect Fuel Composition " },
+            {code:"P0170", description:" Fuel Trim Malfunction (Bank 1) " },
+            {code:"P0171", description:" System Too Lean (Bank 1)" },
+            {code:"P0172", description:"System Too Rich (Bank 1) " },
+            {code:"P0173", description:"Fuel Trim Malfunction (Bank 2) " },
+            {code:"P0174", description:"System Too Lean (Bank 2) " },
+            {code:"P0175", description:" System Too Rich (Bank 2)" },
+            {code:"P0176", description:" Fuel Composition Sensor Circuit Malfunction" },
+            {code:"P0177", description:"Fuel Composition Sensor Circuit Range/Performance " },
+            {code:"P0178", description:"Fuel Composition Sensor Circuit Low Input " },
+            {code:"P0179", description:" Fuel Composition Sensor Circuit High Input" },
+            {code:"P018C", description:"Fuel Pressure Sensor B Circuit Low " },
+            {code:"P0180", description:" Fuel Temperature Sensor A Circuit Malfunction" },
+
+            {code:"P0181", description:"Fuel Temperature Sensor A Circuit Range/Performance " },
+            {code:"P0182", description:"Fuel Temperature Sensor A Circuit low Input   " },
+            {code:"P0183", description:"Fuel Temperature Sensor A Circuit Intermittent " },
+            {code:"P0184", description:"Fuel Temperature Sensor A Circuit Intermittent " },
+            {code:"P0185", description:"Fuel Temperature Sensor B Circuit Malfunction            " },
+            {code:"P0186", description:"Fuel Temperature Sensor B Circuit Range/Performance            " },
+            {code:"P0187", description:"Fuel Temperature Sensor B Circuit Low Input " },
+            {code:"P0188", description:"Fuel Temperature Sensor B Circuit High Input            " },
+            {code:"P0189", description:"Fuel Temperature Sensor B Circuit Intermittent   " },
+            {code:"P0190", description:"Fuel Rail Pressure Sensor Circuit Malfunction    " },
+
             
-
- 
-      
-
-
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-            {code:"", description:" " },
-
-             
-
-
- 
- 
- 
- 
-
- 
- 
-
-
-
-
-
-
-
-
-
-
+            {code:"P0191", description:"Fuel Rail Pressure Sensor Circuit Range/Performance " },
+            {code:"P0192", description:"Fuel Rail Pressure Sensor Circuit Low Input            " },
+            {code:"P0193", description:"Fuel Rail Pressure Sensor Circuit High Input  " },
+            {code:"P0194", description:"Fuel Rail Pressure Sensor Circuit Intermittent   " },
+            {code:"P0195", description:"Engine Oil Temperature Sensor Malfunction            " },
+            {code:"P0196", description:"Engine Oil Temperature Sensor Range/Performance            " },
+            {code:"P0197", description:"Engine Oil Temperature Sensor Low  " },
+            {code:"P0198", description:"Engine Oil Temperature Sensor High  " },
+            {code:"P0199", description:"Engine Oil Temperature Sensor Intermittent  " },
+            {code:"P0200", description:"Injector Circuit Malfunction            " },
 
 
 
