@@ -57,7 +57,10 @@
           {{x.make}}
         </ion-label>
          <div class="d-flex justify-content-end "> 
-        <img src="assets\images\car.png" class="w-50 ">
+        <img *ngIf="x?.carimg; else placeholder;" src={{x.carimg}} class="w-50 ">
+        <ng-template #placeholder>
+          <img src="assets\images\car.png" alt="..." class="w-75 d-inline-block" />
+         </ng-template>
         </div> 
       </ion-card-content>
     
