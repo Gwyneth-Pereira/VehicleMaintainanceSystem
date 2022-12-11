@@ -1,8 +1,4 @@
-# VehicleMaintainanceSystem
-vehicle maintainance system
-
-
-# the list of plugins 
+# VehicleMaintainanceSystem the list of plugins 
 
 # first 
 npm install -g @ionic/cli
