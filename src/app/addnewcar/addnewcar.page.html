@@ -30,17 +30,13 @@
           <ion-input type="number" color="medium" [(ngModel)]="newCar.numPlate"></ion-input>
           <ion-icon name="barcode-outline" slot="end" color="medium" ></ion-icon>
         </ion-item>
-        <!--to be removed   -->
-        <ion-item>
-          <ion-label >Car Image: </ion-label>
-          <ion-input type="text" color="medium" [(ngModel)]="newCar.carimg"></ion-input>
-          <ion-icon name="image-outline" slot="end" color="medium" ></ion-icon>        
-        </ion-item>
-
+        
         <ion-list>
           <ion-item>
-            <ion-select interface="popover" [(ngModel)]="newCar.carimg" placeholder="Select Image">
-              <ion-select-option value="assets\images\car.png">Sedan</ion-select-option>
+            <ion-select interface="popover" [(ngModel)]="newCar.carimg" placeholder="Select Image" style="max-width:100%" class="w-100 d-flex justify-content-start">
+              <ion-select-option value="assets\images\car.png"   >
+                Sedan
+              </ion-select-option>
               <ion-select-option value="assets\images\suv.png">Suv</ion-select-option>
               <ion-select-option value="assets\images\coupe.png">Coupe</ion-select-option>
               <ion-select-option value="assets\images\hatchback.png">Hatchback</ion-select-option>
@@ -51,7 +47,12 @@
               <ion-select-option value="assets\images\truck.png">Truck </ion-select-option>
               <ion-select-option value="assets\images\van.png">Van</ion-select-option>
             </ion-select>
-            <ion-icon name="image-outline" slot="end" color="medium" ></ion-icon>
+            <div *ngIf="newCar.carimg==''" class="d-flex justify-content-end"> 
+              <ion-icon name="image-outline" slot="end" color="medium" ></ion-icon>
+            </div>
+            <div *ngIf="newCar.carimg!=''" > 
+            <img src={{newCar.carimg}}  class="w-25 d-flex justify-content-end" />
+            </div>
           </ion-item>
         </ion-list>
 
