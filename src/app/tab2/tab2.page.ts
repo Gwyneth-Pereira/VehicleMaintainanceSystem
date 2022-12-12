@@ -52,6 +52,7 @@ export class Tab2Page  implements OnInit {
     this.Cars.pipe(take(1)).subscribe(async res=>{
       console.log('Slide Index: '+this.SlideIndex);
       this.UpdatedCar= res[this.SlideIndex];
+      this.DataSrv.car_name_as_on_slide=this.UpdatedCar.make + "  "+ this.UpdatedCar.model;
      
         },error=>{  console.log("Error Subscribing to Car Observable during slidechange ");  this.DataSrv.showError('Error',error)});
     this.UserID= await this.DataSrv.GetVariable('userID');
@@ -139,7 +140,8 @@ slideChange()
  this.Cars.pipe(take(1)).subscribe(async res=>{
   console.log('Slide Index: '+this.SlideIndex);
   this.UpdatedCar= res[this.SlideIndex];
- 
+  //console.log( this.UpdatedCar.make,this.UpdatedCar.model );
+  this.DataSrv.car_name_as_on_slide=this.UpdatedCar.make + "  "+this.UpdatedCar.model;
     },error=>{  console.log("Error Subscribing to Car Observable during slidechange ");  this.DataSrv.showError('Error',error)});
 
 }

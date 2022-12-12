@@ -8,7 +8,7 @@
 <ion-content [fullscreen]="true">
 
   <div class="m-2 p-2 d-flex justify-content-end  ">
-     <ion-button (click)="getAll()" fill="outline">display history</ion-button>
+     <!-- <ion-button (click)="getAll()" fill="outline">display history</ion-button> -->
      <ion-button color="danger" fill="outline" (click)="del()">Delete History</ion-button>
   </div>
  
@@ -17,7 +17,11 @@
      <ion-label>{{x.title}} </ion-label>
      <ion-label>{{x.text}} </ion-label>
     </ion-item>  
-    <!-- <ion-item *ngIf="Sceduled.length==0"> No History to be displayed! </ion-item> -->
+    <ion-item *ngIf="Sceduled.length==0" >
+      <ion-label class="d-flex  justify-content-center">
+        No History to be displayed!
+      </ion-label>
+    </ion-item> 
   </ion-list>
 
 </ion-content>

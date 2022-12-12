@@ -15,6 +15,7 @@ import { Car, FirebaseService } from '../firebase.service';
 
 
 export class AddnewcarPage implements OnInit {
+  
   private YearDte=new Date().toISOString();
   private InsDte =new Date().toISOString();
   private YDte:any[];
@@ -57,6 +58,10 @@ export class AddnewcarPage implements OnInit {
     this.IDte=this.InsDte.split('T');
     this.newCar.ExpDte=this.YDte[0];
     this.newCar.InsExp=this.IDte[0];
+    
+
+
+
     this.Firebase.addCar(this.newCar).then(suc=>{
 
       this.newCar.ID=suc.id;
