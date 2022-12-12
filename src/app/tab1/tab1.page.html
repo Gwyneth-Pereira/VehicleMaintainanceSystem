@@ -25,14 +25,17 @@
       
     </ion-card>
 <!-- list scan results -->
-<div>
+
+ <div *ngFor="let x of (TroubleCodes|async)"  >
+
  
-<ion-card *ngFor="let x of TroubleCodes"  class="d-flex justify-content-center mt-3">
-  <ion-card-content><h2>Code: {{x}}</h2></ion-card-content><br>
+<ion-card class="d-flex justify-content-center mt-3" *ngFor="let y of x.codes"  >
+  <ion-card-content><h2>Code: {{y}}</h2></ion-card-content><br>
   <ion-card-content>Description: lorem</ion-card-content>
 
 </ion-card>
 </div>
+
 
   </div>
 <!-- live data part -->

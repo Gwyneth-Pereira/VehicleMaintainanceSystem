@@ -3,7 +3,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/compat/firestore';
 import {Photo} from '@capacitor/camera';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { DataSrvService } from './data-srv.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
@@ -14,9 +14,12 @@ import { AlertController } from '@ionic/angular';
 })
 export class FirebaseService {
   private updatedCar:Car[]={}as Car[];
-  
+  public Codes:code={id:'codes',codes:[]}as code;
   public user: Observable<Users[]>;
   private userCollection:AngularFirestoreCollection<Users>;
+
+  public code: Observable<code[]>;
+  private codeCollection:AngularFirestoreCollection<code>;
   
   public car: Observable<Car[]>;
   private carCollection:AngularFirestoreCollection<Car>;
@@ -41,6 +44,20 @@ export class FirebaseService {
     });
     })
     );
+
+    this.codeCollection=this.afs.collection<code>('code');
+    this.code= this.codeCollection.snapshotChanges().pipe
+    
+    (
+    map(actions=>{
+    return actions.map(a=>{
+    const data =a.payload.doc.data();
+    const id = a.payload.doc.id;
+    return{id,...data};
+    });
+    })
+    );
+
     this.SPFlagCollection=this.afs.collection<LiveData>('LiveData');
     this.SPFlag= this.SPFlagCollection.snapshotChanges().pipe
     
@@ -71,16 +88,12 @@ export class FirebaseService {
   }
   getUsers():Observable<Users[]>{ return this.user;}
   getLiveData():Observable<LiveData[]>{ return this.SPFlag;}
+  getCodes():Observable<code[]>{ return this.code;}
 
   getCars():Observable<Car[]>
   {  return this.car;  }
-  getCar(id: string): Observable<Car>{
-    return this.carCollection.doc<Car>(id).valueChanges().pipe(
-    map(idea=>{
-    idea.userId=id;
-    return idea
-    })
-    );}
+  getCar(id: string): Observable<Car[]>{
+    return this.car;}
   //  get_specific_user_cars(uid :string): Observable<Car[]>{
    
   //   return this.carCollection.doc<Car[]>().valueChanges().pipe(
@@ -146,14 +159,34 @@ export class FirebaseService {
   updateUser(idea:Users):Promise<void>{return this.userCollection.doc(idea.ID).update(idea);}
   updateCar(idea:Car):Promise<void>{return this.carCollection.doc(idea.ID).update(idea);}
   updateLiveData(idea:LiveData):Promise<void>{return this.SPFlagCollection.doc(idea.ID).update(idea);}
+  updateCode(idea:code):Promise<void>{return this.codeCollection.doc(idea.id).update(idea);}
 
   
 
   deleteUser(id: string): Promise<void>{return this.userCollection.doc(id).delete();}
-
+  removeCodes()
+  {
+  this.Codes.codes=[];  
+  this.updateCode(this.Codes).then(res=>{
+                this.showError("Alert","Codes Removed");
+              });
+  
+  }
+  removeLiveData()
+  {
+  this.SPFlag.pipe(take(1)).subscribe(res=>{
+    for(let i=0;i<res.length;i++)
+    {
+      this.UpdatedLiveData=res[i];
+      this.UpdatedLiveData.Value=''
+      this.updateLiveData(this.UpdatedLiveData).then(happy=>{console.log("Deleted Values");this.UpdatedLiveData={}as LiveData;},sad=>{this.showError("Error",sad)})
+    }
+  })
+  
+  }
   updateLiveDataValues(code,result)
 {
-  this.SPFlag.subscribe(res=>{
+  this.SPFlag.pipe(take(1)).subscribe(res=>{
     for(let  i=0;i<res.length;i++)
     {
       if(res[i].ID==code)
@@ -244,4 +277,8 @@ Code:string;
 Description:string;
 Value:string;
 Enabled:boolean
+}
+export interface code{
+  id?:string;
+  codes:string[]
 }

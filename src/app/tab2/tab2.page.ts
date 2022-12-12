@@ -28,6 +28,7 @@ export class Tab2Page  implements OnInit {
   public User: Observable<Users[]>;//Details about the User will be stored in this variable
   slideOpts = { initialSlide: 0, speed: 400, onlyExternal: false}; // the slide on the homepage
   private Cars: Observable<Car[]>;
+  private UpCars: Observable<Car>;
   private UpdatedCar:Car={}as Car;
   public cars:Car[];
   private C: Observable<Car[]>;
@@ -54,6 +55,7 @@ export class Tab2Page  implements OnInit {
      
         },error=>{  console.log("Error Subscribing to Car Observable during slidechange ");  this.DataSrv.showError('Error',error)});
     this.UserID= await this.DataSrv.GetVariable('userID');
+    //this.UpCars=this.Firebase.getCar(this.UserID);
     //this.C=this.Firebase.get_specific_user_cars(this.UserID);
   
    /*
@@ -194,11 +196,12 @@ cancel()
 async diconnect()
 { const load4=await this.loading.create();
   await load4.present();
-  
   this.ChangeSlideStatus(false);
   this.BluetoothFlag=true;
   this.DataSrv.Disconnect();
   this.UpdateCar('Dark');
+  this.Firebase.removeCodes();
+  this.Firebase.removeLiveData();
   
   this.DataSrv.presentToast("Bluetooth Disconnected");
 

@@ -40,6 +40,22 @@
             <ion-button (click)="SaveSetting()">Save</ion-button></div>
         </div>
       </ion-accordion>
+      <ion-accordion value="third">
+        <ion-item slot="header" >
+          <ion-label >Paired Car Support</ion-label>
+        </ion-item>
+        <div class="ion-padding m-0 p-0" slot="content">
+          <ion-list lines="inset">
+            <ion-item *ngFor="let x of SupportedOBD ">
+              <ion-label  >{{x.Text}}</ion-label>
+              <ion-label slot="end">{{x.Value}}</ion-label>
+            </ion-item>
+            
+            
+          </ion-list>
+          
+        </div>
+      </ion-accordion>
       
     </ion-accordion-group>
     
