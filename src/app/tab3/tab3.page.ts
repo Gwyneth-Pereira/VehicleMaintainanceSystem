@@ -13,7 +13,7 @@ import { Car, FirebaseService } from '../firebase.service';
 export class Tab3Page implements OnInit{
   private CarDetails: Observable<Car[]>;
   private UserID;
-  Sceduled;
+  public Sceduled: any [ ] =[];
 
   constructor(private localNotifications: LocalNotifications,
               private DataSrv:DataSrvService,
@@ -44,6 +44,7 @@ export class Tab3Page implements OnInit{
   async ngOnInit() 
   {
     this.UserID= await this.DataSrv.GetVariable('userID');
+    this.getAll();
 
   }
   del()
