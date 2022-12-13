@@ -7,7 +7,7 @@
 
 <ion-content [fullscreen]="true">
 
-  <div class="m-2 p-2 d-flex justify-content-end  ">
+  <div class="m-2 p-2 d-flex justify-content-end  " *ngIf="Sceduled.length>0">
      <!-- <ion-button (click)="getAll()" fill="outline">display history</ion-button> -->
      <ion-button color="danger" fill="outline" (click)="del()">Delete </ion-button>
   </div>
