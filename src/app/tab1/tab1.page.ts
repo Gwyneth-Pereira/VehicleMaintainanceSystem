@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { codesdesc } from '../codedesc';
 import { DataSrvService } from '../data-srv.service';
 import { code, FirebaseService, LiveData } from '../firebase.service';
+
 
 @Component({
   selector: 'app-tab1',
@@ -15,10 +17,11 @@ export class Tab1Page implements OnInit {
   private selectedSegment: string ='Sensor';
   private LiveData:Observable<LiveData[]>;
   private CodeArray:string[]=[];
+  public len;
   private TroubleCodes:Observable<code[]>;
   private leng;
   Sped;
-  constructor(public bluetooth:BluetoothSerial, public router:Router,public DataSrv:DataSrvService,private Firebase:FirebaseService) {
+  constructor(public bluetooth:BluetoothSerial,public router:Router,public DataSrv:DataSrvService,private Firebase:FirebaseService) {
    
   }
   ngOnInit()
@@ -28,7 +31,14 @@ export class Tab1Page implements OnInit {
       this.leng=res.length;
     });
     this.LiveData=this.Firebase.getLiveData();
+    this.TroubleCodes.subscribe(sucess=>{
+      this.len= sucess[0].codes.length;
+    })
    
+    //console.log(codesdesc.codedes);
+
+
+
   }
 
   segmentChanged(event : any){
@@ -43,6 +53,7 @@ export class Tab1Page implements OnInit {
         this.bluetooth.isConnected().then(rsp=>
           {
             this.DataSrv.deviceConnected('03','00');
+            
            
           }
           ,er=>

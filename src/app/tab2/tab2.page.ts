@@ -198,6 +198,7 @@ cancel()
 async diconnect()
 { const load4=await this.loading.create();
   await load4.present();
+  this.DataSrv.car_name_as_on_slide='Car not paired';
   this.ChangeSlideStatus(false);
   this.BluetoothFlag=true;
   this.DataSrv.Disconnect();

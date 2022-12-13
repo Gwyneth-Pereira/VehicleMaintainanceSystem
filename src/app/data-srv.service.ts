@@ -5,20 +5,22 @@ import { Preferences } from '@capacitor/preferences';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { code, FirebaseService } from './firebase.service';
+import { codesdesc } from './codedesc';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class DataSrvService {
-  public car_name_as_on_slide:string="";
+  public car_name_as_on_slide:string="Car not paired.";
   queue=['ATZ\r','ATS0\r','ATL0\r','ATSP0\r','0100\r','0902\r'];//Setting Up OBD-II Commands;
   LiveDataCmds=[];
   index;
   QueueIndex=0;//Index to guide the obd command array to the next point
   LiveDataIndex=0;
   public VehicleIDError='';
-  public Codes:code={id:'codes',codes:[]}as code;
+  
+  public Codes:code={id:'codes',codes:{}as cide[]}as code;
   TroubleCodes:string[];
   SupportedOBD=[{Text:'Monitor status since DTCs cleared',Value:'-'},
   {Text:'Freeze DTC',Value:'-'},
@@ -56,7 +58,7 @@ export class DataSrvService {
   
 
 
-  constructor(private androidPermissions:AndroidPermissions,public Firebase:FirebaseService, private toastctrl:ToastController,private alert: AlertController, public bluetooth:BluetoothSerial){
+  constructor(private androidPermissions:AndroidPermissions, public Firebase:FirebaseService, private toastctrl:ToastController,private alert: AlertController, public bluetooth:BluetoothSerial){
     
     
     
@@ -214,7 +216,24 @@ dataReceived(data,mode,VIN)
             }
             if(this.TroubleCodes[this.TroubleCodes.length-1].length<4)
             this.TroubleCodes.pop();
-            this.Codes.codes=this.TroubleCodes;  
+            // this.TroubleCodes.forEach(element => {
+            //   this.Codes.codes.push( element, "")
+              
+            // });
+
+            for(let k=0;k<this.TroubleCodes.length;k++)
+            {
+              for(let j=0;j<codesdesc.length;j++)
+              {
+                if(this.TroubleCodes[k]==codesdesc[j].code)
+                {let val={code:this.TroubleCodes[k],desc:codesdesc[j].description};
+                  this.Codes.codes.push(val);
+                }
+              }
+            
+            }
+
+           // this.Codes.codes=this.TroubleCodes;  
             console.log("Code: "+this.Codes);
             this.Firebase.updateCode(this.Codes).then(res=>{
               this.showError("Alert","Code Found");
@@ -405,6 +424,10 @@ async  presentToast(msg) {
     this.roleMessage = `Dismissed with role: ${role}`;
     }
 
+}
+export interface cide{
+  code:string;
+  desc:string;
 }
 
 
