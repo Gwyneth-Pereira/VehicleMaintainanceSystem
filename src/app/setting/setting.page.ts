@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { LoadingController, NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { DataSrvService} from '../data-srv.service';
 import { FirebaseService, LiveData, Setting } from '../firebase.service';
 
@@ -11,21 +13,43 @@ import { FirebaseService, LiveData, Setting } from '../firebase.service';
 })
 export class SettingPage implements OnInit {
   private LiveData:Observable<LiveData[]>;
+  private UpdatedLiveData:LiveData={}as LiveData;
   private select=[];
-  constructor(public DataSrv:DataSrvService, private Firebase:FirebaseService,private navCtrl:NavController,) { }
+  private SupportedOBD;
+  private statement=false;
+  constructor(public DataSrv:DataSrvService,private loading:LoadingController,public router:Router, private Firebase:FirebaseService,private navCtrl:NavController,) { }
 
   ngOnInit() 
   {
-    //this.select=false;
+    this.SupportedOBD=this.DataSrv.SupportedOBD;
     this.LiveData=this.Firebase.getLiveData();
+    this.LiveData.pipe(take(1)).subscribe(res=>{for(let i=0;i<res.length;i++){this.select[i]=res[i].Enabled}},error=>{this.DataSrv.showError("Error",error)})
    
   }
   goback()
   {
     this.navCtrl.back();
   }
-  SaveSetting()
+  async SaveSetting()
   {
+    const load3=await this.loading.create();
+    await load3.present();
+    this.LiveData.pipe(take(1)).subscribe(res=>{
+      for(let i=0;i<res.length;i++){
+        this.UpdatedLiveData=res[i];
+        this.UpdatedLiveData.Enabled=this.select[i];
+        this.Firebase.updateLiveData(this.UpdatedLiveData).then(ok=>{
+          if(i==res.length-1)
+          {
+            load3.dismiss();
+            this.DataSrv.presentToast("Setting Changed");
+            this.router.navigate(['/setting']);
+          }
+          
+        },er=>{load3.dismiss();this.DataSrv.showError("Error",er)})
+        }},error=>{load3.dismiss();this.DataSrv.showError("Error",error)});
+   
+    load3.dismiss();
     console.log(this.select);
   }
 

@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { DataSrvService } from '../data-srv.service';
-import { FirebaseService, LiveData } from '../firebase.service';
+import { code, FirebaseService, LiveData } from '../firebase.service';
 
 @Component({
   selector: 'app-tab1',
@@ -14,7 +15,7 @@ export class Tab1Page implements OnInit {
   private selectedSegment: string ='Sensor';
   private LiveData:Observable<LiveData[]>;
   private CodeArray:string[]=[];
-
+  private TroubleCodes:Observable<code[]>;
   
   Sped;
   constructor(public bluetooth:BluetoothSerial, public router:Router,public DataSrv:DataSrvService,private Firebase:FirebaseService) {
@@ -22,8 +23,9 @@ export class Tab1Page implements OnInit {
   }
   ngOnInit()
    {
-   
+    this.TroubleCodes=this.Firebase.getCodes();
     this.LiveData=this.Firebase.getLiveData();
+   
   }
 
   segmentChanged(event : any){
@@ -58,10 +60,10 @@ export class Tab1Page implements OnInit {
   }
   FetchLiveData()
   {
-    this.LiveData.subscribe(res=>{
+    this.LiveData.pipe(take(1)).subscribe(res=>{
       for(let i=0;i<res.length;i++)
         if(res[i].Enabled)
-         this.CodeArray.push(res[i].ID)
+         this.CodeArray.push(res[i].ID);
          this.DataSrv.LiveDataCmds=this.CodeArray;
          this.bluetooth.isConnected().then(
           res=>{
@@ -71,6 +73,7 @@ export class Tab1Page implements OnInit {
          )
          
     },rej=>{this.DataSrv.showError("Error", "Error Fetching Data")});
+   // console.log(this.DataSrv.LiveDataCmds);
     
     
   }
