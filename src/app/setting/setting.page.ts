@@ -4,7 +4,9 @@ import { LoadingController, NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { DataSrvService} from '../data-srv.service';
-import { FirebaseService, LiveData, Setting } from '../firebase.service';
+import { Car, FirebaseService, LiveData, Setting, Users } from '../firebase.service';
+import { ELocalNotificationTriggerUnit, LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
+import { Preferences } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-setting',
@@ -14,18 +16,59 @@ import { FirebaseService, LiveData, Setting } from '../firebase.service';
 export class SettingPage implements OnInit {
   private LiveData:Observable<LiveData[]>;
   private UpdatedLiveData:LiveData={}as LiveData;
+  private toggle:any;
   private select=[];
   private SupportedOBD;
   private statement=false;
-  constructor(public DataSrv:DataSrvService,private loading:LoadingController,public router:Router, private Firebase:FirebaseService,private navCtrl:NavController,) { }
+  private UserID;
+  private DeleteID:string;
+  public User: Observable<Users[]>;//Details about the User will be stored in this variable
+  public Car: Observable<Car[]>;//Details about the User will be stored in this variable
 
-  ngOnInit() 
+  constructor(public DataSrv:DataSrvService,private localNotifications: LocalNotifications,private loading:LoadingController,public router:Router, private Firebase:FirebaseService,private navCtrl:NavController,) { }
+
+  async ngOnInit() 
   {
+    this.UserID= await this.DataSrv.GetVariable('userID');
+    this.User=this.Firebase.getUsers();
+    this.Car=this.Firebase.getCars();
+    this.DataSrv.GetVariable('rem').then(async re=>{
+      console.log("Get Response: "+re);
+      this.toggle=await re;
+      console.log('Toggle in  Promise: '+this.toggle);
+
+    });
+   if(this.toggle==undefined||this.toggle==null)
+    {
+      this.toggle=false;
+    }
     this.SupportedOBD=this.DataSrv.SupportedOBD;
     this.LiveData=this.Firebase.getLiveData();
     this.LiveData.pipe(take(1)).subscribe(res=>{for(let i=0;i<res.length;i++){this.select[i]=res[i].Enabled}},error=>{this.DataSrv.showError("Error",error)})
    
   }
+  togglechange(e)
+  {
+    console.log("Event: "+this.toggle);
+    
+    
+    if(this.toggle)
+    {
+      this.DataSrv.SetVariable('rem','true');
+      this.SceduleEveryDay()
+    }else{
+      this.DataSrv.SetVariable('rem','false');
+    }
+  }
+  SceduleEveryDay(){
+    this.localNotifications.schedule({
+      id:0,
+      title:'Good Morning',
+      text:'Check Your Cars Water & Oil Levels',
+      trigger:{every: ELocalNotificationTriggerUnit.DAY}
+    })
+  }
+
   goback()
   {
     this.navCtrl.back();
@@ -60,9 +103,41 @@ export class SettingPage implements OnInit {
     { 
     if (this.DataSrv.handlerMessage=="confirmed")
     {
+      this.User.pipe(take(1)).subscribe(res=>{
+        for(let i=0;i<res.length;i++)
+        {
+          if(this.UserID==res[i].userID)
+          {
+            this.DeleteID=res[i].ID;
+            console.log("ID: "+this.DeleteID);
+          }
+        }
+        this.Firebase.deleteUser(this.DeleteID).then(async rs=>{
+          this.Car.pipe(take(1)).subscribe(r=>{
+            for(let k=0;k<r.length;k++)
+            {
+              if(this.UserID==r[k].userId)
+              {
+                this.DeleteID=r[k].ID;
+                console.log("Car ID: "+this.DeleteID);
+                this.Firebase.deleteCar(this.DeleteID).then(accp=>{
+
+                  
+                }
+                )
+              }
+            }
+          });
+         
+         
+          
+        })
+      })
+      this.router.navigate(['/login']);
+      this.DataSrv.presentToast("Account Deleted Successfully");
       console.log(this.DataSrv.handlerMessage);
       console.log(this.DataSrv.roleMessage);
-      // add the code to delete record from firebase and auth . 
+      //add the code to delete record from firebase and auth. 
 
     }
     else{

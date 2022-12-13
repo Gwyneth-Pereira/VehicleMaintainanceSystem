@@ -15,6 +15,7 @@ export class DataSrvService {
   public car_name_as_on_slide:string="Car not paired.";
   queue=['ATZ\r','ATS0\r','ATL0\r','ATSP0\r','0100\r','0902\r'];//Setting Up OBD-II Commands;
   LiveDataCmds=[];
+  index;
   QueueIndex=0;//Index to guide the obd command array to the next point
   LiveDataIndex=0;
   public VehicleIDError='';
@@ -72,7 +73,7 @@ async ngOnInit() {
 }
 
 async SetVariable(k: string, val: any) {
-    await Preferences.set({
+   await Preferences.set({
       key:k,
       value: val
     });
@@ -119,7 +120,13 @@ if(mode=='00')
 else if(mode=='03')
   this.InitiateOBD('03\r');
 else if(mode=='01')
-  this.InitiateOBD(this.LiveDataCmds.splice(0,1));
+{
+  let val=this.LiveDataCmds.splice(0,1);
+  console.log("Wrote Code: "+val)
+  this.InitiateOBD(val);
+
+
+}
 
   
 }
@@ -142,6 +149,7 @@ dataReceived(data,mode,VIN)
     if(SingleString=='')
       continue;
       var multipleRes=SingleString.split('\r');
+      console.log("Code: "+multipleRes[0]+", Resp1: "+multipleRes[1]+", Resp2: "+multipleRes[2]+", Resp3: "+multipleRes[3])
   if(multipleRes[0]==='0902')
   {
     //If the Car Desnt Support Mode 9
@@ -206,6 +214,8 @@ dataReceived(data,mode,VIN)
               
               
             }
+            if(this.TroubleCodes[this.TroubleCodes.length-1].length<4)
+            this.TroubleCodes.pop();
             // this.TroubleCodes.forEach(element => {
             //   this.Codes.codes.push( element, "")
               
@@ -240,32 +250,43 @@ dataReceived(data,mode,VIN)
       }
       else if(multipleRes[0].substring(0,2)==='01')
       {
-        console.log("Code: "+multipleRes[0]+", Resp: "+multipleRes[2]+", Resp: "+multipleRes[3])
-        if(multipleRes[0]=='0103' &&multipleRes[2]!='NO DATA')
-          this.FuelStatus(multipleRes[0],multipleRes[2].substring(4,));
-        else if(multipleRes[0]=='0104' &&multipleRes[2]!='NO DATA')
-          this.convertLoad(multipleRes[0],multipleRes[2].substring(4,));
-        else if(multipleRes[0]=='0105' &&multipleRes[2]!='NO DATA')
-          this.convertTemp(multipleRes[0],multipleRes[2].substring(4,));
-        else if(multipleRes[0]=='010A' &&multipleRes[2]!='NO DATA')
-          this.convertFuelRailPressure(multipleRes[0],multipleRes[2].substring(4,));
-        else if(multipleRes[0]=='010B' &&multipleRes[2]!='NO DATA')
-          this.convertIntakePressure(multipleRes[0],multipleRes[2].substring(4,));
-        else if(multipleRes[0]=='010C' &&multipleRes[2]!='NO DATA')
-          this.convertRPM(multipleRes[0],multipleRes[2].substring(4,));
-        else if(multipleRes[0]=='010D' &&multipleRes[2]!='NO DATA')
-          this.convertSpeed(multipleRes[0],multipleRes[2].substring(4,));
-        else if(multipleRes[0]=='010F' &&multipleRes[2]!='NO DATA')
-          this.convertTemp(multipleRes[0],multipleRes[2].substring(4,));
-        else if(multipleRes[0]=='0111' &&multipleRes[2]!='NO DATA')
-          this.convertThrottlePos(multipleRes[0],multipleRes[2].substring(4,));
-        else if(multipleRes[0]=='012E' &&multipleRes[2]!='NO DATA')
-          this.convertThrottlePos(multipleRes[0],multipleRes[2].substring(4,));
-        else{
-          let reply="Value Not Found";
-          //if(multipleRes[0]!='0100')
-            //this.Firebase.updateLiveDataValues(multipleRes[0],reply);
-        }
+       if(multipleRes[1]!='')
+       {
+        this.index=1;
+        
+       }else if(multipleRes[2]!='')
+       {
+        this.index=2;
+       }else if(multipleRes[3]!='')
+       {
+        this.index=3;
+       }
+       console.log("Code: "+multipleRes[0]+", Resp: "+multipleRes[this.index])
+       if(multipleRes[0]=='0103' &&multipleRes[this.index]!='NO DATA')
+         this.FuelStatus(multipleRes[0],multipleRes[this.index].substring(4,));
+       else if(multipleRes[0]=='0104' &&multipleRes[this.index]!='NO DATA')
+         this.convertLoad(multipleRes[0],multipleRes[this.index].substring(4,));
+       else if(multipleRes[0]=='0105' &&multipleRes[this.index]!='NO DATA')
+         this.convertTemp(multipleRes[0],multipleRes[this.index].substring(4,));
+       else if(multipleRes[0]=='010A' &&multipleRes[this.index]!='NO DATA')
+         this.convertFuelRailPressure(multipleRes[0],multipleRes[this.index].substring(4,));
+       else if(multipleRes[0]=='010B' &&multipleRes[this.index]!='NO DATA')
+         this.convertIntakePressure(multipleRes[0],multipleRes[this.index].substring(4,));
+       else if(multipleRes[0]=='010C' &&multipleRes[this.index]!='NO DATA')
+         this.convertRPM(multipleRes[0],multipleRes[this.index].substring(4,));
+       else if(multipleRes[0]=='010D' &&multipleRes[this.index]!='NO DATA')
+         this.convertSpeed(multipleRes[0],multipleRes[this.index].substring(4,));
+       else if(multipleRes[0]=='010F' &&multipleRes[this.index]!='NO DATA')
+         this.convertTemp(multipleRes[0],multipleRes[this.index].substring(4,));
+       else if(multipleRes[0]=='0111' &&multipleRes[this.index]!='NO DATA')
+         this.convertThrottlePos(multipleRes[0],multipleRes[this.index].substring(4,));
+       else if(multipleRes[0]=='012E' &&multipleRes[this.index]!='NO DATA')
+         this.convertThrottlePos(multipleRes[0],multipleRes[this.index].substring(4,));
+       else{
+         let reply="Value Not Found";
+         //if(multipleRes[0]!='0100')
+           //this.Firebase.updateLiveDataValues(multipleRes[0],reply);
+       }
         
 
         

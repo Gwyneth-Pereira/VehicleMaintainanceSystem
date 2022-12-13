@@ -97,6 +97,12 @@ export class CarinfoPage implements OnInit {
     }
 
   }
+  openModal()
+  {
+
+    console.log("Clicke open modal");
+    this.modal.present();
+  }
   Submit()
   {
     this.updatedCar.document.push(this.Document);
