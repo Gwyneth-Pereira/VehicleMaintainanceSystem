@@ -3,7 +3,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/compat/firestore';
 import {Photo} from '@capacitor/camera';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { cide, DataSrvService } from './data-srv.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
@@ -82,9 +82,7 @@ export class FirebaseService {
     return{id,...data};
     });
     })
-    );
-
-   
+    );  
   }
   getUsers():Observable<Users[]>{ return this.user;}
   getLiveData():Observable<LiveData[]>{ return this.SPFlag;}
@@ -92,21 +90,12 @@ export class FirebaseService {
 
   getCars():Observable<Car[]>
   {  return this.car;  }
+
   getCar(id: string): Observable<Car[]>{
     return this.car;}
-  //  get_specific_user_cars(uid :string): Observable<Car[]>{
-   
-  //   return this.carCollection.doc<Car[]>().valueChanges().pipe(
-  //   map(idea=>{
-  //  idea.forEach(element => { 
-  //   if(element.userId==uid)
-  //       this.updatedCar.push(element);
-  //     });
-  //     return Observable(this.updatedCar);
-  //   })
-    
-  //   );
-  // return;}
+//    async get_specific_user_cars(id:string){
+//      return await this.carCollection.snapshotChanges().pipe( map(ides=> { return ides.filter(ides.)} ));
+// }
 
   getUser(id: string): Observable<Users>{
     return this.userCollection.doc<Users>(id).valueChanges().pipe(
