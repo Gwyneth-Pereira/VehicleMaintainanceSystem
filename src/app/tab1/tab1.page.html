@@ -33,15 +33,15 @@
   </ion-item>
     
   
-    <ion-label *ngIf="len>0" class="d-flex  justify-content-center">
+    <ion-label *ngIf="len>0" class="d-flex  justify-content-center mt-3 pt-2">
     <ion-button color="danger" fill="outline" > Clear codes</ion-button>
     </ion-label>
 
     <div *ngFor="let x of (TroubleCodes|async)" >
       <ion-card  *ngFor="let y of x.codes"   class="d-flex justify-content-start mt-3">
         <ion-card-content> 
-          <h2 class="m-b2 pb-2" style="color: red;">Code: {{y}}</h2> <br>
-                                                    Description: <br>  lorem</ion-card-content>
+          <h2 class="m-b2 pb-2" style="color: red;">Code: {{y}} </h2> <br>
+                                                    Description: <br>  insert des</ion-card-content>
       
       </ion-card>
     </div>
