@@ -6,6 +6,7 @@ import { LocalNotifications } from '@awesome-cordova-plugins/local-notifications
 import { LoadingController, NavController, ToastController } from '@ionic/angular';
 import { DataSrvService } from '../data-srv.service';
 import { Car, FirebaseService } from '../firebase.service';
+import { addDays } from 'date-fns';
 
 @Component({
   selector: 'app-addnewcar',
@@ -66,21 +67,25 @@ export class AddnewcarPage implements OnInit {
 
       this.newCar.ID=suc.id;
       this.Firebase.updateCar(this.newCar).then(rec=>{
-        this.newCar.ExpDte=this.parseDate(this.newCar.ExpDte);
-      this.newCar.ExpDte.setDate(this.newCar.ExpDte.getTime()-7);
+      this.newCar.ExpDte=this.parseDate(this.newCar.ExpDte);
+      this.newCar.ExpDte=addDays(this.newCar.ExpDte,-7)
       this.newCar.ExpDte.toLocaleDateString('de-DE');
+        console.log("Yearly Inspection 3: "+this.newCar.ExpDte);
       this.localNotify.schedule({
-        id:parseInt(this.newCar.userId),
+        id: Math.floor(Math.random() * 1000000),
         title:this.newCar.make+' '+this.newCar.model+' '+this.newCar.year,
         text:'Car Inspection Coming Next Week',
         trigger:{at:this.newCar.ExpDte},
         foreground:true
       });
+     
       this.newCar.InsExp=this.parseDate(this.newCar.InsExp);
-      this.newCar.InsExp.setDate(this.newCar.InsExp.getTime()-7);
+      this.newCar.InsExp=addDays(this.newCar.InsExp,-7);
       this.newCar.InsExp.toLocaleDateString('de-DE');
+      console.log("Yearly Insurance 3: "+this.newCar.InsExp);
+
       this.localNotify.schedule({
-        id:parseInt(this.newCar.userId),
+        id:Math.floor(Math.random() * 1000000),
         title:this.newCar.make+' '+this.newCar.model+' '+this.newCar.year,
         text:'Car Insurance Coming Next Week',
         trigger:{at:this.newCar.InsExp},

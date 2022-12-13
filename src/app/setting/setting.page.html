@@ -17,11 +17,14 @@
           <ion-list lines="inset" >
             <ion-item>
               <ion-label >Enable Daily Reminder</ion-label>
-              <ion-toggle color="sky" slot="end" ></ion-toggle>
+              <ion-toggle color="sky" slot="end" (ionChange)="togglechange($event)" [(ngModel)]="toggle"></ion-toggle>
             </ion-item>
-           
           </ion-list>
+         
         </div>
+        
+      
+      
       </ion-accordion>
       <ion-accordion value="second">
         <ion-item slot="header" >

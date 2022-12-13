@@ -13,6 +13,7 @@ import { Car, FirebaseService } from '../firebase.service';
 export class Tab3Page implements OnInit{
   private CarDetails: Observable<Car[]>;
   private UserID;
+  private parseID;
   public Sceduled: any [ ] =[];
 
   constructor(private localNotifications: LocalNotifications,
@@ -44,6 +45,7 @@ export class Tab3Page implements OnInit{
   async ngOnInit() 
   {
     this.UserID= await this.DataSrv.GetVariable('userID');
+    this.parseID=parseInt(this.UserID);
     this.getAll();
 
   }
@@ -54,14 +56,7 @@ export class Tab3Page implements OnInit{
     })
     
   }
-  SceduleEveryDay(){
-    this.localNotifications.schedule({
-      id:0,
-      title:'Good Morning',
-      text:'Check Your Car Water & Oil Levels',
-      trigger:{every: ELocalNotificationTriggerUnit.DAY}
-    })
-  }
+ 
   sceduleNotifications()
   {
     

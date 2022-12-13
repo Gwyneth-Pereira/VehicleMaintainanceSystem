@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { DataSrvService} from '../data-srv.service';
 import { FirebaseService, LiveData, Setting } from '../firebase.service';
+import { ELocalNotificationTriggerUnit, LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
 
 @Component({
   selector: 'app-setting',
@@ -14,18 +15,42 @@ import { FirebaseService, LiveData, Setting } from '../firebase.service';
 export class SettingPage implements OnInit {
   private LiveData:Observable<LiveData[]>;
   private UpdatedLiveData:LiveData={}as LiveData;
+  private toggle:any;
   private select=[];
   private SupportedOBD;
   private statement=false;
-  constructor(public DataSrv:DataSrvService,private loading:LoadingController,public router:Router, private Firebase:FirebaseService,private navCtrl:NavController,) { }
+  constructor(public DataSrv:DataSrvService,private localNotifications: LocalNotifications,private loading:LoadingController,public router:Router, private Firebase:FirebaseService,private navCtrl:NavController,) { }
 
-  ngOnInit() 
+  async ngOnInit() 
   {
+    this.toggle=await this.DataSrv.GetVariable('rem').then(re=>console.log("re"+re));
+    if(this.toggle==undefined||this.toggle==null)
+    {
+      this.toggle=false;
+    }
     this.SupportedOBD=this.DataSrv.SupportedOBD;
     this.LiveData=this.Firebase.getLiveData();
     this.LiveData.pipe(take(1)).subscribe(res=>{for(let i=0;i<res.length;i++){this.select[i]=res[i].Enabled}},error=>{this.DataSrv.showError("Error",error)})
    
   }
+  togglechange(e)
+  {
+    console.log("Event: "+this.toggle);
+    this.DataSrv.SetVariable('rem',this.toggle).then(re=>{console.log("set "+re)});
+    if(this.toggle)
+    {
+      this.SceduleEveryDay()
+    }
+  }
+  SceduleEveryDay(){
+    this.localNotifications.schedule({
+      id:0,
+      title:'Good Morning',
+      text:'Check Your Cars Water & Oil Levels',
+      trigger:{every: ELocalNotificationTriggerUnit.DAY}
+    })
+  }
+
   goback()
   {
     this.navCtrl.back();

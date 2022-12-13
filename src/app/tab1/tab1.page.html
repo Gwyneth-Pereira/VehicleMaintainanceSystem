@@ -33,7 +33,7 @@
   </ion-item>
     
   
-    <ion-label *ngIf="TroubleCodes.length>0" class="d-flex  justify-content-center">
+    <ion-label *ngIf="TroubleCodes?.codes" class="d-flex  justify-content-center">
     <ion-button color="danger" fill="outline" > Clear codes</ion-button>
     </ion-label>
     <div *ngFor="let x of (TroubleCodes|async)" >
