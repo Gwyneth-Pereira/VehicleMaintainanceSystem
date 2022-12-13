@@ -11,15 +11,15 @@
      <!-- <ion-button (click)="getAll()" fill="outline">display history</ion-button> -->
      <ion-button color="danger" fill="outline" (click)="del()">Delete </ion-button>
   </div>
- 
+  
   <ion-list>
-    <ion-item *ngFor="let x of Sceduled">
-     <ion-label>{{x.title}} </ion-label>
-     <ion-label>{{x.text}} </ion-label>
+    <ion-item *ngFor="let x of Sceduled"  class="d-flex align-content-start flex-wrap">
+     <ion-label> <b>{{x.title}}</b> <br/>{{x.text}} </ion-label>
+     
     </ion-item>  
     <ion-item *ngIf="Sceduled.length==0" >
       <ion-label class="d-flex  justify-content-center">
-        No History to be displayed!
+        No Notification to be displayed!
       </ion-label>
     </ion-item> 
   </ion-list>
