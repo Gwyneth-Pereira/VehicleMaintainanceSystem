@@ -25,7 +25,7 @@ export class AddnewcarPage implements OnInit {
   private newCar:Car={ID:'',VIN:'',make:'',model:'',year:null,numPlate:'',carimg:'',ownerID:null,ExpDte:null,InsComp:'',InsPolicy:null, InsType:'',InsExp:null,
     document:[],userId:'',blue:'Dark'};
     getValue;
-  form: FormGroup;
+  carform: FormGroup;
     constructor(
       private localNotify:LocalNotifications,
       private navCtrl:NavController,
@@ -34,6 +34,9 @@ export class AddnewcarPage implements OnInit {
       public dataSrv:DataSrvService,
       private Firebase:FirebaseService,
       private loading:LoadingController) { 
+        this.initForm();
+
+
       this.route.queryParams.subscribe(params => {
         if (this.router.getCurrentNavigation().extras.state) {
           this.newCar.userId = this.router.getCurrentNavigation().extras.state.userID;
@@ -47,14 +50,36 @@ export class AddnewcarPage implements OnInit {
     }
  
   ngOnInit(){
-   
+
+  }
+  initForm() {
+    this.carform = new FormGroup({
+      make: new FormControl(null, {validators: [Validators.required]}) ,
+      ownerID: new FormControl(null, {validators: [Validators.required]}),
+      
+      numPlate: new FormControl(null, {validators: [Validators.required]}),
+       model: new FormControl(null, {validators: [Validators.required]}),
+      
+      
+
+
+      
+    });
     }
 
 
   async submit()
   {
-    const loading=await this.loading.create();
-    await loading.present();
+
+   
+    if(!this.carform.valid) 
+    {
+      
+      this.carform.markAllAsTouched();
+      return;
+    }
+
+    
     this.YDte=this.YearDte.split('T');
     this.IDte=this.InsDte.split('T');
     this.newCar.ExpDte=this.YDte[0];

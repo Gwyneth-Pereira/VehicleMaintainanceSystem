@@ -7,10 +7,7 @@
 
 <ion-content [fullscreen]="true">
 
-  <div class="m-2 p-2 d-flex justify-content-end  " *ngIf="Sceduled.length>0">
-     <!-- <ion-button (click)="getAll()" fill="outline">display history</ion-button> -->
-     <ion-button color="danger" fill="outline" (click)="del()">Delete </ion-button>
-  </div>
+ 
   
   <ion-list>
     <ion-item *ngFor="let x of Sceduled"  class="d-flex align-content-start flex-wrap">
@@ -23,5 +20,8 @@
       </ion-label>
     </ion-item> 
   </ion-list>
-
+  <div class="m-2 p-2 " *ngIf="Sceduled.length>0">
+    <!-- <ion-button (click)="getAll()" fill="outline">display history</ion-button> -->
+    <ion-button color="danger" fill="outline" expand="block" (click)="del()">Delete </ion-button>
+ </div>
 </ion-content>
