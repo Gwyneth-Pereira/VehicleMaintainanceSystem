@@ -4,7 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from 
 import {Photo} from '@capacitor/camera';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { DataSrvService } from './data-srv.service';
+import { cide, DataSrvService } from './data-srv.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { AlertController } from '@ionic/angular';
@@ -280,5 +280,5 @@ Enabled:boolean
 }
 export interface code{
   id?:string;
-  codes:string[]
+  codes:cide[]
 }

@@ -1,6 +1,6 @@
 export class codesdesc{
 
-    static codedes=[
+    public static codedes=[
             { code:"P0000" , description:"No trouble code"},  
             {code:"P0001", description:"Fuel Volume Regulator Control Circuit / Open" },
             {code:"P0002", description:"Fuel Volume Regulator Control Circuit Range/Performance" },
