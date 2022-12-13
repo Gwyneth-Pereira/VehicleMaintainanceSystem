@@ -38,12 +38,16 @@
     </ion-label>
 
     <div *ngFor="let x of (TroubleCodes|async)" >
-      <ion-card  *ngFor="let y of x.codes"   class="d-flex justify-content-center mt-3">
-        <ion-card-subtitle><h2>Code: {{y}}</h2></ion-card-subtitle><br>
-        <ion-card-content>Description: lorem</ion-card-content>
+      <ion-card  *ngFor="let y of x.codes"   class="d-flex justify-content-start mt-3">
+        <ion-card-content> 
+          <h2 class="m-b2 pb-2" style="color: red;">Code: {{y}}</h2> <br>
+                                                    Description: <br>  lorem</ion-card-content>
       
       </ion-card>
     </div>
+
+    
+
 
 </div>
 
