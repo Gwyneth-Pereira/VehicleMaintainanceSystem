@@ -15,6 +15,7 @@ export class Tab1Page implements OnInit {
   private selectedSegment: string ='Sensor';
   private LiveData:Observable<LiveData[]>;
   private CodeArray:string[]=[];
+  public len;
   private TroubleCodes:Observable<code[]>;
   
   Sped;
@@ -25,6 +26,9 @@ export class Tab1Page implements OnInit {
    {
     this.TroubleCodes=this.Firebase.getCodes();
     this.LiveData=this.Firebase.getLiveData();
+    this.TroubleCodes.subscribe(sucess=>{
+      this.len= sucess[0].codes.length;
+    })
    
   }
 
