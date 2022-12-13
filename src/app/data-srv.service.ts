@@ -11,7 +11,7 @@ import { code, FirebaseService } from './firebase.service';
 })
 
 export class DataSrvService {
-  public car_name_as_on_slide:string="";
+  public car_name_as_on_slide:string="Car not paired.";
   queue=['ATZ\r','ATS0\r','ATL0\r','ATSP0\r','0100\r','0902\r'];//Setting Up OBD-II Commands;
   LiveDataCmds=[];
   QueueIndex=0;//Index to guide the obd command array to the next point
