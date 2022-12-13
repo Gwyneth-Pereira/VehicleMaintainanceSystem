@@ -16,7 +16,7 @@ export class Tab1Page implements OnInit {
   private LiveData:Observable<LiveData[]>;
   private CodeArray:string[]=[];
   private TroubleCodes:Observable<code[]>;
-  
+  private leng;
   Sped;
   constructor(public bluetooth:BluetoothSerial, public router:Router,public DataSrv:DataSrvService,private Firebase:FirebaseService) {
    
@@ -24,6 +24,9 @@ export class Tab1Page implements OnInit {
   ngOnInit()
    {
     this.TroubleCodes=this.Firebase.getCodes();
+    this.TroubleCodes.subscribe(res=>{
+      this.leng=res.length;
+    });
     this.LiveData=this.Firebase.getLiveData();
    
   }

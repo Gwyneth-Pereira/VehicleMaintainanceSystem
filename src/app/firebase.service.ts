@@ -151,7 +151,7 @@ export class FirebaseService {
     return checker;
      
   }
-  
+   
   addUser(idea:Users):Promise<DocumentReference>{ return this.userCollection.add(idea); }
   
   addCar(idea:Car):Promise<DocumentReference>{  return this.carCollection.add(idea);   }
@@ -163,8 +163,10 @@ export class FirebaseService {
 
   
 
-  deleteUser(id: string): Promise<void>{return this.userCollection.doc(id).delete();}
-  removeCodes()
+deleteUser(id: string): Promise<void>{return this.userCollection.doc(id).delete();}
+
+deleteCar(id: string): Promise<void>{return this.carCollection.doc(id).delete();}
+removeCodes()
   {
   this.Codes.codes=[];  
   this.updateCode(this.Codes).then(res=>{
@@ -172,7 +174,7 @@ export class FirebaseService {
               });
   
   }
-  removeLiveData()
+removeLiveData()
   {
   this.SPFlag.pipe(take(1)).subscribe(res=>{
     for(let i=0;i<res.length;i++)
@@ -184,7 +186,7 @@ export class FirebaseService {
   })
   
   }
-  updateLiveDataValues(code,result)
+updateLiveDataValues(code,result)
 {
   this.SPFlag.pipe(take(1)).subscribe(res=>{
     for(let  i=0;i<res.length;i++)
@@ -202,9 +204,7 @@ export class FirebaseService {
   })
   
 }
-
-  
-  async uploadImage(image:Photo,Path:string)
+async uploadImage(image:Photo,Path:string)
   {
     const response=await fetch(image.webPath);
     const blob=await response.blob();
@@ -223,15 +223,15 @@ export class FirebaseService {
     }},err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA));
     return null;
   }
-  async showError(Header,msg) {
+async showError(Header,msg) 
+{
     let  alert = await this.alert.create({
     message: msg,
     subHeader: Header,
     buttons: ['OK']
     });
     await alert.present(); 
-    }
-  
+}
 }
 export interface Users {
 ID?:string;

@@ -5,8 +5,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavigationExtras, Router } from'@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
 import {  Observable }from'rxjs';
+import { take } from 'rxjs/operators';
 import {  DataSrvService } from '../data-srv.service';
-import { FirebaseService, Setting } from '../firebase.service';
+import { FirebaseService, Setting, Users } from '../firebase.service';
 
 @Component({
   selector: 'app-login',
@@ -17,13 +18,17 @@ export class LoginPage implements OnInit {
   
   settng:Setting={InspR:true, InsuR:true, OilR:true, PairR:true, dailyR:true};
   form: FormGroup;
-  
+  private Checker:boolean=false;
+  public User: Observable<Users[]>;//Details about the User will be stored in this variable
+
     constructor(public router:Router,public dataSrv:DataSrvService, private Firebase: FirebaseService,private loading:LoadingController) 
     { 
       
       this.initForm();
     }
-  ngOnInit() {
+  ngOnInit() 
+  {
+    this.User=this.Firebase.getUsers();
     
   }
     initForm() {
@@ -43,10 +48,30 @@ export class LoginPage implements OnInit {
       }
       this.Firebase.loginUser(this.form.value.email,this.form.value.password).then(
         succ=>{
-          this.dataSrv.presentToast("You have logged in sucessfully!!");
-          this.dataSrv.SetVariable('userID',this.form.value.email.toLowerCase());
-        this.router.navigate(['tab/tabs/tab2']); 
+          this.User.pipe(take(1)).subscribe(async res=>{
+            for(let i=0;i<res.length;i++)
+            if(this.form.value.email.toLowerCase()==res[i].userID)
+              this.Checker=true;
+              if(this.Checker)
+              {
+                this.Checker=false;
+                this.dataSrv.presentToast("You have logged in sucessfully!!");
+                this.dataSrv.SetVariable('userID',this.form.value.email.toLowerCase());
+                this.router.navigate(['tab/tabs/tab2']); 
+               
+      
+              }else{
+                this.dataSrv.presentToast("Account Not Found");
+              }
+
+            
+             }); 
+          
+         /**/         
+         
         },error=>{this.dataSrv.showError("Error",error);}).catch(error=>{this.dataSrv.showError("Error",error);})
-      await load1.dismiss();
+       
+     
+        await load1.dismiss();
       }
   }
