@@ -9,6 +9,7 @@ import { Car, FirebaseService, Users } from '../firebase.service';
 import { addDays } from 'date-fns';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { makeStateKey } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-addnewcar',
@@ -89,6 +90,17 @@ export class AddnewcarPage implements OnInit {
     {this.carform.markAllAsTouched();
       return;
     }
+    //saving the form data in array
+    this.newCar.make=this.carform.value.make;
+    this.newCar.model=this.carform.value.model;
+    this.newCar.numPlate=this.carform.value.numPlate;
+    this.newCar.ownerID=this.carform.value.ownerID;
+   
+
+
+
+
+
     this.YDte=this.YearDte.split('T');
     this.IDte=this.InsDte.split('T');
     this.newCar.ExpDte=this.YDte[0];
