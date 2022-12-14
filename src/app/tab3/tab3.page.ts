@@ -48,26 +48,25 @@ export class Tab3Page implements OnInit{
   {
     this.UserID= await this.DataSrv.GetVariable('userID');
     this.User=this.Firebase.getUsers();
-    this.User.pipe(take(1)).subscribe(res=>{
+    this.User.subscribe(async res=>{
       for(let k=0;k<res.length;k++)
       {
         if(res[k].userID==this.UserID)
         {
           this.UpUser=res[k];
-          console.log("Notification Length: "+res[k].Noification.length);
+          console.log("Notification Length: "+this.UpUser.Noification.length);
         }
 
       }
-      this.localNotifications.getAll().then(res=>
+     await  this.localNotifications.getAll().then(res=>
         {
-          
-          for(let k=0;k<this.UpUser.Noification.length;k++)
+          console.log("Local Notification: "+res.length)
+          for(let k=0;k<res.length;k++)
           {
-            
-            for(let i=0;i<res.length;i++)
+          for(let i=0;i<this.UpUser.Noification.length;i++)
             {
-              console.log("Notification ID: "+res[i].id);
-              if(this.UpUser.Noification[k]==res[i].id)
+              console.log("User Notification ID: "+this.UpUser.Noification[i]+", Local Notification: "+res[k].id);
+              if(res[k].id===this.UpUser.Noification[i])
               {
                 this.Sceduled.push(res[i]);
               }

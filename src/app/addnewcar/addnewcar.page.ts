@@ -93,6 +93,7 @@ export class AddnewcarPage implements OnInit {
     this.IDte=this.InsDte.split('T');
     this.newCar.ExpDte=this.YDte[0];
     this.newCar.InsExp=this.IDte[0];
+    this.newCar.VIN=null;
     this.Firebase.addCar(this.newCar).then(suc=>{
       this.NotificationID=[Math.floor(Math.random() * 1000000),Math.floor(Math.random() * 1000000)];
       
@@ -109,7 +110,8 @@ export class AddnewcarPage implements OnInit {
       this.newCar.InsExp.toLocaleDateString('de-DE');
       console.log("Yearly Insurance 3: "+this.newCar.InsExp);
       
-      this.UpdatedUser.Noification=this.NotificationID;
+      this.UpdatedUser.Noification.push(this.NotificationID[0]);
+      this.UpdatedUser.Noification.push(this.NotificationID[1]);
       console.log("Notification ID: "+this.UpdatedUser.Noification)
       this.Firebase.updateUser(this.UpdatedUser).then(res=>{
         this.localNotify.schedule({

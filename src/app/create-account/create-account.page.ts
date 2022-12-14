@@ -48,6 +48,7 @@ export class CreateAccountPage implements OnInit {
     this.NewAccount.Name= this.form.value.name;
     this.NewAccount.phoneNum = this.form.value.phone ;
     this.NewAccount.password=this.form.value.password;
+    this.NewAccount.Noification.push(0);
     this.FireAuth.createUserWithEmailAndPassword(this.form.value.email,this.form.value.password).then(
     success=>
     {

@@ -17,10 +17,11 @@
           <ion-list lines="inset" >
             <ion-item>
               <ion-label >Enable Daily Reminder</ion-label>
-              <ion-toggle color="sky" slot="end" (ionChange)="togglechange($event)" [(ngModel)]="toggle"></ion-toggle>
+              <ion-toggle color="sky" slot="end"  [(ngModel)]="toggle"></ion-toggle>
             </ion-item>
           </ion-list>
-         
+          <div class="p-2 m-1 d-flex flex-row-reverse">
+            <ion-button (click)="Apply()">Apply Setting</ion-button></div>
         </div>
         
       
