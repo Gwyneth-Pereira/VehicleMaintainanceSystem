@@ -8,6 +8,7 @@ import { DataSrvService } from '../data-srv.service';
 import { Car, FirebaseService, Users } from '../firebase.service';
 import { addDays } from 'date-fns';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-addnewcar',
@@ -22,7 +23,7 @@ export class AddnewcarPage implements OnInit {
   private InsDte =new Date().toISOString();
   private YDte:any[];
   private IDte:any[];
-  private NotificationID:any[]
+  private NotificationID:number[]
   private minDate= new Date().toISOString();
   private newCar:Car={} as Car;
   public User: Observable<Users[]>;
@@ -40,11 +41,7 @@ export class AddnewcarPage implements OnInit {
         this.initForm();
 
 
-      this.route.queryParams.subscribe(params => {
-        if (this.router.getCurrentNavigation().extras.state) {
-          this.newCar.userId = this.router.getCurrentNavigation().extras.state.userID;
-        }
-      });
+     
        
     }
     goback()
@@ -55,20 +52,26 @@ export class AddnewcarPage implements OnInit {
   async ngOnInit()
   {
     this.User=this.Firebase.getUsers();
-    this.User.subscribe(rez=>{
+    this.UserID=await this.dataSrv.GetVariable('userID');
+    this.User.pipe(take(1)).subscribe(async rez=>{
       for(let u=0;u<rez.length;u++)
       {
-        if(this.newCar.userId==rez[u].userID)
+        if(this.UserID==rez[u].userID)
         {
+          
           this.UpdatedUser=rez[u];
+        
+          
         }
       }
     })
     this.newCar.blue='Dark';
+    this.newCar.userId=this.UserID;
    
-console.log("Current User: "+JSON.stringify(this.UpdatedUser));
+
   }
   initForm() {
+    
     this.carform = new FormGroup({
       make: new FormControl(null, {validators: [Validators.required]}) ,
       ownerID: new FormControl(null, {validators: [Validators.required]}),
@@ -80,30 +83,34 @@ console.log("Current User: "+JSON.stringify(this.UpdatedUser));
 
   async submit()
   {
+    
+    console.log("Current Inside Notify: "+this.UpdatedUser.Noification);
    if(!this.carform.valid) 
     {this.carform.markAllAsTouched();
       return;
     }
-
     this.YDte=this.YearDte.split('T');
     this.IDte=this.InsDte.split('T');
     this.newCar.ExpDte=this.YDte[0];
     this.newCar.InsExp=this.IDte[0];
-    
     this.Firebase.addCar(this.newCar).then(suc=>{
-      this.NotificationID[0]=Math.floor(Math.random() * 1000000);
-      this.NotificationID[1]=Math.floor(Math.random() * 1000000);
+      this.NotificationID=[Math.floor(Math.random() * 1000000),Math.floor(Math.random() * 1000000)];
+      
       this.newCar.ID=suc.id;
       this.Firebase.updateCar(this.newCar).then(rec=>{
+
       this.newCar.ExpDte=this.parseDate(this.newCar.ExpDte);
       this.newCar.ExpDte=addDays(this.newCar.ExpDte,-7)
       this.newCar.ExpDte.toLocaleDateString('de-DE');
       console.log("Yearly Inspection 3: "+this.newCar.ExpDte); 
+
       this.newCar.InsExp=this.parseDate(this.newCar.InsExp);
       this.newCar.InsExp=addDays(this.newCar.InsExp,-7);
       this.newCar.InsExp.toLocaleDateString('de-DE');
       console.log("Yearly Insurance 3: "+this.newCar.InsExp);
-      this.UpdatedUser.Noification.push(this.NotificationID);
+      
+      this.UpdatedUser.Noification=this.NotificationID;
+      console.log("Notification ID: "+this.UpdatedUser.Noification)
       this.Firebase.updateUser(this.UpdatedUser).then(res=>{
         this.localNotify.schedule({
           id:this.NotificationID[0],

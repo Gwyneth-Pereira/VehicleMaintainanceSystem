@@ -97,9 +97,8 @@ Pair()
 
 gonewCarInfo()
 {
-  let navigationExtras: NavigationExtras = {
-    state: {userID: this.UserID }   };
-  this.router.navigate(['addnewcar'],navigationExtras);
+  
+  this.router.navigate(['addnewcar']);
 }
 
  listDevices() 
