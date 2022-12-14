@@ -37,10 +37,6 @@ export class CreateAccountPage implements OnInit {
     });
   }
 
-  
-
-
-
   async onSubmit() {
     const loading=await this.loading.create();
     await loading.present();
