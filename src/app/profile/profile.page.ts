@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { DataSrvService} from '../data-srv.service';
-import { LoadingController, NavController } from '@ionic/angular';
+import { IonSlides, LoadingController, NavController } from '@ionic/angular';
 import { Car, FirebaseService, Users } from '../firebase.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
@@ -15,10 +15,12 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 export class ProfilePage implements OnInit {
 
 public uid :string;
+public slide: IonSlides;
 public s: boolean; //to show password
 public User: Observable<Users[]>;//Details about the User will be stored in this variable
 public CAR: Observable<Car[]>;
 private updatedUser:Users={}as Users;
+private UpdatedCar:Car={}as Car;
 
   constructor(
     private DataSrv:DataSrvService,
@@ -42,9 +44,16 @@ private updatedUser:Users={}as Users;
     this.router.navigate(['addnewcar'],navigationExtras);
   }
  ngOnInit(){
+  this.route.queryParams.subscribe(params => {
+    if (this.router.getCurrentNavigation().extras.state) {
+      this.uid = this.router.getCurrentNavigation().extras.state.UserID;
+      
+    }
+  });
+   
    this.User=this.Firebase.getUsers();
    this.CAR=this.Firebase.getCars();
-   this.route.params.subscribe(params => {  this.uid=params['uid'];  });
+   
   }
   OpenCarInfo(value)
   {
@@ -56,8 +65,15 @@ private updatedUser:Users={}as Users;
  onLogOut()
     {
      this.Firebase.logoutUser().then( sucess=> 
-      {this.DataSrv.presentToast("Logged out Sucessfully");
-      this.router.navigate(['login']);
+      {
+        //this.DataSrv.Disconnect(this.slide,this.UpdatedCar);
+        this.DataSrv.RemoveVariable('userID').then(resp=>
+          {
+            this.DataSrv.presentToast("Logged out Sucessfully");
+            this.router.navigate(['login']);
+
+          });
+       
     }).catch(error=>alert(error));      
     }
     

@@ -1,27 +1,29 @@
 import { Injectable } from '@angular/core';
 import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, IonSlides, ToastController } from '@ionic/angular';
 import { Preferences } from '@capacitor/preferences';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
-import { code, FirebaseService } from './firebase.service';
+import { Car, code, FirebaseService } from './firebase.service';
 import { codesdesc } from './codedesc';
+import { Codes } from './codes';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class DataSrvService {
-  public car_name_as_on_slide:string="Car not paired.";
+  public car_name_as_on_slide:string="Car not Paired";
   queue=['ATZ\r','ATS0\r','ATL0\r','ATSP0\r','0100\r','0902\r'];//Setting Up OBD-II Commands;
   LiveDataCmds=[];
   index;
+  BluetoothFlag:boolean=true;
   QueueIndex=0;//Index to guide the obd command array to the next point
   LiveDataIndex=0;
   public VehicleIDError='';
-  
-  public Codes:code={id:'codes',codes:{}as cide[]}as code;
+  public Codes:code={id:'codes',codes:[]}as code;
   TroubleCodes:string[];
+  public codeWithDesc:cide={}as cide;
   SupportedOBD=[{Text:'Monitor status since DTCs cleared',Value:'-'},
   {Text:'Freeze DTC',Value:'-'},
   {Text:'Fuel system status',Value:'-'},
@@ -54,7 +56,7 @@ export class DataSrvService {
   {Text:'Auxiliary input status',Value:'-'},
   {Text:'Run time since engine start',Value:'-'},
   {Text:'PIDs supported [21 - 40]',Value:'-'}];//An Array that Contains all the data related to 0100 Response
-  SupportedPIDS;//Decimal Response Converted from Hex response that came from OBD
+  
   
 
 
@@ -77,12 +79,19 @@ async SetVariable(k: string, val: any) {
       key:k,
       value: val
     });
+   
 }
 
   async GetVariable(k)
   {
     const ret=await Preferences.get({key:k});
     return ret.value;
+  }
+  async RemoveVariable(k)
+  {
+    const ret=await Preferences.remove({key:k});
+    console.log("Ret: "+ret)
+    return ret;
   }
 
 InitiateOBD(cmd)
@@ -103,16 +112,24 @@ async getImage()
   });
   return image;
 }
+UpdateCar(UpCar:Car,color:string)
+{
+  UpCar.blue=color;
+  this.Firebase.updateCar(UpCar).then(r=>
+     {console.log("Updated Car Color to "+color);},
+  e=>{ console.log("Error Updating Car Color to "+color); this.showError('Error',e)})
+  
 
+}
 deviceConnected(mode, VIN)
 {
-
+this.BluetoothFlag=false;
 this.bluetooth.subscribe('>').subscribe
 (success=>{
 this.dataReceived(success,mode,VIN);
 }, error => {
   this.showError("Error During Receivng Data",error);
-  this.Disconnect();
+  //this.Disconnect();
 
 });
 if(mode=='00')
@@ -124,19 +141,31 @@ else if(mode=='01')
   let val=this.LiveDataCmds.splice(0,1);
   console.log("Wrote Code: "+val)
   this.InitiateOBD(val);
-
-
+}else if(mode=='04')
+{
+  this.InitiateOBD('04\r');
 }
 
   
 }
-Disconnect()
+Disconnect(slide:IonSlides, UpCar:Car)
 {
- 
+  this.car_name_as_on_slide='Car not Paired';
+  this.BluetoothFlag=true;
   this.QueueIndex=0;
+  this.ChangeSlideStatus(slide,false);
+  this.UpdateCar(UpCar,'Dark');
+  this.Firebase.removeCodes();
+  this.Firebase.removeLiveData();
+  for(let i=0;i<this.SupportedOBD.length;i++)
+    this.SupportedOBD[i].Value='-';
   this.bluetooth.disconnect();
 }
+ChangeSlideStatus(slide:IonSlides,lock:boolean)
+{
+  slide.lockSwipes(lock);
 
+}
 
 dataReceived(data,mode,VIN)
 {
@@ -216,32 +245,27 @@ dataReceived(data,mode,VIN)
             }
             if(this.TroubleCodes[this.TroubleCodes.length-1].length<4)
             this.TroubleCodes.pop();
-            // this.TroubleCodes.forEach(element => {
-            //   this.Codes.codes.push( element, "")
-              
-            // });
-
-            for(let k=0;k<this.TroubleCodes.length;k++)
+            for(let i=0;i<this.TroubleCodes.length;i++)
             {
-              for(let j=0;j<codesdesc.length;j++)
-              {
-                if(this.TroubleCodes[k]==codesdesc[j].code)
-                {let val={code:this.TroubleCodes[k],desc:codesdesc[j].description};
-                  this.Codes.codes.push(val);
-                }
-              }
-            
-            }
+            Codes.AllCodes.forEach(element => 
+                {
+                if(element.code==this.TroubleCodes[i])
+                {
+                  this.Codes.codes.push({code:this.TroubleCodes[i],desc:element.description});
+                         
+                 
+                }  
+                });
 
-           // this.Codes.codes=this.TroubleCodes;  
-            console.log("Code: "+this.Codes);
+            }
+             
+           
+           
+            
             this.Firebase.updateCode(this.Codes).then(res=>{
-              this.showError("Alert","Code Found");
+              this.presentToast("Engine Code Found");
             })
-            //for(let q=0;q<this.TroubleCodes.length;q++)
-            //this.TroubleCodes=this.TroubleCodes[q]        
-           // this.TCode=this.fetchModel(this.TroubleCodes);
-    
+            
             }else{
               //console.log("no codes found");
             }
@@ -282,10 +306,23 @@ dataReceived(data,mode,VIN)
          this.convertThrottlePos(multipleRes[0],multipleRes[this.index].substring(4,));
        else if(multipleRes[0]=='012E' &&multipleRes[this.index]!='NO DATA')
          this.convertThrottlePos(multipleRes[0],multipleRes[this.index].substring(4,));
-       else{
-         let reply="Value Not Found";
-         //if(multipleRes[0]!='0100')
-           //this.Firebase.updateLiveDataValues(multipleRes[0],reply);
+       else if(multipleRes[0]==='0100')
+       {
+        console.log("Code: "+multipleRes[0]+", Response: "+multipleRes[this.index].substring(4,));
+        let reply=(parseInt(multipleRes[this.index].substring(4,), 16)).toString(2);
+        console.log("In Binary: "+reply);
+        for(let k=0;k<reply.length;k++)
+        {
+          if(reply.charAt(k)=='1')
+          {
+            this.SupportedOBD[k].Value='Yes';
+          }else
+          {
+            this.SupportedOBD[k].Value='No';
+          }
+        }
+        
+        
        }
         
 
@@ -389,7 +426,7 @@ async showError(Header,msg) {
 async  presentToast(msg) {
   let toast = await this.toastctrl.create({
   message: msg,
-  duration: 2000,
+  duration: 1500,
   position:"top"
   })
   toast.present();

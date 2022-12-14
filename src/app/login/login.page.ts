@@ -48,26 +48,25 @@ export class LoginPage implements OnInit {
       }
       this.Firebase.loginUser(this.form.value.email,this.form.value.password).then(
         succ=>{
-          this.User.pipe(take(1)).subscribe(async res=>{
+          this.dataSrv.SetVariable('userID',this.form.value.email.toLowerCase());
+          this.dataSrv.presentToast("You have logged in sucessfully!!");
+          this.router.navigate(['tab/tabs/tab2']);
+          
+          
+         /*this.User.pipe(take(1)).subscribe(async res=>{
             for(let i=0;i<res.length;i++)
             if(this.form.value.email.toLowerCase()==res[i].userID)
-              this.Checker=true;
-              if(this.Checker)
+              
+              if(await this.dataSrv.GetVariable('userID')==this.form.value.email.toLowerCase())
               {
-                this.Checker=false;
-                this.dataSrv.presentToast("You have logged in sucessfully!!");
-                this.dataSrv.SetVariable('userID',this.form.value.email.toLowerCase());
-                this.router.navigate(['tab/tabs/tab2']); 
                
+                    
       
-              }else{
-                this.dataSrv.presentToast("Account Not Found");
-              }
+        }else{this.dataSrv.presentToast("Account Not Found");}
+              
 
             
-             }); 
-          
-         /**/         
+             }); */         
          
         },error=>{this.dataSrv.showError("Error",error);}).catch(error=>{this.dataSrv.showError("Error",error);})
        

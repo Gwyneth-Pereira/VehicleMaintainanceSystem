@@ -76,6 +76,7 @@ export class AddnewcarPage implements OnInit {
         title:this.newCar.make+' '+this.newCar.model+' '+this.newCar.year,
         text:'Car Inspection Coming Next Week',
         trigger:{at:this.newCar.ExpDte},
+        
         foreground:true
       });
      

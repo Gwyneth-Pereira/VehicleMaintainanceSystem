@@ -1,6 +1,6 @@
 export class codesdesc{
 
-    public static codedes=[
+    static AllCodes=[
             { code:"P0000" , description:"No trouble code"},  
             {code:"P0001", description:"Fuel Volume Regulator Control Circuit / Open" },
             {code:"P0002", description:"Fuel Volume Regulator Control Circuit Range/Performance" },
@@ -107,15 +107,8 @@ export class codesdesc{
             {code:"P0097", description:" Intake Air Temperature Sensor 2 Circuit Low Input" },
             {code:"P0098", description: "Intake Air Temperature Sensor 2 Circuit High Input " },
             {code:"P0099", description:" Intake Air Temperature Sensor 2 Circuit Intermittent/Erratic" },
-            
             {code:"P00b7", description:"Engine Coolant Flow Low/Performance " },
             {code:"P0100", description:"Mass or Volume Air flow Circuit Malfunction " },
-            
-
- 
- 
-
-
             {code:"P0101", description:" Mass or Volume Air flow Circuit Range/Performance Problem " },
             {code:"P0102", description:" Mass or Volume Air Flow Circuit low Input" },
             {code:"P0103", description:"Mass or Volume Air flow Circuit High Input " },
@@ -176,10 +169,6 @@ export class codesdesc{
             {code:"P0158", description:" O2 Sensor Circuit High Voltage (Bank 2 Sensor 2)            " },
             {code:"P0159", description:"O2 Sensor Circuit Slow Response (Bank 2 Sensor 2)            " },
             {code:"P0160", description:"  O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 2)            " },
-            
-             
-
-
             {code:"P0161", description:" O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 2)" },
             {code:"P0162", description:"O2 Sensor Circuit Malfunction (Bank 2 Sensor 3) " },
             {code:"P0163", description:" O2 Sensor Circuit Low Voltage (Bank 2 Sensor 3)" },
@@ -201,7 +190,6 @@ export class codesdesc{
             {code:"P0179", description:" Fuel Composition Sensor Circuit High Input" },
             {code:"P018C", description:"Fuel Pressure Sensor B Circuit Low " },
             {code:"P0180", description:" Fuel Temperature Sensor A Circuit Malfunction" },
-
             {code:"P0181", description:"Fuel Temperature Sensor A Circuit Range/Performance " },
             {code:"P0182", description:"Fuel Temperature Sensor A Circuit low Input   " },
             {code:"P0183", description:"Fuel Temperature Sensor A Circuit Intermittent " },
@@ -225,10 +213,7 @@ export class codesdesc{
             {code:"P0199", description:"Engine Oil Temperature Sensor Intermittent  " },
             {code:"P0200", description:"Injector Circuit Malfunction            " },
 
-        {
-                  code: "P0200",
-                  description: "Engine Oil Temperature Sensor Intermittent"
-                },
+        
                 {
                   code: "P0201",
                   description: "Injector Circuit Malfunction"

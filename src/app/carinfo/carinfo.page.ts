@@ -115,6 +115,28 @@ export class CarinfoPage implements OnInit {
     });
     this.cancel();
   }
+  DelCar(ca)
+  {
+    this.CAR.subscribe((result)=>
+    {
+      
+      for(let i =0;i<result.length;i++)
+      {
+        if(result[i].numPlate==ca)
+        {
+          console.log("found car: "+result[i]);
+          this.updatedCar=result[i];
+          this.Firebase.deleteCar(this.updatedCar.ID).then(re=>{
+            this.DataSrv.presentToast("Car Deleted Successfully");
+            this.goback();
+          })
+                          
+        }
+      }
+    });
+
+  }
+ 
   async changeImage(num)
     {
       console.log("numplate: "+num);

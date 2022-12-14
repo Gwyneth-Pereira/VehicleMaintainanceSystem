@@ -94,6 +94,7 @@ export class Tab3Page implements OnInit{
   }
   getAll()
   {
+    
     this.localNotifications.getAll().then(res=>
       {
         this.Sceduled=res;

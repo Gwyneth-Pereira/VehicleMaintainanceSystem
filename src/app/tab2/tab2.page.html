@@ -1,21 +1,16 @@
 <ion-header [translucent]="true">
   <div *ngFor="let x of (User | async ) ">
-  <ion-toolbar   class="me-1 pe-1" *ngIf="UserID==x?.userID; else guestlogin;" >
+  <ion-toolbar   class="me-1 pe-1" *ngIf="UserID==x?.userID;" >
     
     <ion-title class="m-2 d-flex justify-content-start ion-text-start" >Hello {{x.Name}}, </ion-title>   
-    <ion-avatar slot="end"  style="height: 36px; width: 36px;"  [routerLink]="'/profile/'+ UserID" >
+    <ion-avatar slot="end"  style="height: 36px; width: 36px;" (click)="OpenProfle(UserID)" >
       <img *ngIf="x?.img; else placeholder;" src={{x.img}}  />
       <ng-template #placeholder>
        <img src="assets/images/default.png"  />
       </ng-template>
    
     </ion-avatar>  
-    <ng-template #guestlogin>
-      <ion-title  class="ion-text-start" >Hello Guest, </ion-title>
-      <ion-avatar slot="end"  style="height: 36px; width: 36px;"  [routerLink]="'/profile/'+ UserID" >
-         <img src="assets/images/default.png" />
-      </ion-avatar> 
-     </ng-template>
+    
     
 
     <ion-progress-bar type="indeterminate" *ngIf="checking"></ion-progress-bar>
@@ -54,7 +49,7 @@
   <ion-slides pager="true" [options]="slideOpts"  (ionSlideDidChange)="slideChange()"  >
     
       <ion-slide *ngFor="let x of (Cars|async) " >
-        <div *ngIf="x.userId==UserID">
+       
       <ion-card class="colour" class="ps-0 pe-0" style="height: 220px!important; width: 340px!important;" (click)="OpenCarInfo(x.numPlate)">
         <ion-card-header class="p-2">
           <ion-card-title color="{{x.blue}}">{{x.make}} {{x.model}}          
@@ -73,7 +68,7 @@
           </ion-item>
         </ion-card-content>
       </ion-card>
-    </div>
+    
     </ion-slide>
  
     <!--<ion-slide (click)="gonewCarInfo()">
