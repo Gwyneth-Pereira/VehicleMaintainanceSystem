@@ -21,7 +21,7 @@ export class CarinfoPage implements OnInit {
  public User: Observable<Users[]>;//Details about the User will be stored in this variable
  public CAR: Observable<Car[]>;
  private updatedCar:Car={}as Car;
- InsDte;
+ private InsDte;
  private Document={Title:'',Img:''}
  private minDate= new Date().toISOString();
 

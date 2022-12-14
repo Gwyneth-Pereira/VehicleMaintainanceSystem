@@ -28,7 +28,7 @@ export class Tab1Page implements OnInit {
   }
   ngOnInit()
    {
-    this.CarName=this.DataSrv.car_name_as_on_slide;
+    this.CarName=this.DataSrv.CarName;
     console.log("Length "+Codes.AllCodes.length);
 
     this.TroubleCodes=this.Firebase.getCodes();

@@ -13,7 +13,7 @@ import { Codes } from './codes';
 })
 
 export class DataSrvService {
-  public car_name_as_on_slide:string="Car not Paired";
+  public CarName:string="Car not Paired";
   queue=['ATZ\r','ATS0\r','ATL0\r','ATSP0\r','0100\r','0902\r'];//Setting Up OBD-II Commands;
   LiveDataCmds=[];
   index;
@@ -150,7 +150,7 @@ else if(mode=='01')
 }
 Disconnect(slide:IonSlides, UpCar:Car)
 {
-  this.car_name_as_on_slide='Car not Paired';
+  this.CarName='Car not Paired';
   this.BluetoothFlag=true;
   this.QueueIndex=0;
   this.ChangeSlideStatus(slide,false);

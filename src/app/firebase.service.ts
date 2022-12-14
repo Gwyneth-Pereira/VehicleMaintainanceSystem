@@ -13,6 +13,7 @@ import { AlertController, ToastController } from '@ionic/angular';
   providedIn: 'root'
 })
 export class FirebaseService {
+  
   private updatedCar:Car[]={}as Car[];
   public Codes:code={id:'codes',codes:[]}as code;
   public user: Observable<Users[]>;
@@ -94,6 +95,7 @@ export class FirebaseService {
   getCar(id: string): Observable<Car[]>{
     return this.car.pipe(map(cars=>cars.filter(car=>car.userId===id)))
   }
+ 
 //    async get_specific_user_cars(id:string){
 //      return await this.carCollection.snapshotChanges().pipe( map(ides=> { return ides.filter(ides.)} ));
 // }
@@ -238,7 +240,7 @@ Name: string;
 phoneNum: number;
 password: string;
 img: string;
-licenseExp: Date;
+Noification: any[];
 
 }
 

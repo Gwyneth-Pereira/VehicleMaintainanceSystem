@@ -63,11 +63,12 @@ export class Tab2Page  implements OnInit {
     this.Cars=this.Firebase.getCar(this.UserID)
     
     this.Cars.pipe(take(1)).subscribe(async res=>{
-      console.log('Slide Index: '+this.SlideIndex);
-      this.UpdatedCar= res[this.SlideIndex];
-      this.DataSrv.car_name_as_on_slide=this.UpdatedCar.make + "  "+ this.UpdatedCar.model;
-     
-        },error=>{  console.log("Error Subscribing to Car Observable during slidechange ");  this.DataSrv.showError('Error',error)});
+      if(res[this.SlideIndex]!=null ||res[this.SlideIndex]!=undefined)
+      {
+        this.UpdatedCar= res[this.SlideIndex];
+           
+      }
+      },error=>{  console.log("Error Subscribing to Car Observable during slidechange ");  this.DataSrv.showError('Error',error)});
      }
      
   OpenCarInfo(value)
@@ -83,10 +84,6 @@ Pair()
 {
   console.log("Pair Button Clicked");
   this.modal.present();
-  //need someway to know which slide the user has selected.
-  //get the car "ID" of that car so that later when we are saving the "VIN" we have an index. 
- 
-  //this.isModalOpen=this.DataSrv.isModalOpen;
   this.bluetooth.isEnabled().then(
   res=>{
     this.listDevices();
@@ -118,11 +115,12 @@ slideChange()
   if(this.SlideIndex==undefined)
     this.SlideIndex=0;
  this.Cars.pipe(take(1)).subscribe(async res=>{
-  console.log('Slide Index: '+this.SlideIndex);
-  this.UpdatedCar= res[this.SlideIndex];
-  //console.log( this.UpdatedCar.make,this.UpdatedCar.model );
-  this.DataSrv.car_name_as_on_slide=this.UpdatedCar.make + "  "+this.UpdatedCar.model;
-    },error=>{  console.log("Error Subscribing to Car Observable during slidechange ");  this.DataSrv.showError('Error',error)});
+  if(res[this.SlideIndex]!=undefined||res[this.SlideIndex]!=null)
+  {
+    this.UpdatedCar= res[this.SlideIndex];
+    
+  }
+  },error=>{  console.log("Error Subscribing to Car Observable during slidechange ");  this.DataSrv.showError('Error',error)});
 
 }
 
@@ -135,6 +133,7 @@ else{
   const load3=await this.loading.create();
   await load3.present();
   this.slideChange();
+  this.DataSrv.CarName=this.UpdatedCar.make + "  "+this.UpdatedCar.model;
   this.DataSrv.ChangeSlideStatus(this.slides,true);
   this.bluetooth.connect(dvc.address).subscribe(async success=>
     {

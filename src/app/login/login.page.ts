@@ -4,8 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { NavigationExtras, Router } from'@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
-import {  Observable }from'rxjs';
-import { take } from 'rxjs/operators';
+import {  BehaviorSubject, Observable }from'rxjs';
+import { filter, switchMap, take } from 'rxjs/operators';
 import {  DataSrvService } from '../data-srv.service';
 import { FirebaseService, Setting, Users } from '../firebase.service';
 
@@ -15,6 +15,7 @@ import { FirebaseService, Setting, Users } from '../firebase.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  private NoData=new BehaviorSubject(false);
   
   settng:Setting={InspR:true, InsuR:true, OilR:true, PairR:true, dailyR:true};
   form: FormGroup;
@@ -39,38 +40,44 @@ export class LoginPage implements OnInit {
     }
 
     async onSubmit() {
-      const load1=await this.loading.create();
-      await load1.present();
+      
       if(!this.form.valid) {
         this.form.markAllAsTouched();
-        await load1.dismiss();
         return;
       }
+      const load1=await this.loading.create();
+      await load1.present();
       this.Firebase.loginUser(this.form.value.email,this.form.value.password).then(
         succ=>{
-          this.dataSrv.SetVariable('userID',this.form.value.email.toLowerCase());
-          this.dataSrv.presentToast("You have logged in sucessfully!!");
-          this.router.navigate(['tab/tabs/tab2']);
-          
-          
-         /*this.User.pipe(take(1)).subscribe(async res=>{
+          this.User.pipe(take(1)).subscribe(async res=>{
             for(let i=0;i<res.length;i++)
             if(this.form.value.email.toLowerCase()==res[i].userID)
-              
-              if(await this.dataSrv.GetVariable('userID')==this.form.value.email.toLowerCase())
+              this.NoData.next(true);
+              }); 
+             this.NoData.subscribe(res=>
               {
-               
+                if(res)
+                {
+                  this.dataSrv.SetVariable('userID',this.form.value.email.toLowerCase()).then(rl=>{
+                    this.dataSrv.presentToast("You have logged in sucessfully!!");
+                    this.router.navigate(['tab/tabs/tab2']);
                     
-      
-        }else{this.dataSrv.presentToast("Account Not Found");}
-              
+                  });
 
-            
-             }); */         
+                }else
+                {
+                  this.dataSrv.presentToast("Account Not Found");
+                }
+              })
+           
+          
+          
+         /**/         
          
         },error=>{this.dataSrv.showError("Error",error);}).catch(error=>{this.dataSrv.showError("Error",error);})
        
      
         await load1.dismiss();
       }
+     
   }
