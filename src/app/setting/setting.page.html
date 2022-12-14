@@ -46,13 +46,14 @@
       </ion-accordion>
       <ion-accordion value="third">
         <ion-item slot="header" >
-          <ion-label >Paired Car Support</ion-label>
+          <ion-label  >List of obd2 Supported</ion-label>
         </ion-item>
         <div class="ion-padding m-0 p-0" slot="content">
           <ion-list lines="inset">
             <ion-item *ngFor="let x of SupportedOBD ">
               <ion-label  >{{x.Text}}</ion-label>
-              <ion-label slot="end">{{x.Value}}</ion-label>
+              <ion-label *ngIf="x.Value!='Yes'" slot="end">{{x.Value}}</ion-label>
+              <ion-label *ngIf="x.Value=='Yes'" color="success" slot="end">{{x.Value}}</ion-label>
             </ion-item>
             
             
