@@ -72,7 +72,7 @@ export class AddnewcarPage implements OnInit {
       this.newCar.ExpDte.toLocaleDateString('de-DE');
         console.log("Yearly Inspection 3: "+this.newCar.ExpDte);
       this.localNotify.schedule({
-        id: Math.floor(Math.random() * 1000000),
+        //id: Math.floor(Math.random() * 1000000),
         title:this.newCar.make+' '+this.newCar.model+' '+this.newCar.year,
         text:'Car Inspection Coming Next Week',
         trigger:{at:this.newCar.ExpDte},
@@ -86,7 +86,7 @@ export class AddnewcarPage implements OnInit {
       console.log("Yearly Insurance 3: "+this.newCar.InsExp);
 
       this.localNotify.schedule({
-        id:Math.floor(Math.random() * 1000000),
+        //id:Math.floor(Math.random() * 1000000),
         title:this.newCar.make+' '+this.newCar.model+' '+this.newCar.year,
         text:'Car Insurance Coming Next Week',
         trigger:{at:this.newCar.InsExp},

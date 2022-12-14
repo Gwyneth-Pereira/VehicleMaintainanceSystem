@@ -20,7 +20,7 @@ export class SettingPage implements OnInit {
   private select=[];
   private SupportedOBD;
   private statement=false;
-  private UserID;
+  private UserID:string;
   private DeleteID:string;
   public User: Observable<Users[]>;//Details about the User will be stored in this variable
   public Car: Observable<Car[]>;//Details about the User will be stored in this variable
@@ -62,7 +62,7 @@ export class SettingPage implements OnInit {
   }
   SceduleEveryDay(){
     this.localNotifications.schedule({
-      id:0,
+      id:881,
       title:'Good Morning',
       text:'Check Your Cars Water & Oil Levels',
       trigger:{every: ELocalNotificationTriggerUnit.DAY}

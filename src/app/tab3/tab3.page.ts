@@ -73,14 +73,14 @@ export class Tab3Page implements OnInit{
           let remindInsurance = add(Insdate,{months: -1, });
           console.log("current User: "+i+" "+result[i].make);
           this.localNotifications.schedule({
-            id:i,
+            //id:i,
             title:result[i].make+' '+result[i].model+' '+result[i].year,
             text:'Car Inspection Coming Next Month',
             data:{mydata:'Please get your Car Inspected'},
             trigger:{in:5, unit:ELocalNotificationTriggerUnit.SECOND}
           })
           this.localNotifications.schedule({
-            id:i+i,
+           // id:i+i,
             title:result[i].make+' '+result[i].model+' '+result[i].year,
             text:'Car Insurance Coming Next Month',
             data:{mydata:'Please get your Car Insured'},
@@ -96,8 +96,15 @@ export class Tab3Page implements OnInit{
   {
     
     this.localNotifications.getAll().then(res=>
-      {
-        this.Sceduled=res;
+      {for(let i=0;i<res.length;i++)
+        {
+          console.log("All Notifications: "+res[i].id+" == "+this.UserID);
+          if(res[i].id==881)
+          {
+            this.Sceduled.push(res[i]);
+          }
+        }
+        
       });
 
 
