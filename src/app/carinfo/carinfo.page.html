@@ -110,10 +110,8 @@
       <ion-card-content *ngFor="let y of x.document">
           <ion-label>{{y.Title}}</ion-label>
           <div class="d-flex justify-content-center mt-2 pt-2 " > 
-            <img *ngIf="y?.Img; else placeholder;" src={{y.Img}}  class="w-75 "/>
-            <ng-template #placeholder>
-            <img src="assets/images/car.png"  class="w-75 "/>
-            </ng-template>
+            <img *ngIf="y?.Img; else placeholder;" src={{y.Img}}  class="w-75 " (click)="RemoveImg(y.Title,y.Img)"/>
+            
           </div>
     </ion-card-content>
         

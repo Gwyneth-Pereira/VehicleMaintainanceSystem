@@ -181,13 +181,45 @@ dataReceived(data,mode,VIN)
       console.log("Code: "+multipleRes[0]+", Resp1: "+multipleRes[1]+", Resp2: "+multipleRes[2]+", Resp3: "+multipleRes[3])
   if(multipleRes[0]==='0902')
   {
+    if(multipleRes[1]!='')
+       {
+        this.index=1;
+        
+       }else if(multipleRes[2]!='')
+       {
+        this.index=2;
+       }else if(multipleRes[3]!='')
+       {
+        this.index=3;
+       }
     //If the Car Desnt Support Mode 9
-    if(multipleRes[3]==='NO DATA')this.VehicleIDError="Your Car Returned No Data From OBD-2 Command.<br>No Data will be Saved to Firebase";
-    //if the VIN from the car (that we get from firebase) has a default value.
-    else if((VIN === undefined || VIN === null)&&multipleRes[3]!=='NO DATA')          this.VehicleIDError="First Time Pairing.<br> Linking VID with Car";
+    if(multipleRes[this.index]==='NO DATA')
+    {
+     this.VehicleIDError="Your Car Returned No Data From OBD-2 Command.<br>No Data will be Saved to Firebase";
+    
+    }else if(multipleRes[this.index]!='NO DATA')
+    {
+     if((VIN === undefined || VIN === null))
+     {
+      this.VehicleIDError="First Time Pairing.<br> Linking VID with Car";
+     }else if(VIN===multipleRes[this.index])
+      {
+        this.VehicleIDError="Linking Successfull";
+      } 
+      else  
+      {
+        this.VehicleIDError="Please Connect with the correct Car to Save your Data";
+      }
     //If the VIN from the car (that we get from firebase) does not match the VIN from the OBD Scan
-    else if(VIN===multipleRes[3])  this.VehicleIDError="Linking Successfull";  
-    else  this.VehicleIDError="Please Connect with the correct Car to Save your Data";
+      
+   
+
+    }
+    else
+    {
+      this.VehicleIDError="Could Not Find VIN in Your Car";
+    }
+
     this.SetVariable('VID',this.VehicleIDError);
   }
   if(multipleRes[0]==='03')

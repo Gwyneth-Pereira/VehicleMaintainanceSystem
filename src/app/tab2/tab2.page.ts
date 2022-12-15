@@ -140,11 +140,20 @@ else{
     
     console.log("VIN "+this.UpdatedCar.VIN);
     this.DataSrv.deviceConnected('00',this.UpdatedCar.VIN); 
-    this.BluetoothFlag=this.DataSrv.BluetoothFlag;
-    this.DataSrv.UpdateCar(this.UpdatedCar,'success');
+    
+    
     this.cancel();
-    this.DataSrv.presentToast("Connected Successfully");
+    
     const obj = await this.DataSrv.GetVariable('VID');
+    if(obj=='Please Connect with the correct Car to Save your Data')
+    {
+      this.diconnect();
+
+    }else{
+      this.DataSrv.UpdateCar(this.UpdatedCar,'success');
+      this.BluetoothFlag=this.DataSrv.BluetoothFlag;
+      this.DataSrv.presentToast("Connected Successfully");
+    }
     this.DataSrv.showError("Alert", obj);
     
   
