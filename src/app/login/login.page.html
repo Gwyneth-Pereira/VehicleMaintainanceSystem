@@ -1,12 +1,13 @@
-<ion-content> 
+<ion-content>
+  <div class="mt-5 pt-5">
 <ion-list lines="full">
   <ion-list-header >
-    <ion-label class="d-flex justify-content-center">
-    Login page
+    <ion-label style=" font-size: 50px;" class="d-flex justify-content-center">
+    Login
     </ion-label>
   </ion-list-header>
 </ion-list>
-
+ <h1 class="d-flex justify-content-center" style=" font-size: 50px;">  Login</h1>
   <ion-item-group class="ion-margin-horizontal">
     <form [formGroup]="form">
       <div class="ion-margin-vertical">
@@ -49,8 +50,9 @@
 
       <ion-button 
         size="large" 
-        expand="block" 
-        shape="round" 
+        expand="block"
+         
+         
         color="sky"
         (click)="onSubmit()">
         <ion-text >Login</ion-text>
@@ -59,11 +61,12 @@
   </ion-item-group>
     <div class="m-2 p-2 ion-text-center  ">
       <ion-label  >
-      Don't have an account yet?? 
+      Don't have an account? 
       </ion-label>
     <br/>
       <ion-label color="sky" routerLink="/create-account" >
-      Create Account here !!
+      Create Account
       </ion-label>
     </div>
+  </div>
 </ion-content>
