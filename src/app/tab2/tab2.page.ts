@@ -42,19 +42,13 @@ export class Tab2Page  implements OnInit {
     public platform:Platform,
     private permission:AndroidPermissions,
     private loading:LoadingController,
-    private Firebase: FirebaseService) {
+    private Firebase: FirebaseService) 
+    {
     
     this.User=this.Firebase.getUsers();
     
   }
-  ionViewDidEnter() {
-    this.subscription = this.platform.backButton.subscribe(() => {
-      this.Closing();
-    });
-  }
-  ionViewDidLeave() {
-    this.subscription.unsubscribe();
-  }
+ 
   async ngOnInit() {
     
  
@@ -136,35 +130,55 @@ else{
   this.DataSrv.ChangeSlideStatus(this.slides,true);
   this.bluetooth.connect(dvc.address).subscribe(async success=>
     {
-   
-    
-    console.log("VIN "+this.UpdatedCar.VIN);
     this.DataSrv.deviceConnected('00',this.UpdatedCar.VIN); 
-    
-    
     this.cancel();
-    
-    const obj = await this.DataSrv.GetVariable('VID');
-    if(obj=='Please Connect with the correct Car to Save your Data')
-    {
-      this.diconnect();
-
-    }else{
-      this.DataSrv.UpdateCar(this.UpdatedCar,'success');
-      this.BluetoothFlag=this.DataSrv.BluetoothFlag;
-      this.DataSrv.presentToast("Connected Successfully");
-    }
-    this.DataSrv.showError("Alert", obj);
-    
+    let hideFooterTimeout = setTimeout( async () => {
+      let obj1 = await this.DataSrv.GetVariable('PairIssue');
+      let obj =  await this.DataSrv.GetVariable('VID');
+      
+      load3.dismiss();
+      console.log("Obj1: "+obj1);
+      console.log("Obj: "+obj);
+      if(obj1==="This Car doesnt Support OBD-II")
+      {
+        this.diconnect();
+        this.DataSrv.showError("Error","This Car doesnt Support OBD-II");
+      }else if(obj=='Please Connect with the correct Car to Save your Data')
+      {
+        this.diconnect();
+        this.DataSrv.showError("Alert","Please Connect with the correct Car to Save your Data");
+      }else if(obj=='First Time Pairing. Linking VID with Car')
+      {
+        this.UpdatedCar.VIN=await this.DataSrv.GetVariable('VIN');
+        this.DataSrv.showError("Alert","First Time Pairing. Linking VID with Car");
+        this.DataSrv.UpdateCar(this.UpdatedCar,'success');
+        this.BluetoothFlag=this.DataSrv.BluetoothFlag;
+        this.DataSrv.presentToast("Connected Successfully");
+        
+      }else{
+        
+        this.DataSrv.showError("Alert",obj);
+        this.DataSrv.UpdateCar(this.UpdatedCar,'success');
+        this.BluetoothFlag=this.DataSrv.BluetoothFlag;
+        this.DataSrv.presentToast("Connected Successfully");
   
-    
-    },error=>{
+      } 
+      this.DataSrv.RemoveVariable('PairIssue');
+      this.DataSrv.RemoveVariable('VIN');
+      this.DataSrv.RemoveVariable('VID');
+      
+    }, 5000);
+   
+  
+  },error=>{
+      load3.dismiss();
       this.diconnect();
+      
       this.router.navigate(['tab/tabs/tab2']);
       this.DataSrv.showError("Connection Timed Out",error);
       
       });
-  load3.dismiss();   
+    
 }
 //this.DataSrv.showError("Alert",");
 }

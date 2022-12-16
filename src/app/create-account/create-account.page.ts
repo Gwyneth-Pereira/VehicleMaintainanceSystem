@@ -48,38 +48,29 @@ export class CreateAccountPage implements OnInit {
     this.NewAccount.Name= this.form.value.name;
     this.NewAccount.phoneNum = this.form.value.phone ;
     this.NewAccount.password=this.form.value.password;
+    this.NewAccount.Noification=[];
     this.NewAccount.Noification.push(0);
     this.FireAuth.createUserWithEmailAndPassword(this.form.value.email,this.form.value.password).then(
-    success=>
-    {
-      this.Firebase.addUser(this.NewAccount).then( 
-        async onfulfilled=>
+      success=>{
+      this.Firebase.addUser(this.NewAccount).then( async onfulfilled=>
          { 
           this.NewAccount.ID=onfulfilled.id;
-          this.Firebase.updateUser(this.NewAccount).then(async truth=>
-            {
-              this.datasrv.presentToast("Account Created Successfully");
-          this.router.navigate(['/login']);
-          await loading.dismiss();
-              
-            })
-          console.log()
-           
-          },error=>{
-            this.datasrv.showError("Error ",error);
+          this.Firebase.updateUser(this.NewAccount).then(async truth=>{
+            this.datasrv.presentToast("Account Created Successfully");
             this.router.navigate(['/login']);
-          } );
-    },error=>{
-      this.datasrv.showError("Error",error);
-      this.router.navigate(['/login']);
-    });
+            await loading.dismiss();});
+         },async error=>{
+            await loading.dismiss();
+            this.datasrv.showError("Error ",error);
+            this.router.navigate(['/login']);});
+             },async error=>{
+              await loading.dismiss();
+              this.datasrv.showError("Error",error);
+              this.router.navigate(['/login']);});
    
    
-    
-
-      
-  
-    }
+              await loading.dismiss();
+                     }
   }
 
 
