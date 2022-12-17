@@ -103,7 +103,7 @@ export class SettingPage implements OnInit {
   onDelete()
   {
 
-    this.DataSrv.showChoice("Alert","Sure you want to delete your account??").then( sucess=>
+    this.DataSrv.showChoice("Alert","Sure you want to delete your account?").then( sucess=>
     { 
     if (this.DataSrv.handlerMessage=="confirmed")
     {

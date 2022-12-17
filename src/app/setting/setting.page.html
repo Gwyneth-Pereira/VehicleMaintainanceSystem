@@ -21,7 +21,10 @@
             </ion-item>
           </ion-list>
           <div class="p-2 m-1 d-flex flex-row-reverse">
-            <ion-button (click)="Apply()">Apply Setting</ion-button></div>
+            <ion-button (click)="Apply()"
+            color="sky"
+            style="text-transform: none!important;
+                    text-transform: unset;">Save </ion-button></div>
         </div>
         
       
@@ -41,16 +44,20 @@
             
           </ion-list>
           <div class="p-2 m-1 d-flex flex-row-reverse">
-            <ion-button (click)="SaveSetting()">Save</ion-button></div>
+            <ion-button (click)="SaveSetting()" 
+            color="sky"
+            style="text-transform: none!important;
+                    text-transform: unset;"
+            >Save</ion-button></div>
         </div>
       </ion-accordion>
       <ion-accordion value="third">
         <ion-item slot="header" >
-          <ion-label  >List of obd2 Supported</ion-label>
+          <ion-label  >List of obd2 Supported features</ion-label>
         </ion-item>
         <div class="ion-padding m-0 p-0" slot="content">
           <ion-list lines="inset">
-            <ion-item *ngFor="let x of SupportedOBD ">
+            <ion-item *ngFor="let x of SupportedOBD " class="d-flex flex-wrap">
               <ion-label  >{{x.Text}}</ion-label>
               <ion-label *ngIf="x.Value!='Yes'" slot="end">{{x.Value}}</ion-label>
               <ion-label *ngIf="x.Value=='Yes'" color="success" slot="end">{{x.Value}}</ion-label>
@@ -64,7 +71,10 @@
       
     </ion-accordion-group>
     
-    <div class="p-2"> <ion-button  color="danger" expand="block" (click)="onDelete()">Delete account</ion-button></div>
+    <div class="p-2 m-1"> <ion-button  color="danger"
+      style="text-transform: none!important;
+            text-transform: unset;"
+        fill="outline" expand="block" (click)="onDelete()">Delete account</ion-button></div>
   </div>
  </div>
 </ion-content>

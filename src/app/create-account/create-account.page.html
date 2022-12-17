@@ -1,8 +1,11 @@
 <ion-content >
   <div class="mt-5 pt-5 ms-3 ps-2 me-3 pe-2">
-  <ion-list lines="full">
+  
     
     <p class="d-flex justify-content-center" style=" font-size: 50px;">Register</p>
+    <ion-card class="m-3 p-3 pt-2 pb-2"> 
+      <ion-card-content  class="p-1 pt-0">
+        <ion-list lines="full">
     <ion-item-group class="ion-margin-horizontal">
       <form [formGroup]="form">
         <div class="ion-margin-vertical">
@@ -73,23 +76,7 @@
               * Phone number must be of at most 8 digit
             </ion-text>
           </ion-text>
-        </div>
- <!--- 
-        <div class="ion-margin-vertical">
-          <ion-item>
-            <ion-label position="stacked" > Select image </ion-label>
-            <ion-input formControlName="imag" type="text" placeholder="Full Name" >
-              <ion-icon name="person-outline" slot="start" color="medium" ></ion-icon>
-            </ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="stacked" > Licence Expiry date </ion-label>
-            <ion-input formControlName="licenseExp" type="date" placeholder="Full Name" value="null">
-              <ion-icon name="person-outline" slot="start" color="medium" ></ion-icon>
-          </ion-input>
-          </ion-item>
-        </div>
-   --> 
+        </div> 
         <ion-button 
            
           expand="block" 
@@ -100,6 +87,9 @@
       </form>
     </ion-item-group>
   </ion-list>
+  </ion-card-content>
+</ion-card>
+ 
   <div class="m-3 p-3 ion-text-center">
     <ion-label  >
       Already have an account? 

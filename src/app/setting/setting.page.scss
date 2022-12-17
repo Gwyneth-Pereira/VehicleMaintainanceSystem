@@ -2,3 +2,11 @@
     font-size: 50px;
     color: gold;
   }
+  ion-button 
+            {
+                ion-text
+                {
+                    text-transform: none!important;
+                    text-transform: unset;
+                }
+            }
