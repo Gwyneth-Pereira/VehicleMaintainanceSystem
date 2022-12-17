@@ -60,7 +60,8 @@ export class LoginPage implements OnInit {
                 {
                   this.dataSrv.SetVariable('userID',this.form.value.email.toLowerCase()).then(rl=>{
                     this.dataSrv.presentToast("You have logged in sucessfully!!");
-                    this.router.navigate(['tab/tabs/tab2']);
+                    //$ionicHistory.nextViewOptions({disableAnimate: true,  disableBack: true });
+                    this.router.navigate(['tabs/tab2']);
                     
                   });
 

@@ -3,7 +3,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/compat/firestore';
 import {Photo} from '@capacitor/camera';
 import { Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, first, map, take } from 'rxjs/operators';
 import { cide, DataSrvService } from './data-srv.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
@@ -18,6 +18,7 @@ export class FirebaseService {
   public Codes:code={id:'codes',codes:[]}as code;
   public user: Observable<Users[]>;
   private userCollection:AngularFirestoreCollection<Users>;
+  
 
   public code: Observable<code[]>;
   private codeCollection:AngularFirestoreCollection<code>;
@@ -31,9 +32,7 @@ export class FirebaseService {
   private UpdatedLiveData:LiveData={}as LiveData;
   constructor(private storage:AngularFireStorage,private toastctrl:ToastController,private alert: AlertController,private androidPermissions:AndroidPermissions ,private afs:AngularFirestore,public FireAuth:AngularFireAuth) 
   { 
-    
-    
-    this.userCollection=this.afs.collection<Users>('User');
+     this.userCollection=this.afs.collection<Users>('User');
     this.user= this.userCollection.snapshotChanges().pipe
     
     (
@@ -143,6 +142,9 @@ export class FirebaseService {
     return checker;
      
   }
+  isLoggedn() {
+    return this.FireAuth.authState.pipe(first()).toPromise();
+}
    
   addUser(idea:Users):Promise<DocumentReference>{ return this.userCollection.add(idea); }
   
