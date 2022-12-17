@@ -126,22 +126,22 @@ export class AddnewcarPage implements OnInit {
       this.UpdatedUser.Noification.push(this.NotificationID[1]);
       console.log("Notification ID: "+this.UpdatedUser.Noification)
       this.Firebase.updateUser(this.UpdatedUser).then(res=>{
-        this.localNotify.schedule({
+       this.localNotify.schedule([{
           id:this.NotificationID[0],
           title:this.newCar.make+' '+this.newCar.model+' '+this.newCar.year,
           text:'Car Inspection Coming Next Week',
           trigger:{at:this.newCar.ExpDte},
           foreground:true
-        });
-        this.localNotify.schedule({
+        },
+        {
           id:this.NotificationID[1],
           title:this.newCar.make+' '+this.newCar.model+' '+this.newCar.year,
           text:'Car Insurance Coming Next Week',
           trigger:{at:this.newCar.InsExp},
           foreground:true
-        });
-
-      })
+        }
+      ]);
+       })
       
       
       //this.loading.dismiss();

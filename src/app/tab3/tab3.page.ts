@@ -17,6 +17,7 @@ export class Tab3Page implements OnInit{
   public User: Observable<Users[]>;
   private UpUser:Users={} as Users;
   public Sceduled: any [ ] =[];
+  private count=0;
 
   constructor(private localNotifications: LocalNotifications,
               private DataSrv:DataSrvService,
@@ -58,7 +59,7 @@ export class Tab3Page implements OnInit{
         }
 
       }
-     await  this.localNotifications.getAll().then(res=>
+     await this.localNotifications.getAll().then(res=>
         {
           console.log("Local Notification: "+res.length)
           for(let k=0;k<res.length;k++)
@@ -68,11 +69,14 @@ export class Tab3Page implements OnInit{
               console.log("User Notification ID: "+this.UpUser.Noification[i]+", Local Notification: "+res[k].id);
               if(res[k].id===this.UpUser.Noification[i])
               {
-                this.Sceduled.push(res[i]);
+                this.Sceduled.push(res[k]);
+                console.log("Notification Array: "+JSON.stringify(this.Sceduled));
               }
             }
   
           }
+        }).catch(er=>{
+          this.DataSrv.showError("Error",er);
         });
     })
    
@@ -82,9 +86,20 @@ export class Tab3Page implements OnInit{
   
   del()
   {
-    this.localNotifications.cancelAll().then(res=>{
-      this.Sceduled.length=0;
-    })
+    for(let k=0;k<this.UpUser.Noification.length;k++)
+    {
+      this.localNotifications.cancel(this.UpUser.Noification[k]).then(res=>
+        {
+          this.count++;
+        })
+    }
+   if(this.UpUser.Noification.length==this.count)
+   {
+    this.UpUser.Noification.splice(0);
+    this.Firebase.updateUser(this.UpUser).then(kre=>{
+      this.DataSrv.presentToast("All Notifications Deleted Successfully");
+    });
+   }
     
   }
 

@@ -140,6 +140,8 @@ export class CarinfoPage implements OnInit {
     console.log("Document: "+this.Document)
     this.updatedCar.document.push(this.Document);
     this.Firebase.updateCar(this.updatedCar).then(succ=>{
+      this.Document.Title="";
+      this.Document.Img="";
       this.DataSrv.presentToast('File Uploaded Successfully');
       this.cancel();
       
