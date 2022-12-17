@@ -1,16 +1,13 @@
 <ion-content >
+  <div class="mt-5 pt-5 ms-3 ps-2 me-3 pe-2">
   <ion-list lines="full">
-    <ion-list-header >
-      <ion-label class="m-2 d-flex justify-content-center">
-        <ion-text > Create your Account</ion-text>
-      </ion-label>
-    </ion-list-header>
-
+    
+    <p class="d-flex justify-content-center" style=" font-size: 50px;">Register</p>
     <ion-item-group class="ion-margin-horizontal">
       <form [formGroup]="form">
         <div class="ion-margin-vertical">
           <ion-item>
-            <ion-label position="stacked" > Enter Your Full name</ion-label>
+            <!-- <ion-label position="stacked" > Enter Your Full name</ion-label> -->
             <ion-input formControlName="name" type="text" placeholder="Full Name">
               <ion-icon name="person-outline" slot="start" color="medium" ></ion-icon>
             </ion-input>
@@ -24,7 +21,7 @@
         </div>
         <div class="ion-margin-vertical">
           <ion-item>
-            <ion-label position="stacked" >Email</ion-label>
+            <!-- <ion-label position="stacked" >Email</ion-label> -->
             <ion-input formControlName="email" type="email" placeholder="Email Address" >
               <ion-icon name="mail-outline" slot="start" color="medium" ></ion-icon>
             </ion-input>
@@ -43,7 +40,7 @@
 
         <div class="ion-margin-vertical">
           <ion-item>
-            <ion-label position="stacked" >Password</ion-label>
+            <!-- <ion-label position="stacked" >Password</ion-label> -->
             <ion-input formControlName="password" type="password" placeholder="Password" >
               <ion-icon name="key-outline" slot="start" color="medium " ></ion-icon>
             </ion-input>
@@ -60,8 +57,8 @@
         <!--   added info -->
         <div class="ion-margin-vertical">
           <ion-item>
-            <ion-label position="stacked" >Phone number</ion-label>
-            <ion-input formControlName="phone" type="number" placeholder="1111-1111" >
+            <!-- <ion-label position="stacked" >Phone number</ion-label> -->
+            <ion-input formControlName="phone" type="number" placeholder="1700-0000" >
               <ion-icon name="call-outline" slot="start" color="medium"  ></ion-icon>
             </ion-input>
           </ion-item>
@@ -94,22 +91,22 @@
         </div>
    --> 
         <ion-button 
-          size="large" 
+           
           expand="block" 
-          shape="round" 
           color="sky"
           (click)="onSubmit()">
-          <ion-text >Create Account</ion-text>
+          <ion-text >Register</ion-text>
         </ion-button>
       </form>
     </ion-item-group>
   </ion-list>
   <div class="m-3 p-3 ion-text-center">
     <ion-label  >
-      Already have an account?? login 
+      Already have an account? 
     </ion-label>
     <ion-label color="sky" routerLink="/login" >
-      here
+    Login
     </ion-label>
  </div>
+</div>
 </ion-content>

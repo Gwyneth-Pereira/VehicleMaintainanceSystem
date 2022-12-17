@@ -1,4 +1,12 @@
 ion-content {
+    div{
+        ion-button {
+            ion-text {
+                text-transform: none!important;
+                text-transform: unset;
+            }
+        }
+    }
     ion-list {
         border-radius: 20px 20px 0 0;
         ion-list-header {
@@ -35,7 +43,8 @@ ion-content {
             margin: 5vh 0 2vh 0;
             ion-text {
                 font-size: 0.9em;
-                text-transform: none;
+                text-transform: none!important;
+                text-transform: unset;
             }
         }
     }
