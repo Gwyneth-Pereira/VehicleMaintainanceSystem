@@ -1,19 +1,17 @@
-<ion-content> 
-<ion-list lines="full">
-  <ion-list-header >
-    <ion-label class="d-flex justify-content-center">
-    Login page
-    </ion-label>
-  </ion-list-header>
-</ion-list>
-
+<ion-content>
+  <div class="">
+    <div class=" m-4 p-4 d-flex justify-content-center" > 
+      <img src="assets\images\cogearlogo.png" alt="login" height="165px"/>
+    </div>
+   <ion-card class="m-3 p-3 pt-2 pb-2" mode="ios"> 
+   <ion-card-content  class="p-1 pt-0 mb-3">
   <ion-item-group class="ion-margin-horizontal">
     <form [formGroup]="form">
       <div class="ion-margin-vertical">
         <ion-item>
-          <ion-label position="stacked" >Email</ion-label>
-          <ion-input formControlName="email" type="email" placeholder=" Email Address" >
-            <ion-icon name="mail-outline" slot="start" color="medium" ></ion-icon>
+          <!-- <ion-label position="stacked" >Email</ion-label> -->
+          <ion-input formControlName="email" type="email" placeholder="Email Address" >
+            <ion-icon name="mail-outline" slot="start" class="me-1"  color="medium" ></ion-icon>
           </ion-input>
         </ion-item>
         
@@ -28,11 +26,11 @@
           </ion-text>
         </ion-text>
       </div>
-      <div class="ion-margin-vertical">
+      <div class="ion-margin-vertical pb-0 mb-0">
         <ion-item>
-          <ion-label position="stacked" >Password</ion-label>
-          <ion-input formControlName="password" type="password" placeholder="  Password" >
-            <ion-icon name="key-outline" color="medium"  slot="start"></ion-icon>
+          <!-- <ion-label position="stacked" >Password</ion-label> -->
+          <ion-input formControlName="password" type="password" placeholder="Password" >
+            <ion-icon name="key-outline" color="medium" class="me-1 " slot="start"></ion-icon>
           </ion-input>
         </ion-item>
         <ion-text class="error" color="danger" *ngIf="!form.get('password').valid && form.get('password').touched">
@@ -45,25 +43,29 @@
         </ion-text>
       </div>
 
-      <p class="ion-text-right"><ion-text color="sky" routerLink="/forgot-password">Forgot Password?</ion-text></p>
-
+      <p class="ion-text-right mt-0 pt-0  pb-3 mb-3"><ion-text color="sky" routerLink="/forgot-password">Forgot Password?</ion-text></p>
+      
       <ion-button 
-        size="large" 
-        expand="block" 
-        shape="round" 
+      mode="ios"
+        expand="block"
+         
+        text-capitalize=“false”
         color="sky"
         (click)="onSubmit()">
-        <ion-text >Login</ion-text>
+        <ion-text >Login </ion-text>
       </ion-button>
     </form>
   </ion-item-group>
+ </ion-card-content>
+  </ion-card>
     <div class="m-2 p-2 ion-text-center  ">
       <ion-label  >
-      Don't have an account yet?? 
+      Don't have an account? 
       </ion-label>
     <br/>
       <ion-label color="sky" routerLink="/create-account" >
-      Create Account here !!
+      Register
       </ion-label>
     </div>
+  </div>
 </ion-content>

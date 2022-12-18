@@ -12,7 +12,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
   styleUrls: ['./create-account.page.scss'],
 })
 export class CreateAccountPage implements OnInit {
-  NewAccount: Users={userID:null,Name:null, phoneNum:null, password:null, img:'',licenseExp:null};
+  NewAccount: Users={} as Users;
   form: FormGroup;
   constructor(
     public datasrv:DataSrvService,
@@ -29,8 +29,6 @@ export class CreateAccountPage implements OnInit {
   initForm() {
     this.form = new FormGroup({
       name: new FormControl(null, {validators: [Validators.required]}),
-      licenseExp: new FormControl(null),
-      imag: new FormControl(null),
       email: new FormControl(null, {validators: [Validators.required, Validators.email]}),
       password: new FormControl(null, {validators: [Validators.required, Validators.minLength(8)]}),
       phone: new FormControl(null, {validators: [Validators.required, Validators.minLength(8),Validators.maxLength(8)]}),
@@ -38,48 +36,41 @@ export class CreateAccountPage implements OnInit {
   }
 
   async onSubmit() {
-    const loading=await this.loading.create();
-    await loading.present();
+    
     if(!this.form.valid) 
     {
       this.form.markAllAsTouched();
       return;
     }
+    const loading=await this.loading.create();
+    await loading.present();
     this.NewAccount.userID=this.form.value.email.toLowerCase();
     this.NewAccount.Name= this.form.value.name;
     this.NewAccount.phoneNum = this.form.value.phone ;
     this.NewAccount.password=this.form.value.password;
+    this.NewAccount.Noification=[];
+    this.NewAccount.Noification.push(0);
     this.FireAuth.createUserWithEmailAndPassword(this.form.value.email,this.form.value.password).then(
-    success=>
-    {
-      this.Firebase.addUser(this.NewAccount).then( 
-        async onfulfilled=>
+      success=>{
+      this.Firebase.addUser(this.NewAccount).then( async onfulfilled=>
          { 
           this.NewAccount.ID=onfulfilled.id;
-          this.Firebase.updateUser(this.NewAccount).then(async truth=>
-            {
-              this.datasrv.presentToast("Account Created Successfully");
-          this.router.navigate(['/login']);
-          await loading.dismiss();
-              
-            })
-          console.log()
-           
-          },error=>{
-            this.datasrv.showError("Error ",error);
+          this.Firebase.updateUser(this.NewAccount).then(async truth=>{
+            this.datasrv.presentToast("Account Created Successfully");
             this.router.navigate(['/login']);
-          } );
-    },error=>{
-      this.datasrv.showError("Error",error);
-      this.router.navigate(['/login']);
-    });
+            await loading.dismiss();});
+         },async error=>{
+            await loading.dismiss();
+            this.datasrv.showError("Error ",error);
+            this.router.navigate(['/login']);});
+             },async error=>{
+              await loading.dismiss();
+              this.datasrv.showError("Error",error);
+              this.router.navigate(['/login']);});
    
    
-    
-
-      
-  
-    }
+              await loading.dismiss();
+                     }
   }
 
 

@@ -1,12 +1,14 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title  class="m-2 d-flex justify-content-center  ion-text-start">Car Information</ion-title>
-    <ion-icon  color="sky" name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1"  (click)="goback()"></ion-icon>
+<ion-header class="ion-no-border">
+  <ion-toolbar >
+    <ion-title class="d-flex justify-content-center ion-text-start">Car Information</ion-title>
+    <ion-icon color="sky" name="arrow-back-outline" size="large" slot="start" class="ms-2 ps-2" (click)="goback()"></ion-icon>
   
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div class="ms-3 me-3 mb-2 pb-2"> 
+
   
   <div *ngFor="let x of (CAR | async )"> 
     <div *ngIf="uid==x.numPlate"> 
@@ -14,21 +16,16 @@
         <ion-card-header>
         <ion-card-title >  {{x.make}} {{x.model}} {{x.year}}</ion-card-title>
         <div class="d-flex justify-content-center mt-2 pt-2 " (click)="changeImage(x.numPlate)"> 
-          <img *ngIf="x?.carimg; else placeholder;" src={{x.carimg}}  class="w-75"/>
+          <img *ngIf="x?.carimg; else placeholder;" src={{x.carimg}}  class="d-inline-block" style="max-height: 100px!important; "/>
           <ng-template #placeholder>
           <img src="assets/images/car.png"  class="w-75"/>
           </ng-template>
         </div>
         </ion-card-header>
-        <ion-card-content>
-          <ion-list >
+        <ion-card-content class="pb-0">
           <ion-item lines="none" >
-            <ion-label color="medium">Plate Number:</ion-label>  
+            <ion-label color="medium">Plate Number:</ion-label> <ion-label >{{x.numPlate}} </ion-label> 
           </ion-item>
-            <ion-item  lines="none"> 
-              <ion-label >{{x.numPlate}} </ion-label>
-            </ion-item>
-          </ion-list>  
         </ion-card-content>
       </ion-card>
       <ion-list>
@@ -37,19 +34,19 @@
         </ion-list-header>
         <ion-item lines="none" >
           <ion-label color="medium">Company: </ion-label>  
-          <ion-label >:{{x.InsComp}} </ion-label>
+          <ion-label >{{x.InsComp}} </ion-label>
         </ion-item>
         <ion-item lines="none" >
           <ion-label color="medium">Policy No: </ion-label>  
-          <ion-label >:{{x.InsPolicy}} </ion-label>
+          <ion-label >{{x.InsPolicy}} </ion-label>
         </ion-item>
         <ion-item lines="none" >
           <ion-label color="medium">Cover Type: </ion-label>  
-          <ion-label >:{{x.InsType}} </ion-label>
+          <ion-label >{{x.InsType}} </ion-label>
         </ion-item>
         <ion-item lines="full" >
           <ion-label color="medium">Expiry Date: </ion-label>  
-          <ion-label >:{{x.InsExp}} </ion-label>
+          <ion-label >{{x.InsExp}} </ion-label>
         </ion-item>
       </ion-list>
     
@@ -58,49 +55,51 @@
      
           <ion-item lines="none" >
             <ion-label color="medium">Owner ID: </ion-label>  
-            <ion-label >:{{x.ownerID}} </ion-label>
+            <ion-label >{{x.ownerID}} </ion-label>
           </ion-item>
           <ion-item lines="none" >
             <ion-label color="medium">Yearly Inspection: </ion-label>  
-            <ion-label >:{{x.ExpDte}} </ion-label>
+            <ion-label >{{x.ExpDte}} </ion-label>
           </ion-item>
         </ion-list> 
       
     
-    <ion-card>
+    <ion-card  mode="ios">
       <ion-card-header>
-       
-        <ion-card-title>Documents</ion-card-title>
-        <ion-button id="open-modal" color="sky" (click)="openModal()"><ion-icon slot="icon-only" name="add-circle-outline"></ion-icon></ion-button>
+        <ion-label  class="mb-0 pb-1 m-2 mt-0 p-2 d-flex justify-content-between align-self-center"  style="font-size: 20px;">
+          Documents
+          <ion-icon id="open-modal" (click)="openModal()" color="sky"  size="large" slot="icon-only" name="add-circle-outline"></ion-icon>
+          </ion-label>
+        
+        <!-- <div class="d-flex  justify-content-center"> 
+        <ion-button  id="open-modal" color="sky" (click)="openModal()">
+          <ion-icon id="open-modal" (click)="openModal()" color="sky"  size="large" slot="icon-only" name="add-circle-outline"></ion-icon> 
+         </ion-button> 
+        </div>-->
         <ion-modal trigger="open-modal"  color="sky" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5]">
           <ng-template>
             <ion-header>
               <ion-toolbar>
-                <ion-buttons slot="start">
-                  <ion-button (click)="cancel()">Cancel</ion-button>
-                </ion-buttons>
-                <ion-title>Add Document</ion-title>
+                
+                <ion-title class="ion-text-center">Add Document</ion-title>
                 
               </ion-toolbar>
             </ion-header>
             <ion-content class="ion-padding">
             <ion-card>
              <ion-card-content>
-                <ion-item fill="solid">
-                  <ion-label position="stacked">Title: </ion-label>
+                <ion-item >
+                  <ion-label >Title: </ion-label>
                   <ion-input type="text"[(ngModel)]="Document.Title"  placeholder="Your Title"></ion-input>
                 </ion-item>
-                <ion-item>
-                  <ion-label position="stacked">Select Image: </ion-label>
+                <ion-item lines="none">
+                  <ion-label >Select Image: </ion-label>
                   <ion-input type="text" value="{{this.Document.Img}}" [readonly]="true" placeholder="Please Select"  (click)="AddImage()"></ion-input>
                 </ion-item>
-                <ion-row>
-                  <ion-col size="12" class="ion-text-center">
-                    <ion-button (click)="Submit()" color="sky" class="p-2 m-2" style="height:60px; width:120px;">Upload</ion-button>
-      
-                  </ion-col>
-                </ion-row>
-                
+                <ion-row class=" d-flex justify-content-between">
+                  <ion-button (click)="Submit()" mode="ios" color="sky"  >Upload</ion-button>    
+                  <ion-button (click)="cancel()" mode="ios" color="sky">Cancel</ion-button>
+                </ion-row>               
               </ion-card-content>
               </ion-card>
             </ion-content>
@@ -110,42 +109,16 @@
       <ion-card-content *ngFor="let y of x.document">
           <ion-label>{{y.Title}}</ion-label>
           <div class="d-flex justify-content-center mt-2 pt-2 " > 
-            <img *ngIf="y?.Img; else placeholder;" src={{y.Img}}  class="w-75 "/>
-            <ng-template #placeholder>
-            <img src="assets/images/car.png"  class="w-75 "/>
-            </ng-template>
+            <img *ngIf="y?.Img; else placeholder;" src={{y.Img}}  class="w-75 " (click)="RemoveImg(y.Title,y.Img)"/>            
           </div>
-    </ion-card-content>
-        
-    </ion-card>
-    
-   
-<div class="p-2"> <ion-button  color="danger" fill="outline" expand="block" >Delete Car</ion-button></div>
-
-
-
-  </div>
+    </ion-card-content>       
+    </ion-card>  
+<div class="p-2"> <ion-button mode="ios" color="danger" fill="outline" 
+  expand="block"  
+  style=" text-transform: none!important;
+              text-transform: unset;"
+  (click)="DelCar(x.numPlate)">Delete Car</ion-button></div>
 </div>
- 
-
+</div>
+</div>
 </ion-content>
-<!--
-  <ion-card-content>
-          <ion-item>
-            <ion-label >Title: </ion-label>
-            <ion-input [(ngModel)]="title"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label>Expiry Date: </ion-label>
-            <ion-input value="{{ InsDte | date: 'dd-MMM-YYYY' }}" id="InsExpDte" color="medium"></ion-input>
-            <ion-modal trigger="InsExpDte" id="InsExpDteModal" [initialBreakpoint]="0.35" [breakpoints]="[0.25,0.35]">
-              <ng-template>
-                <ion-datetime id="InsExpDteInput" presentation="date" showDefaultButtons="true"  [preferWheel]="true" [(ngModel)]="InsDte" (ngModelChange)="InsDte" min="{{minDate}}" max="2099-10-31"></ion-datetime>
-              </ng-template>
-            </ion-modal>
-            <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>     
-          </ion-item>
-        </ion-card-content>
-               
-
--->

@@ -4,6 +4,7 @@ import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { codesdesc } from '../codedesc';
+import { Codes } from '../codes';
 import { DataSrvService } from '../data-srv.service';
 import { code, FirebaseService, LiveData } from '../firebase.service';
 
@@ -18,6 +19,7 @@ export class Tab1Page implements OnInit {
   private LiveData:Observable<LiveData[]>;
   private CodeArray:string[]=[];
   public len;
+  private CarName;
   private TroubleCodes:Observable<code[]>;
   private leng;
   Sped;
@@ -26,6 +28,9 @@ export class Tab1Page implements OnInit {
   }
   ngOnInit()
    {
+    this.CarName=this.DataSrv.CarName;
+    console.log("Length "+Codes.AllCodes.length);
+
     this.TroubleCodes=this.Firebase.getCodes();
     this.TroubleCodes.subscribe(res=>{
       this.leng=res.length;
@@ -40,7 +45,13 @@ export class Tab1Page implements OnInit {
 
 
   }
-
+  ClearCodes()
+  {
+    this.bluetooth.isConnected().then(rsp=>{
+      this.DataSrv.deviceConnected('04','00');
+      this.Firebase.removeCodes();
+    })
+  }
   segmentChanged(event : any){
   console.log(event.target.value);
   this.selectedSegment=event.target.value;
@@ -48,11 +59,20 @@ export class Tab1Page implements OnInit {
 
   Scan()
   {
+    //console.log("Length: "+)
     this.bluetooth.isEnabled().then(resp=>
       {
         this.bluetooth.isConnected().then(rsp=>
           {
             this.DataSrv.deviceConnected('03','00');
+            //console.log("Length: "+codesdesc.AllCodes.length)
+            this.TroubleCodes.subscribe(res=>{
+              for(let i=0;i<res.length;i++)
+              {
+                console.log("res: "+res[i].codes[i])
+                
+              }
+            },erro=>{this.DataSrv.showError("alert",erro)})
             
            
           }

@@ -20,7 +20,7 @@ export class SettingPage implements OnInit {
   private select=[];
   private SupportedOBD;
   private statement=false;
-  private UserID;
+  private UserID:string;
   private DeleteID:string;
   public User: Observable<Users[]>;//Details about the User will be stored in this variable
   public Car: Observable<Car[]>;//Details about the User will be stored in this variable
@@ -32,47 +32,51 @@ export class SettingPage implements OnInit {
     this.UserID= await this.DataSrv.GetVariable('userID');
     this.User=this.Firebase.getUsers();
     this.Car=this.Firebase.getCars();
-    this.DataSrv.GetVariable('rem').then(async re=>{
-      console.log("Get Response: "+re);
-      this.toggle=await re;
-      console.log('Toggle in  Promise: '+this.toggle);
-
-    });
-   if(this.toggle==undefined||this.toggle==null)
-    {
-      this.toggle=false;
-    }
+    this.toggle=await this.DataSrv.GetVariable('rem');
     this.SupportedOBD=this.DataSrv.SupportedOBD;
     this.LiveData=this.Firebase.getLiveData();
     this.LiveData.pipe(take(1)).subscribe(res=>{for(let i=0;i<res.length;i++){this.select[i]=res[i].Enabled}},error=>{this.DataSrv.showError("Error",error)})
    
   }
-  togglechange(e)
-  {
-    console.log("Event: "+this.toggle);
-    
-    
-    if(this.toggle)
-    {
-      this.DataSrv.SetVariable('rem','true');
-      this.SceduleEveryDay()
-    }else{
-      this.DataSrv.SetVariable('rem','false');
-    }
-  }
+ 
   SceduleEveryDay(){
     this.localNotifications.schedule({
       id:0,
       title:'Good Morning',
       text:'Check Your Cars Water & Oil Levels',
       trigger:{every: ELocalNotificationTriggerUnit.DAY}
-    })
+    });
+    
+  }
+
+  CancelEveryDay(){
+    this.localNotifications.cancel(0);
+    
   }
 
   goback()
   {
     this.navCtrl.back();
   }
+  async Apply()
+  {
+    if(this.toggle)
+    {
+      await this.SceduleEveryDay();
+      this.DataSrv.SetVariable('rem','true').then(r=>
+        this.DataSrv.presentToast("Setting Updated")
+      );
+      
+    }else{
+      await this.CancelEveryDay();
+      this.DataSrv.SetVariable('rem','false').then(r=>
+        this.DataSrv.presentToast("Setting Updated")
+      );
+      
+    }
+    
+
+  }  
   async SaveSetting()
   {
     const load3=await this.loading.create();
@@ -99,7 +103,7 @@ export class SettingPage implements OnInit {
   onDelete()
   {
 
-    this.DataSrv.showChoice("Alert","Sure you want to delete your account??").then( sucess=>
+    this.DataSrv.showChoice("Alert","Sure you want to delete your account?").then( sucess=>
     { 
     if (this.DataSrv.handlerMessage=="confirmed")
     {

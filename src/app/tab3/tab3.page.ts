@@ -4,7 +4,8 @@ import { AlertController, Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import {  DataSrvService } from '../data-srv.service';
 import {add} from "date-fns";
-import { Car, FirebaseService } from '../firebase.service';
+import { Car, FirebaseService, Users } from '../firebase.service';
+import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
@@ -13,8 +14,10 @@ import { Car, FirebaseService } from '../firebase.service';
 export class Tab3Page implements OnInit{
   private CarDetails: Observable<Car[]>;
   private UserID;
-  private parseID;
+  public User: Observable<Users[]>;
+  private UpUser:Users={} as Users;
   public Sceduled: any [ ] =[];
+  private count=0;
 
   constructor(private localNotifications: LocalNotifications,
               private DataSrv:DataSrvService,
@@ -45,61 +48,60 @@ export class Tab3Page implements OnInit{
   async ngOnInit() 
   {
     this.UserID= await this.DataSrv.GetVariable('userID');
-    this.parseID=parseInt(this.UserID);
-    this.getAll();
+    this.User=this.Firebase.getUsers();
+    this.User.subscribe(async res=>{
+      for(let k=0;k<res.length;k++)
+      {
+        if(res[k].userID==this.UserID)
+        {
+          this.UpUser=res[k];
+          console.log("Notification Length: "+this.UpUser.Noification.length);
+        }
+
+      }
+     await this.localNotifications.getAll().then(res=>
+        {
+          console.log("Local Notification: "+res.length)
+          for(let k=0;k<res.length;k++)
+          {
+          for(let i=0;i<this.UpUser.Noification.length;i++)
+            {
+              console.log("User Notification ID: "+this.UpUser.Noification[i]+", Local Notification: "+res[k].id);
+              if(res[k].id===this.UpUser.Noification[i])
+              {
+                this.Sceduled.push(res[k]);
+                console.log("Notification Array: "+JSON.stringify(this.Sceduled));
+              }
+            }
+  
+          }
+        }).catch(er=>{
+          this.DataSrv.showError("Error",er);
+        });
+    })
+   
+   
 
   }
+  
   del()
   {
-    this.localNotifications.cancelAll().then(res=>{
-      this.Sceduled.length=0;
-    })
-    
-  }
- 
-  sceduleNotifications()
-  {
-    
-    
-    this.CarDetails.subscribe(result=>{
-      for(let i=0;i<result.length;i++)
-      {
-        console.log("data User: "+this.UserID+'Array User:  '+result[i].userId)
-        if(result[i].userId==this.UserID)
+    for(let k=0;k<this.UpUser.Noification.length;k++)
+    {
+      this.localNotifications.cancel(this.UpUser.Noification[k]).then(res=>
         {
-          let date = new Date(result[i].ExpDte);
-          let remindInspection = add(date,{months: -1, });
-          let Insdate = new Date(result[i].InsExp);
-          let remindInsurance = add(Insdate,{months: -1, });
-          console.log("current User: "+i+" "+result[i].make);
-          this.localNotifications.schedule({
-            id:i,
-            title:result[i].make+' '+result[i].model+' '+result[i].year,
-            text:'Car Inspection Coming Next Month',
-            data:{mydata:'Please get your Car Inspected'},
-            trigger:{in:5, unit:ELocalNotificationTriggerUnit.SECOND}
-          })
-          this.localNotifications.schedule({
-            id:i+i,
-            title:result[i].make+' '+result[i].model+' '+result[i].year,
-            text:'Car Insurance Coming Next Month',
-            data:{mydata:'Please get your Car Insured'},
-            trigger:{at:new Date()},
-            foreground:true
-          })
-        }
-      }
-    })
+          this.count++;
+        })
+    }
+   if(this.UpUser.Noification.length==this.count)
+   {
+    this.UpUser.Noification.splice(0);
+    this.Firebase.updateUser(this.UpUser).then(kre=>{
+      this.DataSrv.presentToast("All Notifications Deleted Successfully");
+    });
+   }
     
   }
-  getAll()
-  {
-    this.localNotifications.getAll().then(res=>
-      {
-        this.Sceduled=res;
-      });
 
-
-  }
 
 }

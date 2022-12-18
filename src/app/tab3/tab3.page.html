@@ -1,16 +1,14 @@
 <ion-header [translucent]="true">
   <ion-toolbar >
     <ion-title class="ion-text-start" > Notification </ion-title>
-    <ion-icon name="settings-outline"   class="me-1 pe-1" size="large" slot="end" routerLink="/setting" routerDirection="forward"></ion-icon>
+    <ion-icon name="settings-outline" color="sky"  class="me-2 pe-2" size="large" slot="end" routerLink="/setting" routerDirection="forward"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
- 
-  
-  <ion-list>
-    <ion-item *ngFor="let x of Sceduled"  class="d-flex align-content-start flex-wrap">
+<div class="ms-3 me-3 mb-2 pb-2">
+ <ion-list *ngFor="let x of Sceduled">
+    <ion-item  *ngIf="x!==null" class="d-flex align-content-start flex-wrap">
      <ion-label> <b>{{x.title}}</b> <br/>{{x.text}} </ion-label>
      
     </ion-item>  
@@ -22,6 +20,10 @@
   </ion-list>
   <div class="m-2 p-2 " *ngIf="Sceduled.length>0">
     <!-- <ion-button (click)="getAll()" fill="outline">display history</ion-button> -->
-    <ion-button color="danger" fill="outline" expand="block" (click)="del()">Delete </ion-button>
+    <ion-button color="danger" fill="outline" mode="ios"
+    style="text-transform: none!important;
+              text-transform: unset;"
+   expand="block" (click)="del()">Delete </ion-button>
  </div>
+</div>
 </ion-content>

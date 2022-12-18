@@ -12,7 +12,7 @@
         
         <ion-item>
           <ion-label >Car Make: </ion-label>
-          <ion-input formControlName="make" [(ngModel)]="newCar.make" type="text" color="medium" ></ion-input>
+          <ion-input formControlName="make"  type="text" color="medium" ></ion-input>
           <ion-icon name="car-outline" slot="end" color="medium" ></ion-icon>
         </ion-item>
         <ion-text class="error" color="danger" 
@@ -25,7 +25,7 @@
       <div class="ion-margin-vertical">
         <ion-item>
           <ion-label >Car Model: </ion-label>
-          <ion-input formControlName="model"  type="text"  color="medium" [(ngModel)]="newCar.model"></ion-input>
+          <ion-input formControlName="model"  type="text"  color="medium"></ion-input>
           <ion-icon name="car-outline" slot="end" color="medium" ></ion-icon>
         </ion-item>
         <ion-text class="error" color="danger" 
@@ -39,15 +39,15 @@
         <ion-item>
           <ion-label >Car Year: </ion-label>
           <ion-input  [ngModelOptions]="{standalone: true}" type="number" color="medium" [(ngModel)]="newCar.year"></ion-input>
-          <ion-icon name="calendar-outline" slot="end" color="medium"></ion-icon> 
+          <ion-icon name="car-outline" slot="end" color="medium"></ion-icon> 
           </ion-item>
           
         </div>
         <div class="ion-margin-vertical">
         <ion-item>
           <ion-label >Plate Number: </ion-label>
-          <ion-input  formControlName="numPlate"  type="number" color="medium" [(ngModel)]="newCar.numPlate"></ion-input>
-          <ion-icon name="barcode-outline" slot="end" color="medium" ></ion-icon>
+          <ion-input  formControlName="numPlate"  type="number" color="medium" ></ion-input>
+          <ion-icon name="car-outline" slot="end" color="medium" ></ion-icon>
         </ion-item>
         <ion-text class="error" color="danger" 
             *ngIf="!carform.get('numPlate').valid && carform.get('numPlate').touched">
@@ -89,7 +89,7 @@
         <ion-list lines="inset">
           <ion-item>
             <ion-label >Owner ID: </ion-label>
-            <ion-input  formControlName="ownerID"  type="number" color="medium" [(ngModel)]="newCar.ownerID"></ion-input>
+            <ion-input  formControlName="ownerID"  type="number" color="medium" ></ion-input>
             <ion-icon name="person" slot="end" color="medium" ></ion-icon>
           </ion-item>
           <ion-text class="error" color="danger" 
@@ -101,7 +101,7 @@
 
           <ion-item>
             <ion-label  color="gold">Yearly Inspection: </ion-label>
-            <ion-datetime-button slot="end" datetime="date1"></ion-datetime-button>
+            <ion-datetime-button slot="end" mode="ios" datetime="date1"></ion-datetime-button>
             <ion-modal [keepContentsMounted]="true">
               <ng-template>
                 <ion-datetime id="date1" min="{{minDate}}"  [ngModelOptions]="{standalone: true}" max="2099-10-31" [(ngModel)]="YearDte"  format="YYYY-MM-DD" presentation="date"></ion-datetime>
@@ -136,7 +136,7 @@
 
           <ion-item>
             <ion-label  color="gold">Expiry Date: </ion-label>
-            <ion-datetime-button slot="end" datetime="date2"></ion-datetime-button>
+            <ion-datetime-button mode="ios" slot="end" datetime="date2"></ion-datetime-button>
             <ion-modal [keepContentsMounted]="true">
               <ng-template>
                 <ion-datetime  [ngModelOptions]="{standalone: true}" id="date2" min="{{minDate}}" max="2099-10-31" [(ngModel)]="InsDte"  format="YYYY-MM-DD" presentation="date"></ion-datetime>
@@ -150,12 +150,9 @@
   </ion-accordion-group>
 
      <br>
-      <ion-button size="large" expand="block" shape="round" color="sky" (click)="submit()">
+      <ion-button size="large" mode="ios" expand="block" shape="round" color="sky" (click)="submit()">
         <ion-text >Submit</ion-text>
       </ion-button>
     </form>
   </ion-item-group>
-
- 
-
 </ion-content>

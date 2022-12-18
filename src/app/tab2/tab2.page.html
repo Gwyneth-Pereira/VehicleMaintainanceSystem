@@ -1,105 +1,77 @@
 <ion-header [translucent]="true">
   <div *ngFor="let x of (User | async ) ">
-  <ion-toolbar   class="me-1 pe-1" *ngIf="UserID==x?.userID; else guestlogin;" >
+  <ion-toolbar   class="me-1 pe-1" *ngIf="UserID==x?.userID;" > 
+    <ion-title class="m-2 d-flex justify-content-start ion-text-start" >Hello {{x.Name}}, </ion-title> 
     
-    <ion-title class="m-2 d-flex justify-content-start ion-text-start" >Hello {{x.Name}}, </ion-title>   
-    <ion-avatar slot="end"  style="height: 36px; width: 36px;"  [routerLink]="'/profile/'+ UserID" >
+    <ion-avatar slot="end"  style="height: 36px; width: 36px;" (click)="OpenProfle(UserID)" >
       <img *ngIf="x?.img; else placeholder;" src={{x.img}}  />
       <ng-template #placeholder>
        <img src="assets/images/default.png"  />
-      </ng-template>
-   
+      </ng-template> 
     </ion-avatar>  
-    <ng-template #guestlogin>
-      <ion-title  class="ion-text-start" >Hello Guest, </ion-title>
-      <ion-avatar slot="end"  style="height: 36px; width: 36px;"  [routerLink]="'/profile/'+ UserID" >
-         <img src="assets/images/default.png" />
-      </ion-avatar> 
-     </ng-template>
-    
-
     <ion-progress-bar type="indeterminate" *ngIf="checking"></ion-progress-bar>
-
   </ion-toolbar>
 </div>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-
-  
-  <!-- <ion-slides pager="true" [options]="slideOpts"  >
-  <ion-grid *ngFor="let x of (CAR | async ) ">
-      <ion-slide *ngIf="UserID==x.userId" >
-      <ion-card   class="colour" class="ps-0 pe-0" style="height: 220px!important; width: 340px!important;" [routerLink]="'/carinfo/'+ x.numPlate" >
-        <ion-card-header>
-          <ion-card-title >{{x.make}} {{x.model}}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content class="ps-0 pe-0">
-          <img src="assets\images\car.png" alt="..." class="w-75 d-inline-block"  >
-          <ion-item lines="none">
-          <ion-icon name="bluetooth-outline" color="danger" slot="end"></ion-icon>
-          </ion-item>
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
-
-    
-  </ion-grid>
-</ion-slides> -->
-
-
-
-
-  
-  <ion-slides pager="true" [options]="slideOpts"  (ionSlideDidChange)="slideChange()"  >
+<ion-content [fullscreen]="true"> 
+  <ion-slides pager="true"  [options]="slideOpts" style="height: 220px!important;"  class=" mt-4 pt-2 mb-4 pb-2" (ionSlideDidChange)="slideChange()"  >
     
       <ion-slide *ngFor="let x of (Cars|async) " >
-        <div *ngIf="x.userId==UserID">
-      <ion-card class="colour" class="ps-0 pe-0" style="height: 220px!important; width: 340px!important;" (click)="OpenCarInfo(x.numPlate)">
-        <ion-card-header class="p-2">
-          <ion-card-title color="{{x.blue}}">{{x.make}} {{x.model}}          
-          </ion-card-title>
+       
+      <ion-card mode="ios" class="colour" class=" m-4  p-2 " style="height: 210px!important; width: 340px!important;" (click)="OpenCarInfo(x.numPlate)">
+        <ion-card-header class="p-2 mb-2 d-flex justify-content-between ">
+          <ion-card-subtitle   style="font-size: 18px;" color="{{x.blue}}">{{x.make}} {{x.model}}          
+          </ion-card-subtitle>
+          <ion-label class="pt-1 align-items-center" color="medium"> View <ion-icon  name="chevron-forward-outline" color="sky"></ion-icon> </ion-label>
           <!-- <ion-icon name="bluetooth-outline" slot="icon-only" color="{{x.blue}}" slot="end"></ion-icon> -->
         </ion-card-header>
-        <ion-card-content class="ps-0 pe-0">
-          <img *ngIf="x?.carimg; else placeholder;" src={{x.carimg}} class="w-75 d-inline-block"  style="max-width: 170px!important; "/>
+        <ion-card-content class="ps-0 pe-0 pb-0">
+          <img *ngIf="x?.carimg; else placeholder;" src={{x.carimg}} class=" d-inline-block mt-1 pt-1 align-self-stretch" 
+           style="max-height: 95px!important; "/>
        <ng-template #placeholder>
-        <img src="assets\images\car.png" alt="..." class="w-75 d-inline-block" />
+        <img src="assets\images\car.png" alt="..." class="d-inline-block mt-1 pt-1 align-self-stretch" />
        </ng-template>
           
-          <ion-item lines="none">
-            <ion-icon name="bluetooth-outline" slot="icon-only" color="{{x.blue}}" slot="end"></ion-icon>
-
+          <ion-item lines="none" class="p-0 pe-0 ">
+            <ion-icon name="bluetooth-outline" class="m-0 p-0  " slot="icon-only" color="{{x.blue}}" slot="end"></ion-icon>
           </ion-item>
         </ion-card-content>
       </ion-card>
-    </div>
+    
     </ion-slide>
  
-    <!--<ion-slide (click)="gonewCarInfo()">
-      <ion-card style="height: 220px!important; width: 340px!important;">
-        <ion-card-content class="d-flex flex-row justify-content-center my-5 py-5">
-           <ion-icon class="mt-1 me-2"  name="add-outline" size="large"></ion-icon>  <h1  class=" pt-1 " >Add Car</h1>
+    <ion-slide (click)="gonewCarInfo()">
+      <ion-card mode="ios" style="height: 210px!important; width: 340px!important;" class=" m-4 p-3  align-items-center">
+        <ion-card-content class="d-flex flex-row justify-content-center align-items-center my-4 py-5">
+           <ion-icon class="mt-1 me-2"  name="add-outline" size="large" color="sky" ></ion-icon>  <ion-label class="pt-1"  style="font-size: 16px;">Add Car</ion-label> 
         
          </ion-card-content>
       </ion-card>
  
-    </ion-slide>-->
+    </ion-slide>
   </ion-slides>
-
   
+  <div class="ms-3 me-3 ps-2 pe-2">
+    <ion-button id="open-modal" color="sky" text-capitalize=“false”  mode="ios"
+      expand="block"
+      
+      *ngIf="BluetoothFlag"
+      style="text-transform: none!important;
+              text-transform: unset;"
+       (click)="Pair()">Pair Car</ion-button>
+  </div>
+      
 
-    
-  <ion-row>
-    <ion-col size="12" class="ion-text-center">
-      <ion-button id="open-modal" color="sky" class="p-2 m-2" *ngIf="BluetoothFlag" style="height:65px; width:150px;" (click)="Pair()">Pair Car</ion-button>
+<ion-row>
+  <ion-col size="12" class="ion-text-center">
       <ion-modal #mobe trigger="open-modal" color="sky" [initialBreakpoint]="0.4" [breakpoints]="[0, 0.4, 0.5, 0.75]">
         <ng-template>
           <ion-header [translucent]="true">
             <ion-toolbar >
-              <ion-button slot="start" color="sky" (click)="cancel()">Close</ion-button>
+              <ion-button slot="start" mode="ios" color="sky" (click)="cancel()">Close</ion-button>
               <ion-title class="ion-text-start">Select Device</ion-title>  
-              <ion-button color="sky" slot='end' (click)="Pair()">Refresh</ion-button>
+              <ion-button color="sky" mode="ios" slot='end' (click)="Pair()">Refresh</ion-button>
           </ion-toolbar>
           </ion-header>
           <ion-content>
@@ -115,18 +87,12 @@
           </ion-content>
         </ng-template>
       </ion-modal>
-      <ion-button  color="sky" class="p-2 m-2" *ngIf="!BluetoothFlag" style="height:65px; width:150px;" (click)="diconnect()">Unpair Car</ion-button>
-
+      <ion-button  color="sky" mode="ios" class="p-2 m-2" *ngIf="!BluetoothFlag" 
+      style="height:65px;
+              width:150px;
+              text-transform: none!important;
+              text-transform: unset;" 
+      (click)="diconnect()">Unpair Car</ion-button>
     </ion-col>
   </ion-row>
-  
-  
- 
-  
-  
-
-
-
-
-
 </ion-content>

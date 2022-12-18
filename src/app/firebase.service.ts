@@ -3,20 +3,22 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/compat/firestore';
 import {Photo} from '@capacitor/camera';
 import { Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, first, map, take } from 'rxjs/operators';
 import { cide, DataSrvService } from './data-srv.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
+  
   private updatedCar:Car[]={}as Car[];
   public Codes:code={id:'codes',codes:[]}as code;
   public user: Observable<Users[]>;
   private userCollection:AngularFirestoreCollection<Users>;
+  
 
   public code: Observable<code[]>;
   private codeCollection:AngularFirestoreCollection<code>;
@@ -28,11 +30,9 @@ export class FirebaseService {
   private SPFlagCollection:AngularFirestoreCollection<LiveData>;
   //private LiveData:Observable<LiveData[]>;
   private UpdatedLiveData:LiveData={}as LiveData;
-  constructor(private storage:AngularFireStorage,private alert: AlertController,private androidPermissions:AndroidPermissions ,private afs:AngularFirestore,public FireAuth:AngularFireAuth) 
+  constructor(private storage:AngularFireStorage,private toastctrl:ToastController,private alert: AlertController,private androidPermissions:AndroidPermissions ,private afs:AngularFirestore,public FireAuth:AngularFireAuth) 
   { 
-    
-    
-    this.userCollection=this.afs.collection<Users>('User');
+     this.userCollection=this.afs.collection<Users>('User');
     this.user= this.userCollection.snapshotChanges().pipe
     
     (
@@ -92,7 +92,9 @@ export class FirebaseService {
   {  return this.car;  }
 
   getCar(id: string): Observable<Car[]>{
-    return this.car;}
+    return this.car.pipe(map(cars=>cars.filter(car=>car.userId===id)))
+  }
+ 
 //    async get_specific_user_cars(id:string){
 //      return await this.carCollection.snapshotChanges().pipe( map(ides=> { return ides.filter(ides.)} ));
 // }
@@ -140,6 +142,9 @@ export class FirebaseService {
     return checker;
      
   }
+  isLoggedn() {
+    return this.FireAuth.authState.pipe(first()).toPromise();
+}
    
   addUser(idea:Users):Promise<DocumentReference>{ return this.userCollection.add(idea); }
   
@@ -159,7 +164,7 @@ removeCodes()
   {
   this.Codes.codes=[];  
   this.updateCode(this.Codes).then(res=>{
-                this.showError("Alert","Codes Removed");
+                console.log("Engine Codes Removed");
               });
   
   }
@@ -170,7 +175,7 @@ removeLiveData()
     {
       this.UpdatedLiveData=res[i];
       this.UpdatedLiveData.Value=''
-      this.updateLiveData(this.UpdatedLiveData).then(happy=>{console.log("Deleted Values");this.UpdatedLiveData={}as LiveData;},sad=>{this.showError("Error",sad)})
+      this.updateLiveData(this.UpdatedLiveData).then(happy=>{console.log("Deleted Live Data Values");this.UpdatedLiveData={}as LiveData;},sad=>{this.showError("Error",sad)})
     }
   })
   
@@ -221,6 +226,14 @@ async showError(Header,msg)
     });
     await alert.present(); 
 }
+async  presentToast(msg) {
+  let toast = await this.toastctrl.create({
+  message: msg,
+  duration: 1500,
+  position:"top"
+  })
+  toast.present();
+  }
 }
 export interface Users {
 ID?:string;
@@ -229,7 +242,7 @@ Name: string;
 phoneNum: number;
 password: string;
 img: string;
-licenseExp: Date;
+Noification: any[];
 
 }
 
@@ -269,5 +282,5 @@ Enabled:boolean
 }
 export interface code{
   id?:string;
-  codes:cide[]
+  codes:any[];
 }

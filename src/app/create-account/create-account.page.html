@@ -1,16 +1,16 @@
 <ion-content >
-  <ion-list lines="full">
-    <ion-list-header >
-      <ion-label class="m-2 d-flex justify-content-center">
-        <ion-text > Create your Account</ion-text>
-      </ion-label>
-    </ion-list-header>
-
+  <div class="">
+  <div class=" m-3 p-3 d-flex justify-content-center" > 
+      <img src="assets\images\cogearlogo.png" alt="login" height="165px"/>
+    </div>
+    <ion-card class="m-3 p-3 pt-2 pb-2" mode="ios"> 
+      <ion-card-content  class="p-1 pt-0">
+        <ion-list lines="full">
     <ion-item-group class="ion-margin-horizontal">
       <form [formGroup]="form">
         <div class="ion-margin-vertical">
           <ion-item>
-            <ion-label position="stacked" > Enter Your Full name</ion-label>
+            <!-- <ion-label position="stacked" > Enter Your Full name</ion-label> -->
             <ion-input formControlName="name" type="text" placeholder="Full Name">
               <ion-icon name="person-outline" slot="start" color="medium" ></ion-icon>
             </ion-input>
@@ -24,7 +24,7 @@
         </div>
         <div class="ion-margin-vertical">
           <ion-item>
-            <ion-label position="stacked" >Email</ion-label>
+            <!-- <ion-label position="stacked" >Email</ion-label> -->
             <ion-input formControlName="email" type="email" placeholder="Email Address" >
               <ion-icon name="mail-outline" slot="start" color="medium" ></ion-icon>
             </ion-input>
@@ -43,7 +43,7 @@
 
         <div class="ion-margin-vertical">
           <ion-item>
-            <ion-label position="stacked" >Password</ion-label>
+            <!-- <ion-label position="stacked" >Password</ion-label> -->
             <ion-input formControlName="password" type="password" placeholder="Password" >
               <ion-icon name="key-outline" slot="start" color="medium " ></ion-icon>
             </ion-input>
@@ -60,8 +60,8 @@
         <!--   added info -->
         <div class="ion-margin-vertical">
           <ion-item>
-            <ion-label position="stacked" >Phone number</ion-label>
-            <ion-input formControlName="phone" type="number" placeholder="1111-1111" >
+            <!-- <ion-label position="stacked" >Phone number</ion-label> -->
+            <ion-input formControlName="phone" type="number" placeholder="1700-0000" >
               <ion-icon name="call-outline" slot="start" color="medium"  ></ion-icon>
             </ion-input>
           </ion-item>
@@ -76,40 +76,27 @@
               * Phone number must be of at most 8 digit
             </ion-text>
           </ion-text>
-        </div>
- <!--- 
-        <div class="ion-margin-vertical">
-          <ion-item>
-            <ion-label position="stacked" > Select image </ion-label>
-            <ion-input formControlName="imag" type="text" placeholder="Full Name" >
-              <ion-icon name="person-outline" slot="start" color="medium" ></ion-icon>
-            </ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="stacked" > Licence Expiry date </ion-label>
-            <ion-input formControlName="licenseExp" type="date" placeholder="Full Name" value="null">
-              <ion-icon name="person-outline" slot="start" color="medium" ></ion-icon>
-          </ion-input>
-          </ion-item>
-        </div>
-   --> 
+        </div> 
         <ion-button 
-          size="large" 
+        mode="ios"
           expand="block" 
-          shape="round" 
           color="sky"
           (click)="onSubmit()">
-          <ion-text >Create Account</ion-text>
+          <ion-text >Register</ion-text>
         </ion-button>
       </form>
     </ion-item-group>
   </ion-list>
+  </ion-card-content>
+</ion-card>
+ 
   <div class="m-3 p-3 ion-text-center">
     <ion-label  >
-      Already have an account?? login 
+      Already have an account? 
     </ion-label>
     <ion-label color="sky" routerLink="/login" >
-      here
+    Login
     </ion-label>
  </div>
+</div>
 </ion-content>

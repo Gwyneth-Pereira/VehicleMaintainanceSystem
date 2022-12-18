@@ -4,8 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { NavigationExtras, Router } from'@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
-import {  Observable }from'rxjs';
-import { take } from 'rxjs/operators';
+import {  BehaviorSubject, Observable }from'rxjs';
+import { filter, switchMap, take } from 'rxjs/operators';
 import {  DataSrvService } from '../data-srv.service';
 import { FirebaseService, Setting, Users } from '../firebase.service';
 
@@ -15,6 +15,7 @@ import { FirebaseService, Setting, Users } from '../firebase.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  private NoData=new BehaviorSubject(false);
   
   settng:Setting={InspR:true, InsuR:true, OilR:true, PairR:true, dailyR:true};
   form: FormGroup;
@@ -39,33 +40,38 @@ export class LoginPage implements OnInit {
     }
 
     async onSubmit() {
-      const load1=await this.loading.create();
-      await load1.present();
+      
       if(!this.form.valid) {
         this.form.markAllAsTouched();
-        await load1.dismiss();
         return;
       }
+      const load1=await this.loading.create();
+      await load1.present();
       this.Firebase.loginUser(this.form.value.email,this.form.value.password).then(
         succ=>{
           this.User.pipe(take(1)).subscribe(async res=>{
             for(let i=0;i<res.length;i++)
             if(this.form.value.email.toLowerCase()==res[i].userID)
-              this.Checker=true;
-              if(this.Checker)
+              this.NoData.next(true);
+              }); 
+             this.NoData.subscribe(res=>
               {
-                this.Checker=false;
-                this.dataSrv.presentToast("You have logged in sucessfully!!");
-                this.dataSrv.SetVariable('userID',this.form.value.email.toLowerCase());
-                this.router.navigate(['tab/tabs/tab2']); 
-               
-      
-              }else{
-                this.dataSrv.presentToast("Account Not Found");
-              }
+                if(res)
+                {
+                  this.dataSrv.SetVariable('userID',this.form.value.email.toLowerCase()).then(rl=>{
+                    this.dataSrv.presentToast("You have logged in sucessfully!!");
+                    //$ionicHistory.nextViewOptions({disableAnimate: true,  disableBack: true });
+                    this.router.navigate(['tabs/tab2']);
+                    
+                  });
 
-            
-             }); 
+                }else
+                {
+                  this.dataSrv.presentToast("Account Not Found");
+                }
+              })
+           
+          
           
          /**/         
          
@@ -74,4 +80,5 @@ export class LoginPage implements OnInit {
      
         await load1.dismiss();
       }
+     
   }
