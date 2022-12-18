@@ -67,37 +67,39 @@
     
     <ion-card >
       <ion-card-header>
-       
-        <ion-card-title >Documents</ion-card-title>
-        <div class="d-flex  justify-content-center"> 
-        <ion-button  id="open-modal" color="sky" (click)="openModal()"><ion-icon slot="icon-only" name="add-circle-outline"></ion-icon></ion-button>
-        </div>
+        <ion-label  class="mb-0 pb-1 m-2 mt-0 p-2 d-flex justify-content-between align-self-center"  style="font-size: 20px;">
+          Documents
+          <ion-icon id="open-modal" (click)="openModal()" color="sky"  size="large" slot="icon-only" name="add-circle-outline"></ion-icon>
+          </ion-label>
+        
+        <!-- <div class="d-flex  justify-content-center"> 
+        <ion-button  id="open-modal" color="sky" (click)="openModal()">
+          <ion-icon id="open-modal" (click)="openModal()" color="sky"  size="large" slot="icon-only" name="add-circle-outline"></ion-icon> 
+         </ion-button> 
+        </div>-->
         <ion-modal trigger="open-modal"  color="sky" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5]">
           <ng-template>
             <ion-header>
               <ion-toolbar>
-                <ion-buttons slot="start">
-                  <ion-button (click)="cancel()">Cancel</ion-button>
-                </ion-buttons>
-                <ion-title>Add Document</ion-title>
+                
+                <ion-title class="ion-text-center">Add Document</ion-title>
                 
               </ion-toolbar>
             </ion-header>
             <ion-content class="ion-padding">
             <ion-card>
              <ion-card-content>
-                <ion-item fill="solid">
-                  <ion-label position="stacked">Title: </ion-label>
+                <ion-item >
+                  <ion-label >Title: </ion-label>
                   <ion-input type="text"[(ngModel)]="Document.Title"  placeholder="Your Title"></ion-input>
                 </ion-item>
-                <ion-item>
-                  <ion-label position="stacked">Select Image: </ion-label>
+                <ion-item lines="none">
+                  <ion-label >Select Image: </ion-label>
                   <ion-input type="text" value="{{this.Document.Img}}" [readonly]="true" placeholder="Please Select"  (click)="AddImage()"></ion-input>
                 </ion-item>
-                <ion-row>
-                  <ion-col size="12" class="ion-text-center">
-                    <ion-button (click)="Submit()" color="sky" class="p-2 m-2" style="height:60px; width:120px;">Upload</ion-button>    
-                  </ion-col>
+                <ion-row class=" d-flex justify-content-between">
+                  <ion-button (click)="Submit()" color="sky"  >Upload</ion-button>    
+                  <ion-button (click)="cancel()" color="sky">Cancel</ion-button>
                 </ion-row>               
               </ion-card-content>
               </ion-card>

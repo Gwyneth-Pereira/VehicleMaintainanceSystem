@@ -18,21 +18,20 @@
     
       <ion-slide *ngFor="let x of (Cars|async) " >
        
-      <ion-card class="colour" class=" m-4 p-3" style="height: 220px!important; width: 340px!important;" (click)="OpenCarInfo(x.numPlate)">
+      <ion-card class="colour" class=" m-4 p-2 " style="height: 220px!important; width: 340px!important;" (click)="OpenCarInfo(x.numPlate)">
         <ion-card-header class="p-2">
           <ion-card-title color="{{x.blue}}">{{x.make}} {{x.model}}          
           </ion-card-title>
           <!-- <ion-icon name="bluetooth-outline" slot="icon-only" color="{{x.blue}}" slot="end"></ion-icon> -->
         </ion-card-header>
-        <ion-card-content class="ps-0 pe-0">
-          <img *ngIf="x?.carimg; else placeholder;" src={{x.carimg}} class="w-75 d-inline-block"  style="max-height: 170px!important; "/>
+        <ion-card-content class="ps-0 pe-0 pb-0">
+          <img *ngIf="x?.carimg; else placeholder;" src={{x.carimg}} class=" d-inline-block mt-1 pt-1 align-self-stretch"  style="max-height: 103px!important; "/>
        <ng-template #placeholder>
-        <img src="assets\images\car.png" alt="..." class="w-75 d-inline-block" />
+        <img src="assets\images\car.png" alt="..." class="d-inline-block mt-1 pt-1 align-self-stretch" />
        </ng-template>
           
           <ion-item lines="none">
-            <ion-icon name="bluetooth-outline" class="pb-2 mb-2" slot="icon-only" color="{{x.blue}}" slot="end"></ion-icon>
-
+            <ion-icon name="bluetooth-outline" class="m-0 p-0  " slot="icon-only" color="{{x.blue}}" slot="end"></ion-icon>
           </ion-item>
         </ion-card-content>
       </ion-card>
@@ -41,8 +40,8 @@
  
     <ion-slide (click)="gonewCarInfo()">
       <ion-card style="height: 220px!important; width: 340px!important;" class=" m-4 p-3">
-        <ion-card-content class="d-flex flex-row justify-content-center my-5 py-5">
-           <ion-icon class="mt-1 me-2"  name="add-outline" size="large"></ion-icon>  <h1  class=" pt-1 " >Add Car</h1>
+        <ion-card-content class="d-flex flex-row justify-content-center align-items-center my-4 py-5">
+           <ion-icon class="mt-1 me-2"  name="add-outline" ></ion-icon>  <h2   >Add Car</h2>
         
          </ion-card-content>
       </ion-card>
