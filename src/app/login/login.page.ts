@@ -49,33 +49,13 @@ export class LoginPage implements OnInit {
       await load1.present();
       this.Firebase.loginUser(this.form.value.email,this.form.value.password).then(
         succ=>{
-          this.User.pipe(take(1)).subscribe(async res=>{
-            for(let i=0;i<res.length;i++)
-            if(this.form.value.email.toLowerCase()==res[i].userID)
-              this.NoData.next(true);
-              }); 
-             this.NoData.subscribe(res=>
-              {
-                if(res)
-                {
-                  this.dataSrv.SetVariable('userID',this.form.value.email.toLowerCase()).then(rl=>{
-                    this.dataSrv.presentToast("You have logged in sucessfully!!");
-                    //$ionicHistory.nextViewOptions({disableAnimate: true,  disableBack: true });
-                    this.router.navigate(['tabs/tab2']);
-                    
-                  });
-
-                }else
-                {
-                  this.dataSrv.presentToast("Account Not Found");
-                }
-              })
-           
-          
-          
-         /**/         
-         
-        },error=>{this.dataSrv.showError("Error",error);}).catch(error=>{this.dataSrv.showError("Error",error);})
+          this.dataSrv.SetVariable('userID',this.form.value.email.toLowerCase()).then(async rl=>{
+          await load1.dismiss();
+          this.dataSrv.presentToast("You have logged in sucessfully!!");
+          this.router.navigate(['tabs/tabs/tab2']);});    
+        },async error=>{
+          await load1.dismiss();
+          this.dataSrv.showError("Error",error);});
        
      
         await load1.dismiss();

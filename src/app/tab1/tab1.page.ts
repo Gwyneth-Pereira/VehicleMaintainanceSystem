@@ -35,7 +35,7 @@ export class Tab1Page implements OnInit {
     this.TroubleCodes.subscribe(res=>{
       this.leng=res.length;
     });
-    this.LiveData=this.Firebase.getLiveData();
+    this.LiveData=this.Firebase.getSpecificData();
     this.TroubleCodes.subscribe(sucess=>{
       this.len= sucess[0].codes.length;
     })

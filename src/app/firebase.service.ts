@@ -86,6 +86,8 @@ export class FirebaseService {
   }
   getUsers():Observable<Users[]>{ return this.user;}
   getLiveData():Observable<LiveData[]>{ return this.SPFlag;}
+  getSpecificData():Observable<LiveData[]>{ return this.SPFlag.pipe(map(LiveValues=>LiveValues.filter(LiveData=>LiveData.Enabled==true)));}
+
   getCodes():Observable<code[]>{ return this.code;}
 
   getCars():Observable<Car[]>
@@ -167,6 +169,21 @@ removeCodes()
                 console.log("Engine Codes Removed");
               });
   
+  }
+  DeleteUser()
+  {
+    return new Promise((resolve,reject)=>{
+      this.FireAuth.currentUser.then(user=>{
+        if(user)
+        {
+          user.delete();
+          resolve(true);
+        }
+
+        }).catch(k=>resolve(false));
+      
+    })
+   
   }
 removeLiveData()
   {

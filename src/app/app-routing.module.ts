@@ -5,8 +5,11 @@ import { AuthGuard as a2 } from './guard2/auth.guard';
 const routes: Routes = [
    {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
-    canActivate:[AuthGuard]
+    redirectTo: 'login', pathMatch: 'full'
+  },
+  { path: 'tabs',
+  loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+  canActivate:[AuthGuard]
   },
   {
     path: 'setting',

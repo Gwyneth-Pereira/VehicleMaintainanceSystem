@@ -124,21 +124,22 @@ export class SettingPage implements OnInit {
               {
                 this.DeleteID=r[k].ID;
                 console.log("Car ID: "+this.DeleteID);
-                this.Firebase.deleteCar(this.DeleteID).then(accp=>{
-
-                  
-                }
-                )
+                this.Firebase.deleteCar(this.DeleteID);
               }
             }
           });
-         
+         this.Firebase.DeleteUser().then(rt=>{
+          if(rt)
+          {
+            this.router.navigate(['/login']);
+            this.DataSrv.presentToast("Account Deleted Successfully");
+          }
+         })
          
           
         })
       })
-      this.router.navigate(['/login']);
-      this.DataSrv.presentToast("Account Deleted Successfully");
+      
       console.log(this.DataSrv.handlerMessage);
       console.log(this.DataSrv.roleMessage);
       //add the code to delete record from firebase and auth. 
