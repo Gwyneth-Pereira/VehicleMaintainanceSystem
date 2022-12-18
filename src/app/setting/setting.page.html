@@ -1,11 +1,12 @@
 <ion-header class="ion-no-border">
   <ion-toolbar >
-    <ion-icon name="arrow-back-outline" slot="start"  color="sky" class="ms-1 ps-1" size="large"  (click)="goback()"></ion-icon>
-    <ion-title class="ion-text-center">Settings</ion-title>
+    <ion-icon name="arrow-back-outline" slot="start"  color="sky" class="ms-2 ps-2" size="large"  (click)="goback()"></ion-icon>
+    <ion-title class="ion-text-start">Settings</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+<div class="ms-3 me-3 mb-2 pb-2"> 
  <div class="d-flex align-items flex-column" style="height: 200px;">
   <div class="mb-auto "> 
     <ion-accordion-group [multiple]="true"  >
@@ -77,4 +78,5 @@
         fill="outline" expand="block" (click)="onDelete()">Delete account</ion-button></div>
   </div>
  </div>
+</div>
 </ion-content>

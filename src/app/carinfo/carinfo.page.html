@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar >
     <ion-title class="d-flex justify-content-center ion-text-start">Car Information</ion-title>
-    <ion-icon color="sky" name="arrow-back-outline" size="large" slot="start" class="ms-1 ps-1" (click)="goback()"></ion-icon>
+    <ion-icon color="sky" name="arrow-back-outline" size="large" slot="start" class="ms-2 ps-2" (click)="goback()"></ion-icon>
   
   </ion-toolbar>
 </ion-header>
@@ -22,13 +22,10 @@
           </ng-template>
         </div>
         </ion-card-header>
-        <ion-card-content>
-          <ion-list >
+        <ion-card-content class="pb-0">
           <ion-item lines="none" >
             <ion-label color="medium">Plate Number:</ion-label> <ion-label >{{x.numPlate}} </ion-label> 
           </ion-item>
-            
-          </ion-list>  
         </ion-card-content>
       </ion-card>
       <ion-list>

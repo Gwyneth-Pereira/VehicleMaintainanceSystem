@@ -1,11 +1,12 @@
 <ion-header [translucent]="true">
   <ion-toolbar >
     <ion-title class="ion-text-start" > Notification </ion-title>
-    <ion-icon name="settings-outline" color="sky"  class="me-1 pe-1" size="large" slot="end" routerLink="/setting" routerDirection="forward"></ion-icon>
+    <ion-icon name="settings-outline" color="sky"  class="me-2 pe-2" size="large" slot="end" routerLink="/setting" routerDirection="forward"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+<div class="ms-3 me-3 mb-2 pb-2">
  <ion-list *ngFor="let x of Sceduled">
     <ion-item  *ngIf="x!==null" class="d-flex align-content-start flex-wrap">
      <ion-label> <b>{{x.title}}</b> <br/>{{x.text}} </ion-label>
@@ -24,4 +25,5 @@
               text-transform: unset;"
    expand="block" (click)="del()">Delete </ion-button>
  </div>
+</div>
 </ion-content>

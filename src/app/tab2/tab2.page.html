@@ -1,7 +1,8 @@
 <ion-header [translucent]="true">
   <div *ngFor="let x of (User | async ) ">
   <ion-toolbar   class="me-1 pe-1" *ngIf="UserID==x?.userID;" > 
-    <ion-title class="m-2 d-flex justify-content-start ion-text-start" >Hello {{x.Name}}, </ion-title>   
+    <ion-title class="m-2 d-flex justify-content-start ion-text-start" >Hello {{x.Name}}, </ion-title> 
+    
     <ion-avatar slot="end"  style="height: 36px; width: 36px;" (click)="OpenProfle(UserID)" >
       <img *ngIf="x?.img; else placeholder;" src={{x.img}}  />
       <ng-template #placeholder>
@@ -14,14 +15,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true"> 
-  <ion-slides pager="true"  [options]="slideOpts" style="height: 220px!important;"  class=" mt-2 pt-2 mb-2 pb-2" (ionSlideDidChange)="slideChange()"  >
+  <ion-slides pager="true"  [options]="slideOpts" style="height: 220px!important;"  class=" mt-4 pt-2 mb-4 pb-2" (ionSlideDidChange)="slideChange()"  >
     
       <ion-slide *ngFor="let x of (Cars|async) " >
        
       <ion-card class="colour" class=" m-4  p-2 " style="height: 210px!important; width: 340px!important;" (click)="OpenCarInfo(x.numPlate)">
         <ion-card-header class="p-2 mb-2 d-flex justify-content-between ">
-          <ion-card-title color="{{x.blue}}">{{x.make}} {{x.model}}          
-          </ion-card-title>
+          <ion-card-subtitle   style="font-size: 18px;" color="{{x.blue}}">{{x.make}} {{x.model}}          
+          </ion-card-subtitle>
           <ion-label class="pt-1 align-items-center" color="medium"> View <ion-icon  name="chevron-forward-outline" color="sky"></ion-icon> </ion-label>
           <!-- <ion-icon name="bluetooth-outline" slot="icon-only" color="{{x.blue}}" slot="end"></ion-icon> -->
         </ion-card-header>
@@ -43,7 +44,7 @@
     <ion-slide (click)="gonewCarInfo()">
       <ion-card style="height: 210px!important; width: 340px!important;" class=" m-4 p-3  align-items-center">
         <ion-card-content class="d-flex flex-row justify-content-center align-items-center my-4 py-5">
-           <ion-icon class="mt-1 me-2"  name="add-outline" color="sky" ></ion-icon>  <ion-label style="font-size: 25px;">Add Car</ion-label> 
+           <ion-icon class="mt-1 me-2"  name="add-outline" size="large" color="sky" ></ion-icon>  <ion-label class="pt-1"  style="font-size: 16px;">Add Car</ion-label> 
         
          </ion-card-content>
       </ion-card>
