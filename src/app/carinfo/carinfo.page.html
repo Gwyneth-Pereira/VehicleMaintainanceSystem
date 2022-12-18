@@ -1,12 +1,14 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title  class="m-2 d-flex justify-content-center  ion-text-start">Car Information</ion-title>
-    <ion-icon  color="sky" name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1"  (click)="goback()"></ion-icon>
+<ion-header class="ion-no-border">
+  <ion-toolbar >
+    <ion-title class="d-flex justify-content-center ion-text-start">Car Information</ion-title>
+    <ion-icon color="sky" name="arrow-back-outline" size="large" slot="start" class="ms-1 ps-1" (click)="goback()"></ion-icon>
   
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div class="ms-3 me-3 mb-2 pb-2"> 
+
   
   <div *ngFor="let x of (CAR | async )"> 
     <div *ngIf="uid==x.numPlate"> 
@@ -14,7 +16,7 @@
         <ion-card-header>
         <ion-card-title >  {{x.make}} {{x.model}} {{x.year}}</ion-card-title>
         <div class="d-flex justify-content-center mt-2 pt-2 " (click)="changeImage(x.numPlate)"> 
-          <img *ngIf="x?.carimg; else placeholder;" src={{x.carimg}}  class="w-75"/>
+          <img *ngIf="x?.carimg; else placeholder;" src={{x.carimg}}  class="d-inline-block" style="max-height: 100px!important; "/>
           <ng-template #placeholder>
           <img src="assets/images/car.png"  class="w-75"/>
           </ng-template>
@@ -119,6 +121,7 @@
   style=" text-transform: none!important;
               text-transform: unset;"
   (click)="DelCar(x.numPlate)">Delete Car</ion-button></div>
+</div>
 </div>
 </div>
 </ion-content>

@@ -1,13 +1,11 @@
 <ion-header  class="ion-no-border">
   <ion-toolbar >
-    <ion-icon  color="sky" name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1" (click)="goback()" ></ion-icon>
-    
-    <ion-label  class=" d-flex justify-content-center" >My Profile</ion-label>
-    
+    <ion-icon  color="sky" name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1" (click)="goback()" ></ion-icon>  
+    <ion-title  class=" ion-text-center" >My Profile</ion-title> 
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
+<ion-content >
+  <div class="ms-3 me-3 mb-2 pb-2">
   <div *ngFor="let y of (User | async ) ">  
     <div *ngIf="uid==y.userID"> 
       <div class="d-flex justify-content-center m-2 p-2">
@@ -16,7 +14,6 @@
        <ng-template #placeholder>
         <img src="assets/images/default.png"  />
        </ng-template>
-    
      </ion-avatar>
      </div>
    
@@ -34,7 +31,7 @@
     <ion-item lines="none">
       <ion-label color="medium"> Phone Number</ion-label> <ion-label slot="end"> {{y.phoneNum}}</ion-label>
     </ion-item >
-    <ion-item lines="full">
+    <ion-item class="me-1">
       <ion-label color="medium">Password</ion-label> <ion-label  *ngIf="s" id="hiddenpass" slot="end">********</ion-label>
       <ion-label *ngIf="!s"  id="pass" slot="end" >{{y.password}} </ion-label>
       <ion-icon *ngIf="s" slot="end"  name="eye-outline" id="eyeOn"  color="sky"  (click)="showpassword()"></ion-icon>
@@ -51,12 +48,12 @@
    <ion-list >
     <div   *ngFor="let x of (CAR | async )">
     <ion-card  class=" mt-1 mb-2 pb-1 "  style="border-radius:15px !important;" *ngIf="uid==x.userId" (click)="OpenCarInfo(x.numPlate)" >
-        <ion-card-content class="pt-2 pb-2 m-1 d-flex justify-content-between">
+        <ion-card-content class="pt-2 pb-2 pe-0 m-1 d-flex justify-content-between">
         <ion-label  class="d-flex justify-content-start align-self-center"  style="font-size: 15px;">
           {{x.make}}
         </ion-label>
          <div class="d-flex justify-content-end "> 
-        <img *ngIf="x?.carimg; else placeholder;" src={{x.carimg}} class="w-50 ">
+        <img *ngIf="x?.carimg; else placeholder;" src={{x.carimg}} class="d-inline-block" style="max-height: 35px!important; ">
         <ng-template #placeholder>
           <img src="assets\images\car.png" alt="..." class="w-75 d-inline-block" />
          </ng-template>
@@ -78,6 +75,7 @@
      color="danger" 
      style=" text-transform: none!important;
               text-transform: unset;"
-     expand="block" (click)="onLogOut()">Log Out</ion-button></div>
-  
+     expand="block" (click)="onLogOut()">Log Out</ion-button>
+    </div>
+</div>
 </ion-content>
