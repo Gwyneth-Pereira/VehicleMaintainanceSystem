@@ -64,7 +64,7 @@
         </ion-list> 
       
     
-    <ion-card >
+    <ion-card  mode="ios">
       <ion-card-header>
         <ion-label  class="mb-0 pb-1 m-2 mt-0 p-2 d-flex justify-content-between align-self-center"  style="font-size: 20px;">
           Documents
@@ -97,8 +97,8 @@
                   <ion-input type="text" value="{{this.Document.Img}}" [readonly]="true" placeholder="Please Select"  (click)="AddImage()"></ion-input>
                 </ion-item>
                 <ion-row class=" d-flex justify-content-between">
-                  <ion-button (click)="Submit()" color="sky"  >Upload</ion-button>    
-                  <ion-button (click)="cancel()" color="sky">Cancel</ion-button>
+                  <ion-button (click)="Submit()" mode="ios" color="sky"  >Upload</ion-button>    
+                  <ion-button (click)="cancel()" mode="ios" color="sky">Cancel</ion-button>
                 </ion-row>               
               </ion-card-content>
               </ion-card>
@@ -113,7 +113,7 @@
           </div>
     </ion-card-content>       
     </ion-card>  
-<div class="p-2"> <ion-button  color="danger" fill="outline" 
+<div class="p-2"> <ion-button mode="ios" color="danger" fill="outline" 
   expand="block"  
   style=" text-transform: none!important;
               text-transform: unset;"

@@ -19,7 +19,7 @@
     
       <ion-slide *ngFor="let x of (Cars|async) " >
        
-      <ion-card class="colour" class=" m-4  p-2 " style="height: 210px!important; width: 340px!important;" (click)="OpenCarInfo(x.numPlate)">
+      <ion-card mode="ios" class="colour" class=" m-4  p-2 " style="height: 210px!important; width: 340px!important;" (click)="OpenCarInfo(x.numPlate)">
         <ion-card-header class="p-2 mb-2 d-flex justify-content-between ">
           <ion-card-subtitle   style="font-size: 18px;" color="{{x.blue}}">{{x.make}} {{x.model}}          
           </ion-card-subtitle>
@@ -42,7 +42,7 @@
     </ion-slide>
  
     <ion-slide (click)="gonewCarInfo()">
-      <ion-card style="height: 210px!important; width: 340px!important;" class=" m-4 p-3  align-items-center">
+      <ion-card mode="ios" style="height: 210px!important; width: 340px!important;" class=" m-4 p-3  align-items-center">
         <ion-card-content class="d-flex flex-row justify-content-center align-items-center my-4 py-5">
            <ion-icon class="mt-1 me-2"  name="add-outline" size="large" color="sky" ></ion-icon>  <ion-label class="pt-1"  style="font-size: 16px;">Add Car</ion-label> 
         
@@ -53,7 +53,7 @@
   </ion-slides>
   
   <div class="ms-3 me-3 ps-2 pe-2">
-    <ion-button id="open-modal" color="sky" text-capitalize=“false” 
+    <ion-button id="open-modal" color="sky" text-capitalize=“false”  mode="ios"
       expand="block"
       
       *ngIf="BluetoothFlag"
@@ -69,9 +69,9 @@
         <ng-template>
           <ion-header [translucent]="true">
             <ion-toolbar >
-              <ion-button slot="start" color="sky" (click)="cancel()">Close</ion-button>
+              <ion-button slot="start" mode="ios" color="sky" (click)="cancel()">Close</ion-button>
               <ion-title class="ion-text-start">Select Device</ion-title>  
-              <ion-button color="sky" slot='end' (click)="Pair()">Refresh</ion-button>
+              <ion-button color="sky" mode="ios" slot='end' (click)="Pair()">Refresh</ion-button>
           </ion-toolbar>
           </ion-header>
           <ion-content>
@@ -87,7 +87,7 @@
           </ion-content>
         </ng-template>
       </ion-modal>
-      <ion-button  color="sky" class="p-2 m-2" *ngIf="!BluetoothFlag" 
+      <ion-button  color="sky" mode="ios" class="p-2 m-2" *ngIf="!BluetoothFlag" 
       style="height:65px;
               width:150px;
               text-transform: none!important;

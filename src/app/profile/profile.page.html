@@ -47,7 +47,7 @@
       </ion-label> 
    <ion-list >
     <div   *ngFor="let x of (CAR | async )">
-    <ion-card  class=" mt-1 mb-2 pb-1 "  style="border-radius:15px !important;" *ngIf="uid==x.userId" (click)="OpenCarInfo(x.numPlate)" >
+    <ion-card mode="ios" class=" mt-1 mb-2 pb-1 "  style="border-radius:15px !important;" *ngIf="uid==x.userId" (click)="OpenCarInfo(x.numPlate)" >
         <ion-card-content class="pt-2 pb-2 pe-0 m-1 d-flex justify-content-between">
         <ion-label  class="d-flex justify-content-start align-self-center"  style="font-size: 15px;">
           {{x.make}}
@@ -73,6 +73,7 @@
   
   <div class="p-2"> <ion-button fill="outline"
      color="danger" 
+     mode="ios"
      style=" text-transform: none!important;
               text-transform: unset;"
      expand="block" (click)="onLogOut()">Log Out</ion-button>

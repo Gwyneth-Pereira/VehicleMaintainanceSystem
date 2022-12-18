@@ -101,7 +101,7 @@
 
           <ion-item>
             <ion-label  color="gold">Yearly Inspection: </ion-label>
-            <ion-datetime-button slot="end" datetime="date1"></ion-datetime-button>
+            <ion-datetime-button slot="end" mode="ios" datetime="date1"></ion-datetime-button>
             <ion-modal [keepContentsMounted]="true">
               <ng-template>
                 <ion-datetime id="date1" min="{{minDate}}"  [ngModelOptions]="{standalone: true}" max="2099-10-31" [(ngModel)]="YearDte"  format="YYYY-MM-DD" presentation="date"></ion-datetime>
@@ -136,7 +136,7 @@
 
           <ion-item>
             <ion-label  color="gold">Expiry Date: </ion-label>
-            <ion-datetime-button slot="end" datetime="date2"></ion-datetime-button>
+            <ion-datetime-button mode="ios" slot="end" datetime="date2"></ion-datetime-button>
             <ion-modal [keepContentsMounted]="true">
               <ng-template>
                 <ion-datetime  [ngModelOptions]="{standalone: true}" id="date2" min="{{minDate}}" max="2099-10-31" [(ngModel)]="InsDte"  format="YYYY-MM-DD" presentation="date"></ion-datetime>
@@ -150,7 +150,7 @@
   </ion-accordion-group>
 
      <br>
-      <ion-button size="large" expand="block" shape="round" color="sky" (click)="submit()">
+      <ion-button size="large" mode="ios" expand="block" shape="round" color="sky" (click)="submit()">
         <ion-text >Submit</ion-text>
       </ion-button>
     </form>

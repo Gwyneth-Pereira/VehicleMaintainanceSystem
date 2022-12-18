@@ -6,13 +6,13 @@
 </ion-header>
 <ion-content [fullscreen]="true">
   <ion-segment  swipe-gesture="true" value="Sensor" (ionChange)="segmentChanged($event)" class="mt-4  " >
-    <ion-segment-button value="Sensor"  
+    <ion-segment-button value="Sensor"   mode="ios"
     style="text-transform: none!important;
     text-transform: unset;"
      class="ms-3">
        <ion-label  > Sensors</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="livedata" 
+    <ion-segment-button value="livedata" mode="ios"
     style="text-transform: none!important;
     text-transform: unset;"
     class="me-3">
@@ -21,12 +21,12 @@
   </ion-segment>
 <!-- sensor part -->
   <div *ngIf="selectedSegment=='Sensor'">
-    <ion-card class="m-4 p-4  pb-0 mb-0">
+    <ion-card class="m-4 p-4  pb-0 mb-0" mode="ios">
       <div  class="d-flex justify-content-center mt-1 ">
         <img src="assets\images\light.png" alt="..." class="w-50 d-inline-block"  >  
       </div>
       <ion-card-content >
-        <ion-button color="sky" expand="block" (click)="Scan()"
+        <ion-button color="sky" expand="block" (click)="Scan()" mode="ios"
         style="
               text-transform: none!important;
               text-transform: unset;"
@@ -44,14 +44,14 @@
     
   
     <ion-label *ngIf="len>0" class="d-flex  justify-content-center">
-    <ion-button color="danger" fill="outline" style="
+    <ion-button color="danger" fill="outline"  mode="ios" style="
     text-transform: none!important;
     text-transform: unset;"
      (click)="ClearCodes()"> Clear Codes</ion-button>
     </ion-label>
 
     <div *ngFor="let x of (TroubleCodes|async)" >
-      <ion-card  *ngFor="let y of x.codes"   class="d-flex justify-content-start mt-3">
+      <ion-card  mode="ios" *ngFor="let y of x.codes"   class="d-flex justify-content-start mt-3">
         <ion-card-content> 
           <h2 class="m-b2 pb-2" style="color:  red;">Code: {{y.code}}</h2> <br>
                                                     Description: {{y.desc}}<br> </ion-card-content>
@@ -69,7 +69,7 @@
 <!-- live data part -->
   <div *ngIf="selectedSegment=='livedata'">
     <br>
-    <ion-button color="sky" expand="block" (click)="FetchLiveData()"
+    <ion-button color="sky" expand="block" (click)="FetchLiveData()" mode="ios"
     style="text-transform: none!important;
               text-transform: unset;"
      class=" p-2 m-2 mt-0 pt-1 pb-0  mb-0">Fetch Live Data</ion-button>  
@@ -78,7 +78,7 @@
     <ion-grid >
       <ion-row>
          <ion-col  size="auto"  *ngFor="let data of (LiveData | async)" class=" d-flex align-self-stretch w-50">
-            <ion-card *ngIf="data.Enabled"  class="d-flex align-self-stretch w-100">
+            <ion-card  mode="ios"*ngIf="data.Enabled" mode="ios" class="d-flex align-self-stretch w-100">
                <ion-card-content>
                 <ion-icon size="large" color="sky"  name="cog-outline"></ion-icon>
                 <ion-card-subtitle>
