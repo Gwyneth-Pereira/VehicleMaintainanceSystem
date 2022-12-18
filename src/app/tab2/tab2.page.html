@@ -14,7 +14,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true"> 
-  <ion-slides pager="true" style=" bottom: -6px;" [options]="slideOpts"   (ionSlideDidChange)="slideChange()"  >
+  <ion-slides pager="true"  [options]="slideOpts"   (ionSlideDidChange)="slideChange()"  >
     
       <ion-slide *ngFor="let x of (Cars|async) " >
        
@@ -52,9 +52,7 @@
   <ion-row>
     <ion-col size="12" class="ion-text-center">
       <ion-button id="open-modal" color="sky" text-capitalize=“false” class="p-2 m-2" *ngIf="BluetoothFlag"
-      style="height:65px;
-              width:150px;
-              text-transform: none!important;
+      style="text-transform: none!important;
               text-transform: unset;"
        (click)="Pair()">Pair Car</ion-button>
       <ion-modal #mobe trigger="open-modal" color="sky" [initialBreakpoint]="0.4" [breakpoints]="[0, 0.4, 0.5, 0.75]">
