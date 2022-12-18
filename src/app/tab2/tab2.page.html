@@ -14,19 +14,20 @@
 </ion-header>
 
 <ion-content [fullscreen]="true"> 
-  <ion-slides pager="true"  [options]="slideOpts"   (ionSlideDidChange)="slideChange()"  >
+  <ion-slides pager="true"  [options]="slideOpts" style="height: 220px!important;"  class=" mt-2 pt-2 mb-2 pb-2" (ionSlideDidChange)="slideChange()"  >
     
       <ion-slide *ngFor="let x of (Cars|async) " >
        
-      <ion-card class="colour" class=" m-4 p-2 " style="height: 220px!important; width: 340px!important;" (click)="OpenCarInfo(x.numPlate)">
-        <ion-card-header class="p-2 mb-2">
+      <ion-card class="colour" class=" m-4  p-2 " style="height: 210px!important; width: 340px!important;" (click)="OpenCarInfo(x.numPlate)">
+        <ion-card-header class="p-2 mb-2 d-flex justify-content-between ">
           <ion-card-title color="{{x.blue}}">{{x.make}} {{x.model}}          
           </ion-card-title>
+          <ion-label class="pt-1 align-items-center" color="medium"> View <ion-icon  name="chevron-forward-outline" color="sky"></ion-icon> </ion-label>
           <!-- <ion-icon name="bluetooth-outline" slot="icon-only" color="{{x.blue}}" slot="end"></ion-icon> -->
         </ion-card-header>
         <ion-card-content class="ps-0 pe-0 pb-0">
           <img *ngIf="x?.carimg; else placeholder;" src={{x.carimg}} class=" d-inline-block mt-1 pt-1 align-self-stretch" 
-           style="max-height: 100px!important; "/>
+           style="max-height: 95px!important; "/>
        <ng-template #placeholder>
         <img src="assets\images\car.png" alt="..." class="d-inline-block mt-1 pt-1 align-self-stretch" />
        </ng-template>
@@ -40,7 +41,7 @@
     </ion-slide>
  
     <ion-slide (click)="gonewCarInfo()">
-      <ion-card style="height: 220px!important; width: 340px!important;" class=" m-4 p-3  align-items-center">
+      <ion-card style="height: 210px!important; width: 340px!important;" class=" m-4 p-3  align-items-center">
         <ion-card-content class="d-flex flex-row justify-content-center align-items-center my-4 py-5">
            <ion-icon class="mt-1 me-2"  name="add-outline" color="sky" ></ion-icon>  <ion-label style="font-size: 25px;">Add Car</ion-label> 
         
