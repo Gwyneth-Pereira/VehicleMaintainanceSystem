@@ -47,14 +47,19 @@
     <ion-button color="danger" fill="outline"  mode="ios" style="
     text-transform: none!important;
     text-transform: unset;"
-     (click)="ClearCodes()"> Clear Codes</ion-button>
+     (click)="ClearCodes()">Clear Codes</ion-button>
     </ion-label>
 
     <div *ngFor="let x of (TroubleCodes|async)"  class="ms-2 ps-2 me-2 pe-2">
       <ion-card  mode="ios" *ngFor="let y of x.codes"   class="d-flex justify-content-start mt-3">
         <ion-card-content> 
-          <h2 class="pb-1" style="color:  red;">Code: {{y.code}}</h2> <br>
-                                                    Description: {{y.desc}}<br> </ion-card-content>
+          <h2 class="pb-1" style="color:  red;">
+            Code: {{y.code}}
+          </h2> 
+          <br>
+           Description: {{y.desc}}
+          <br> 
+          </ion-card-content>
       
       </ion-card>
     </div>
@@ -72,25 +77,22 @@
     <ion-button color="sky" expand="block" (click)="FetchLiveData()" mode="ios"
     style="text-transform: none!important;
               text-transform: unset;"
-     class=" p-2 m-2 mt-0 pt-1 pb-0  mb-0">Fetch Live Data</ion-button>  
-    
-    
+     class=" p-2 m-2 mt-0 pt-1 pb-0  mb-0">Fetch Live Data</ion-button>    
+    <!--displaying live data  -->
     <ion-grid >
       <ion-row>
-         <ion-col  size="auto"  *ngFor="let data of (LiveData | async)" class=" d-flex align-self-stretch w-50">
-            <ion-card  mode="ios" mode="ios" class="d-flex align-self-stretch w-100">
+         <ion-col size="auto" *ngFor="let data of (LiveData | async)" class=" d-flex align-self-stretch w-50">
+            <ion-card  mode="ios" class="d-flex align-self-stretch w-100">
                <ion-card-content>
                 <ion-icon size="large" color="sky"  name="cog-outline"></ion-icon>
                 <ion-card-subtitle>
                   {{data.Description}}
                 </ion-card-subtitle>
-              <ion-label>{{data.Value}} </ion-label>
-            
+              <ion-label>{{data.Value}} </ion-label>          
           </ion-card-content>
           </ion-card>
         </ion-col>        
     </ion-row>
-    </ion-grid>
-      
+    </ion-grid>     
   </div>
 </ion-content>
