@@ -87,9 +87,10 @@
         </ng-template>
       </ion-modal>
       <div class="ms-4 me-4 ps-3 pe-3"> 
-        <ion-button  color="sky" mode="ios" class="p-2 m-2" *ngIf="!BluetoothFlag" 
+        <ion-button  color="sky" mode="ios"  *ngIf="!BluetoothFlag" 
               style=" text-transform: none!important;
                       text-transform: unset;" 
+                      expand="block"
               (click)="diconnect()">Unpair Car</ion-button>
       </div>
     </ion-col>

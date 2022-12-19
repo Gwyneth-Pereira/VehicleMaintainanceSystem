@@ -17,7 +17,7 @@
           </ion-item>
           <ion-text class="error" color="danger" 
             *ngIf="!form.get('name').valid && form.get('name').touched">
-            <ion-text *ngIf="form.get('name').hasError('required')" class="ms-2 ps-2 pe-1 me-2">
+            <ion-text *ngIf="form.get('name').hasError('required')" style="font-size: 12px;"  class="ms-2 ps-2 pe-1 me-2">
               * Please enter your Full Name
             </ion-text>            
           </ion-text>
@@ -31,11 +31,11 @@
           </ion-item>
           <ion-text class="error" color="danger" 
             *ngIf="!form.get('email').valid && form.get('email').touched">
-            <ion-text *ngIf="form.get('email').hasError('required')" class="ms-2 ps-2 pe-1 me-2">
+            <ion-text *ngIf="form.get('email').hasError('required')"  style="font-size: 12px;"  class="ms-2 ps-2 pe-1 me-2">
               * Please enter your Email Address
             </ion-text>
             <ion-text 
-              *ngIf="!form.get('email').hasError('required') && form.get('email').hasError('email')" class="ms-2 ps-2 pe-1 me-2">
+              *ngIf="!form.get('email').hasError('required') && form.get('email').hasError('email')" style="font-size: 12px;"  class="ms-2 ps-2 pe-1 me-2">
               * Please enter proper Email Address
             </ion-text>
           </ion-text>
@@ -49,10 +49,10 @@
             </ion-input>
           </ion-item>
           <ion-text class="error" color="danger" *ngIf="!form.get('password').valid && form.get('password').touched">
-            <ion-text *ngIf="form.get('password').hasError('required')" class="ms-2 ps-2 pe-1 me-2" >
+            <ion-text *ngIf="form.get('password').hasError('required')"  style="font-size: 12px;"  class="ms-2 ps-2 pe-1 me-2" >
               * Please enter your Password
             </ion-text>
-            <ion-text *ngIf="!form.get('password').hasError('required') && form.get('password').hasError('minlength')" class="ms-2 ps-2 pe-1 me-2">
+            <ion-text *ngIf="!form.get('password').hasError('required') && form.get('password').hasError('minlength')"  style="font-size: 12px;"  class="ms-2 ps-2 pe-1 me-2">
               * Password must be of atleast 8 characters
             </ion-text>
           </ion-text>
@@ -66,13 +66,13 @@
             </ion-input>
           </ion-item>
           <ion-text class="error" color="danger" *ngIf="!form.get('phone').valid && form.get('phone').touched">
-            <ion-text *ngIf="form.get('phone').hasError('required')" class="ms-2 ps-2 pe-1 me-2">
+            <ion-text *ngIf="form.get('phone').hasError('required')" class="ms-2 ps-2 pe-1 me-2"  style="font-size: 12px;" >
               *Please enter your phone number
             </ion-text>
-            <ion-text *ngIf="!form.get('phone').hasError('required') && form.get('phone').hasError('minlength')" class="ms-2 ps-2 pe-1 me-2">
+            <ion-text *ngIf="!form.get('phone').hasError('required') && form.get('phone').hasError('minlength')" class="ms-2 ps-2 pe-1 me-2"  style="font-size: 12px;" >
               *Phone number must be of atleast 8 digit
             </ion-text>
-            <ion-text *ngIf="!form.get('phone').hasError('required') && form.get('phone').hasError('maxlength')"class="ms-2 ps-2 pe-1 me-2">
+            <ion-text *ngIf="!form.get('phone').hasError('required') && form.get('phone').hasError('maxlength')"class="ms-2 ps-2 pe-1 me-2"  style="font-size: 12px;" >
               *Phone number must be of at most 8 digit
             </ion-text>
           </ion-text>
