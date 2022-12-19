@@ -6,17 +6,17 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-<div class="ms-3 me-3 mb-2 pb-2"> 
+<div class="ms-2 me-2 p-1  mb-2 pb-2"> 
  <div class="d-flex align-items flex-column" style="height: 200px;">
   <div class="mb-auto "> 
     <ion-accordion-group [multiple]="true"  >
       <ion-accordion value="first" >
-        <ion-item slot="header">
-          <ion-label >Notifications</ion-label>
+        <ion-item slot="header" lines="inset" class="pe-1 me-1">
+          <ion-label > <b> Notifications</b></ion-label>
         </ion-item>
         <div class="ion-padding m-0  p-0 " slot="content">
-          <ion-list lines="inset" >
-            <ion-item>
+          <ion-list lines="inset" class="pe-1 me-1" >
+            <ion-item lines="inset" class="pe-1 me-1">
               <ion-label >Enable Daily Reminder</ion-label>
               <ion-toggle color="sky" slot="end"  [(ngModel)]="toggle"></ion-toggle>
             </ion-item>
@@ -32,11 +32,11 @@
       
       </ion-accordion>
       <ion-accordion value="second">
-        <ion-item slot="header" >
-          <ion-label >Live Data Setting</ion-label>
+        <ion-item slot="header" lines="inset" class="pe-1 me-1">
+          <ion-label ><b>Live Data Setting</b></ion-label>
         </ion-item>
         <div class="ion-padding m-0 p-0" slot="content">
-          <ion-list lines="inset">
+          <ion-list lines="inset" class="pe-1 me-1">
             <ion-item *ngFor="let x of (LiveData|async); let i =index">
               <ion-label >{{x.Description}}</ion-label>
               <ion-toggle color="sky" slot="end" checked="{{x.Enabled}}"  [(ngModel)]="select[i]"></ion-toggle>
@@ -53,11 +53,11 @@
         </div>
       </ion-accordion>
       <ion-accordion value="third">
-        <ion-item slot="header" >
-          <ion-label  >List of obd2 Supported features</ion-label>
+        <ion-item slot="header" lines="inset" class="pe-1 me-1" >
+          <ion-label  > <b>List of obd2 Supported features</b></ion-label>
         </ion-item>
         <div class="ion-padding m-0 p-0" slot="content">
-          <ion-list lines="inset">
+          <ion-list lines="inset" class="pe-1 me-1">
             <ion-item *ngFor="let x of SupportedOBD " class="d-flex flex-wrap">
               <ion-label  >{{x.Text}}</ion-label>
               <ion-label *ngIf="x.Value!='Yes'" slot="end">{{x.Value}}</ion-label>
