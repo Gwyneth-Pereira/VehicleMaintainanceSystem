@@ -57,20 +57,20 @@ export class CreateAccountPage implements OnInit {
           this.NewAccount.ID=onfulfilled.id;
           this.Firebase.updateUser(this.NewAccount).then(async truth=>{
             this.datasrv.presentToast("Account Created Successfully");
+            await loading.dismiss();
             this.router.navigate(['/login']);
-            await loading.dismiss();});
+            });
          },async error=>{
             await loading.dismiss();
             this.datasrv.showError("Error ",error);
-            this.router.navigate(['/login']);});
+            });
              },async error=>{
               await loading.dismiss();
               this.datasrv.showError("Error",error);
-              this.router.navigate(['/login']);});
+              });
    
    
-              await loading.dismiss();
-                     }
+                               }
   }
 
 

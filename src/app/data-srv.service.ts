@@ -386,12 +386,14 @@ convertThrottlePos(code,byte)
 {
   console.log("code: "+code+", re: "+byte);
   var reply=(parseInt(byte, 16) * 100) / 255;
+  reply=Math.round((reply + Number.EPSILON) * 100) / 100
   this.Firebase.updateLiveDataValues(code,reply);
 
 }
 convertLoad(code,byte) {
   console.log("code: "+code+", re: "+byte);
   var reply=parseInt(byte, 16) * (100 / 256);
+  reply=Math.round((reply + Number.EPSILON) * 100) / 100
   this.Firebase.updateLiveDataValues(code,reply);
  
 }
@@ -410,13 +412,16 @@ convertFuelRailPressure(code,byte)
 {  console.log("code: "+code+", re: "+byte);
 
   var reply=parseInt(byte, 16) * 3;
-  this.Firebase.updateLiveDataValues(code,reply);
+  reply=Math.round((reply + Number.EPSILON) * 100) / 100
+   this.Firebase.updateLiveDataValues(code,reply);
   
 }
 convertIntakePressure(code,byte) {
   console.log("code: "+code+", re: "+byte);
 
   var reply=parseInt(byte, 16);
+  reply=Math.round((reply + Number.EPSILON) * 100) / 100
+
   this.Firebase.updateLiveDataValues(code,reply);
   
 }
@@ -427,6 +432,7 @@ convertRPM(code,byteA)
   var B=byteA.substring(2,);
   console.log("Byte A:"+byteA+", Byte B:");
   var reply=((parseInt(A, 16) * 256)+ (parseInt(B, 16)) ) / 4;
+  reply=Math.round((reply + Number.EPSILON) * 100) / 100
   this.Firebase.updateLiveDataValues(code,reply);
 }
 convertSpeed(code,byte) 
@@ -434,6 +440,8 @@ convertSpeed(code,byte)
   console.log("code: "+code+", re: "+byte);
 
   var reply= parseInt(byte, 16);
+  reply=Math.round((reply + Number.EPSILON) * 100) / 100
+
   this.Firebase.updateLiveDataValues(code,reply);
 }
 
