@@ -70,7 +70,7 @@
     <!-- the first time look button  -->
     <div class="m-2  p-1 mt-5 pt-5" *ngIf="!DataSrv.live_data_fetched_already" >
       <div class="d-flex justify-content-center mb-1 pb-1 ">
-        <img src="assets/icon/livedata.gif"  class="" style="height:120px" />
+        <img src="assets/icon/livedata.gif"  class="" style="height:130px" />
       </div>
     <ion-button color="sky" expand="block" 
     (click)="FetchLiveData()" mode="ios"
@@ -94,16 +94,18 @@
     <ion-grid *ngIf="DataSrv.live_data_fetched_already">
       <ion-row>
          <ion-col size="auto" *ngFor="let data of (LiveData | async)" class=" d-flex align-self-stretch w-50">
-            <ion-card  mode="ios" class="m-1 p-1 w-100" style="height:170px">
-               <ion-card-content class="mt-0">
-                <div class="d-flex justify-content-center">
+            <ion-card  mode="ios" class="m-1 p-1 w-100" style="height:130px">
+               <ion-card-content class="mt-0 p-1 pt-2">
+                <div class="d-flex justify-content-center pt-1 ">
                   <img src="{{data.img}}"  class="" style="height:40px" />
-                </div>     
-                <ion-label style="font-size:12px" class="d-flex justify-content-center">
+                </div>
+                <ion-label style="font-size:14px" class="mt-1 pt-1 d-flex justify-content-center">
                   {{data.Description}}
                 </ion-label>
-              <ion-label class="d-flex justify-content-center" style="font-size:12px" >{{data.Value}} </ion-label>          
-          </ion-card-content>
+                <ion-item lines="none">
+                  <ion-label class="d-flex justify-content-center" style="font-size:14px" >hh{{data.Value}} </ion-label>          
+                </ion-item>    
+             </ion-card-content>
           </ion-card>
         </ion-col>        
     </ion-row>
