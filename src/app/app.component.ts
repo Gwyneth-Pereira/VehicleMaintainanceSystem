@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
+import { IonRouterOutlet, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { DataSrvService } from './data-srv.service';
 import { Tab2Page } from './tab2/tab2.page';
@@ -13,10 +13,19 @@ import { Tab2Page } from './tab2/tab2.page';
 })
 export class AppComponent implements OnInit{
   subs:Subscription;
-  constructor(public platform: Platform,afAuth: AngularFireAuth, private DataSrv:DataSrvService,private router:Router) 
+  constructor(public platform: Platform,@Optional() private routerOutlet?:IonRouterOutlet) 
   {
+    this.platform.backButton.subscribeWithPriority(-1,()=>{
+      
+        this.exitApp()
+      
+    })
     
   
+}
+exitApp()
+{
+  console.log("Exit App");
 }
 
 ngOnInit()
