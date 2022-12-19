@@ -1,71 +1,79 @@
 <ion-header  class="ion-no-border">
   <ion-toolbar >
-    <ion-icon  color="sky" name="arrow-back-outline"  size="large" slot="start" class="ms-2 ps-2 me-2 pe-1"  (click)="goback()"></ion-icon>
+    <ion-icon  color="sky" name="arrow-back-outline"  size="large" slot="start" class="ms-3 ps-2 me-2 pe-1"  (click)="goback()"></ion-icon>
     <ion-title  class="ion-text-start p-0 " >Add Car Details</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
-  <div class="ms-3 me-3 mb-2 pb-2">
-
+<ion-content [fullscreen]="true">
+  <div class="ms-2 me-2 mb-2 pb-2 ps-1 pe-1">
+    <div class=" m-4 p-4 mt-1 pt-0 pb-0 mb-0 d-flex justify-content-center" > 
+      <img src="assets\images\cogearlogo.png" alt="login" class="w-50" />
+    </div>
   
-  <ion-item-group class="ion-margin-horizontal">
+  <ion-item-group >
     <form [formGroup]="carform">
-      <div class="ion-margin-vertical">
-        
-        <ion-item>
-          <ion-label >Car Make: </ion-label>
-          <ion-input formControlName="make"  type="text" color="medium" ></ion-input>
-          <ion-icon name="car-outline" slot="end" color="medium" ></ion-icon>
-        </ion-item>
-        <ion-text class="error" color="danger" 
-            *ngIf="!carform.get('make').valid && carform.get('make').touched">
-            <ion-text *ngIf="carform.get('make').hasError('required')">
-              * Please enter the make of the vehicle.
-            </ion-text>            
-          </ion-text>
-      </div>
-      <div class="ion-margin-vertical">
-        <ion-item>
-          <ion-label >Car Model: </ion-label>
-          <ion-input formControlName="model"  type="text"  color="medium"></ion-input>
-          <ion-icon name="car-outline" slot="end" color="medium" ></ion-icon>
-        </ion-item>
-        <ion-text class="error" color="danger" 
-            *ngIf="!carform.get('model').valid && carform.get('model').touched">
-            <ion-text *ngIf="carform.get('model').hasError('required')">
-              * Please enter the model of the vehicle.
-            </ion-text>            
-          </ion-text>
-      </div>
-      <div class="ion-margin-vertical">
-        <ion-item>
-          <ion-label >Car Year: </ion-label>
-          <ion-input  [ngModelOptions]="{standalone: true}" type="number" color="medium" [(ngModel)]="newCar.year"></ion-input>
-          <ion-icon name="car-outline" slot="end" color="medium"></ion-icon> 
-          </ion-item>
-          
-        </div>
-        <div class="ion-margin-vertical">
-        <ion-item>
-          <ion-label >Plate Number: </ion-label>
-          <ion-input  formControlName="numPlate"  type="number" color="medium" ></ion-input>
-          <ion-icon name="car-outline" slot="end" color="medium" ></ion-icon>
-        </ion-item>
-        <ion-text class="error" color="danger" 
-            *ngIf="!carform.get('numPlate').valid && carform.get('numPlate').touched">
-            <ion-text *ngIf="carform.get('numPlate').hasError('required')">
-              * Please enter the number plate.
-            </ion-text>            
-          </ion-text>
-        </div>
+       <ion-card mode="ios">
+        <ion-card-content class="pb-0">
+          <div *ngIf="!newCar.carimg" class="d-flex justify-content-center "> 
+            <img src="assets\icon\initialsedan.png"  class="d-inline-block " style="height: 80px!important; " />
+          </div>
+          <div *ngIf="newCar.carimg!=''" class=" d-flex justify-content-center"> 
+          <img src={{newCar.carimg}}  class="d-inline-block  "  style="max-height: 75px!important; "/>
+          </div>
+          <div class="ion-margin-vertical">
+              <ion-item>
+              <ion-label >Car Make: </ion-label>
+              <ion-input formControlName="make"  type="text" class="ion-text-end" placeholder="Toyota" color="medium" ></ion-input>
+             
+            </ion-item>
+            <ion-text class="error" color="danger" 
+                *ngIf="!carform.get('make').valid && carform.get('make').touched">
+                <ion-text *ngIf="carform.get('make').hasError('required')" class="ms-2 ps-2 pe-1 me-2">
+                  *Please enter the make of the vehicle.
+                </ion-text>            
+              </ion-text>
+          </div>
+          <div class="ion-margin-vertical">
+            <ion-item>
+              <ion-label >Car Model: </ion-label>
+              <ion-input formControlName="model"  type="text" class="ion-text-end" placeholder="Corolla" color="medium"></ion-input>
+              
+            </ion-item>
+            <ion-text class="error" color="danger" 
+                *ngIf="!carform.get('model').valid && carform.get('model').touched">
+                <ion-text *ngIf="carform.get('model').hasError('required')" class="ms-2 ps-2 pe-1 me-2">
+                  *Please enter the model of the vehicle.
+                </ion-text>            
+              </ion-text>
+          </div>
+          <div class="ion-margin-vertical">
+            <ion-item>
+              <ion-label >Car Year: </ion-label>
+              <ion-input  [ngModelOptions]="{standalone: true}" type="number" class="ion-text-end" placeholder="2022" color="medium" [(ngModel)]="newCar.year"></ion-input>
+              </ion-item>
+              
+            </div>
+            <div class="ion-margin-vertical">
+            <ion-item>
+              <ion-label >Plate Number: </ion-label>
+              <ion-input  formControlName="numPlate" class="ion-text-end" type="number" placeholder="34567" color="medium" ></ion-input>
+
+            </ion-item>
+            <ion-text class="error" color="danger" 
+                *ngIf="!carform.get('numPlate').valid && carform.get('numPlate').touched">
+              <ion-text *ngIf="carform.get('numPlate').hasError('required')" class="ms-2 ps-2 pe-1 me-2">
+                *Please enter the number plate.
+              </ion-text>            
+            </ion-text>
+          </div>
         <div class="ion-margin-vertical">
         <ion-list>
-          <ion-item>
-            <ion-select interface="popover"  [ngModelOptions]="{standalone: true}" [(ngModel)]="newCar.carimg"  placeholder="Select Image" style="max-width:100%" class="w-100 d-flex justify-content-start">
+          <ion-item  lines="none">
+            <ion-select interface="popover"  class="me-4 pe-4 " [ngModelOptions]="{standalone: true}" [(ngModel)]="newCar.carimg" color="sky" placeholder="Select Image" style="max-width:100%" class="w-100 d-flex justify-content-start">
               <ion-select-option value="assets\images\car.png"   >
                 Sedan
               </ion-select-option>
-              <ion-select-option value="assets\images\suv.png">Suv</ion-select-option>
+              <ion-select-option  value="assets\images\suv.png">Suv</ion-select-option>
               <ion-select-option value="assets\images\coupe.png">Coupe</ion-select-option>
               <ion-select-option value="assets\images\hatchback.png">Hatchback</ion-select-option>
               <ion-select-option value="assets\images\crossover.png">Crossover</ion-select-option>
@@ -75,86 +83,105 @@
               <ion-select-option value="assets\images\truck.png">Truck </ion-select-option>
               <ion-select-option value="assets\images\van.png">Van</ion-select-option>
             </ion-select>
-            <div *ngIf="newCar.carimg==''" class="d-flex justify-content-end"> 
+            <!-- <div *ngIf="newCar.carimg==''" class="d-flex justify-content-end "> 
               <ion-icon name="image-outline" slot="end" color="medium" ></ion-icon>
             </div>
-            <div *ngIf="newCar.carimg!=''" > 
-            <img src={{newCar.carimg}}  class="w-25 d-flex justify-content-end" />
-            </div>
+            <div *ngIf="newCar.carimg!=''" class="ms-3 ps-3"> 
+            <img src={{newCar.carimg}}  class=" w-25 d-flex justify-content-end " />
+            </div> -->
           </ion-item>
         </ion-list>
       </div>
-  <ion-accordion-group [multiple]="true"  >
+    </ion-card-content>
+  </ion-card>
+  
+  
+  <ion-accordion-group [multiple]="true"   >
+      
+      <ion-card mode="ios">
+        <ion-card-content class="p-1">
       <ion-accordion value="first">
-        <ion-item slot="header" ><ion-label >Ownership Details: </ion-label></ion-item>
-      <div class="ion-padding m-0 p-0" slot="content">
-        <ion-list lines="inset">
-          <ion-item>
-            <ion-label >Owner ID: </ion-label>
-            <ion-input  formControlName="ownerID"  type="number" color="medium" ></ion-input>
-            <ion-icon name="person" slot="end" color="medium" ></ion-icon>
-          </ion-item>
-          <ion-text class="error" color="danger" 
-          *ngIf="!carform.get('ownerID').valid && carform.get('ownerID').touched">
-          <ion-text *ngIf="carform.get('ownerID').hasError('required')">
-            * Please enter the ownerID plate.
-          </ion-text>            
-        </ion-text>
-
-          <ion-item>
-            <ion-label  color="gold">Yearly Inspection: </ion-label>
-            <ion-datetime-button slot="end" mode="ios" datetime="date1"></ion-datetime-button>
-            <ion-modal [keepContentsMounted]="true">
-              <ng-template>
-                <ion-datetime id="date1" min="{{minDate}}"  [ngModelOptions]="{standalone: true}" max="2099-10-31" [(ngModel)]="YearDte"  format="YYYY-MM-DD" presentation="date"></ion-datetime>
-              </ng-template>
-            </ion-modal>
-            <ion-icon name="calendar-outline" slot="end" color="medium" ></ion-icon>     
-          </ion-item>
-        </ion-list>
-      </div>
-    </ion-accordion>
-    <ion-accordion value="second">
-      <ion-item slot="header">
-        <ion-label >Insurance Details: </ion-label>
-      </ion-item>
-      <div class="ion-padding" slot="content" > 
-        <ion-list lines="inset">
-          <ion-item>
-            <ion-label >Company: </ion-label>
-            <ion-input  [ngModelOptions]="{standalone: true}" type="text" color="medium" [(ngModel)]="newCar.InsComp"></ion-input>
-            <ion-icon name="briefcase" slot="end" color="medium"></ion-icon>
-          </ion-item>
-          <ion-item>
-            <ion-label >Policy No: </ion-label>
-            <ion-input   [ngModelOptions]="{standalone: true}" type="number" color="medium" [(ngModel)]="newCar.InsPolicy"></ion-input>
-            <ion-icon name="barcode" slot="end"  color="medium"></ion-icon>
-          </ion-item>
-          <ion-item>
-            <ion-label >Cover Type: </ion-label>
-            <ion-input  [ngModelOptions]="{standalone: true}" type="text" color="medium" [(ngModel)]="newCar.InsType"></ion-input>
-            <ion-icon name="construct" slot="end" color="medium" ></ion-icon>
-          </ion-item>
-
-          <ion-item>
-            <ion-label  color="gold">Expiry Date: </ion-label>
-            <ion-datetime-button mode="ios" slot="end" datetime="date2"></ion-datetime-button>
-            <ion-modal [keepContentsMounted]="true">
-              <ng-template>
-                <ion-datetime  [ngModelOptions]="{standalone: true}" id="date2" min="{{minDate}}" max="2099-10-31" [(ngModel)]="InsDte"  format="YYYY-MM-DD" presentation="date"></ion-datetime>
-              </ng-template>
-            </ion-modal>
-            <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>  
+              <ion-item slot="header"  lines="none"><ion-label >Ownership Details: </ion-label></ion-item>
+                <div class="ion-padding mt-0 pt-0 mb-0 pb-0" slot="content">
+                  <ion-list lines="inset">
+                    <ion-item>
+                      <ion-label >Owner ID: </ion-label>
+                      <ion-input  formControlName="ownerID"  type="number" color="medium" ></ion-input>
+                      <ion-icon name="person" slot="end" color="sky" ></ion-icon>
+                    </ion-item>
+                    <ion-text class="error" color="danger" 
+                    *ngIf="!carform.get('ownerID').valid && carform.get('ownerID').touched" class="ms-2 ps-2 pe-1 me-2">
+                    <ion-text *ngIf="carform.get('ownerID').hasError('required')">
+                      *Please enter the ownerID plate.
+                    </ion-text>            
+                  </ion-text>
+                  <div class="pb-1">
+                     <ion-item lines="none">
+                      <ion-label  color="gold">Yearly Inspection: </ion-label>
+                      <ion-icon name="calendar-outline" slot="end" color="sky" ></ion-icon> 
+                    </ion-item>
+                      <ion-datetime-button slot="end" mode="ios" datetime="date1"></ion-datetime-button>
+                      <ion-modal [keepContentsMounted]="true">
+                        <ng-template>
+                          <ion-datetime id="date1" min="{{minDate}}"  [ngModelOptions]="{standalone: true}" max="2099-10-31" [(ngModel)]="YearDte"  format="YYYY-MM-DD" presentation="date"></ion-datetime>
+                        </ng-template>
+                      </ion-modal> 
+                  </div>                  
+                  </ion-list>
+                </div>
+            </ion-accordion>
+        </ion-card-content>
+      </ion-card>
+    <ion-card mode="ios">
+    <ion-card-content class="p-1">
+      <ion-accordion value="second">
+        <ion-item slot="header" lines="none">
+          <ion-label >Insurance Details: </ion-label>
+        </ion-item>
+        <div class="ion-padding mt-0 pt-0 mb-0 pb-0" slot="content" > 
+          <ion-list lines="inset">
+            <ion-item>
+              <ion-label >Company: </ion-label>
+              <ion-input  [ngModelOptions]="{standalone: true}" type="text" color="medium" [(ngModel)]="newCar.InsComp"></ion-input>
+              <ion-icon name="briefcase" slot="end" color="sky"></ion-icon>
             </ion-item>
-        </ion-list>
-        </div>
-    </ion-accordion>
-  </ion-accordion-group>
+            <ion-item>
+              <ion-label >Policy No: </ion-label>
+              <ion-input   [ngModelOptions]="{standalone: true}" type="number" color="medium" [(ngModel)]="newCar.InsPolicy"></ion-input>
+              <ion-icon name="barcode" slot="end"  color="sky"></ion-icon>
+            </ion-item>
+            <ion-item>
+              <ion-label >Cover Type: </ion-label>
+              <ion-input  [ngModelOptions]="{standalone: true}" type="text" color="medium" [(ngModel)]="newCar.InsType"></ion-input>
+              <ion-icon name="construct" slot="end" color="sky" ></ion-icon>
+            </ion-item>
 
-     <br>
+            <div class="pb-1">
+              <ion-item lines="none">
+                <ion-label  color="gold">Expiry Date: </ion-label>
+                <ion-icon name="calendar-outline" slot="end" color="sky" ></ion-icon>
+                              
+              </ion-item>
+              <ion-datetime-button mode="ios" slot="end" datetime="date2"></ion-datetime-button>
+              <ion-modal [keepContentsMounted]="true">
+                <ng-template>
+                  <ion-datetime  [ngModelOptions]="{standalone: true}" id="date2" min="{{minDate}}" max="2099-10-31" [(ngModel)]="InsDte"  format="YYYY-MM-DD" presentation="date"></ion-datetime>
+                </ng-template>
+              </ion-modal>
+                
+            </div>
+          </ion-list>
+          </div>
+      </ion-accordion>
+    </ion-card-content>
+  </ion-card>        
+  </ion-accordion-group>
+     <div class="p-2 m-1">
       <ion-button mode="ios" expand="block"  color="sky" (click)="submit()">
         <ion-text >Submit</ion-text>
       </ion-button>
+     </div>
+      
     </form>
   </ion-item-group>
 </div>
