@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { codesdesc } from '../codedesc';
 import { Codes } from '../codes';
 import { DataSrvService } from '../data-srv.service';
 import { code, FirebaseService, LiveData } from '../firebase.service';

@@ -196,9 +196,9 @@ dataReceived(data,mode,VIN)
       }else{
         var multipleRes=SingleString.split('\r');
         let resp=0;
-        if(multipleRes[1]!='' &&multipleRes[1]!='NO DATA')
+        if(multipleRes[1]!='' && multipleRes[1]!='NO DATA' && multipleRes[1]!='SEARCHING...')
           resp=1;
-        else if(multipleRes[2]!='' &&multipleRes[2]!='NO DATA')
+        else if(multipleRes[2]!='' && multipleRes[2]!='NO DATA'&& multipleRes[2]!='SEARCHING...')
           resp=2;
         else
           resp=3;
@@ -313,7 +313,7 @@ dataReceived(data,mode,VIN)
                this.convertThrottlePos(multipleRes[0],multipleRes[resp].substring(4,));
              else if(multipleRes[0]==='0100')
              {
-              console.log("Resp 1: "+multipleRes[1]+"Resp 2: "+multipleRes[2]+"Resp 3: "+multipleRes[3]);
+              //this.showError("Code 0100 Response: ","Resp 1: "+multipleRes[1]+"Resp 2: "+multipleRes[2]+"Resp 3: "+multipleRes[3]);
               let reply=(parseInt(multipleRes[resp].substring(4,), 16)).toString(2);
               for(let k=0;k<reply.length;k++)
                 if(reply.charAt(k)=='1')
@@ -347,13 +347,33 @@ dataReceived(data,mode,VIN)
 FuelStatus(code, resp)
 {
   console.log("code: "+code+", re: "+resp);
-  var reply = {byteA:0,byteB:0};
+  var reply = ['Open loop due to insufficient engine temperature',
+               'Closed loop, using oxygen sensor feedback to determine fuel mix',
+               'Open loop due to engine load OR fuel cut due to deceleration',
+               'Open loop due to system failure',
+               'Closed loop, using at least one oxygen sensor but there is a fault in the feedback system',
+               'Always zero',
+               'Always zero',
+               'Always zero'];
+  var respose='Null';
             var byteA=resp.substring(0,2);
             var byteB=resp.substring(2,);
-            reply.byteA = parseInt(byteA, 2);
-            if(byteB)
-            reply.byteB = parseInt(byteB, 2);
-            this.Firebase.updateLiveDataValues(code,reply.byteA); 
+            let eightbits=0, str='';
+            if(byteA)
+            eightbits = parseInt(byteA, 2);
+            else
+            eightbits = parseInt(byteB, 2);
+            str=eightbits.toString();
+            this.showError("Fuel Status: ",str);
+          for(let k=0;k<str.length;k++)
+          {
+            if(str.charAt(k)=='1')
+            {
+              respose=reply[k];
+            }
+
+          }
+            this.Firebase.updateLiveDataValues(code,respose); 
 }
 convertThrottlePos(code,byte) 
 {
