@@ -159,6 +159,8 @@ else if(mode=='01')
 Disconnect(slide:IonSlides, UpCar:Car)
 {
   this.CarName='Car not Paired';
+  this.checkedalready=false;
+  this.live_data_fetched_already=false;
   this.BluetoothFlag=true;
   this.QueueIndex=0;
   this.ChangeSlideStatus(slide,false);
