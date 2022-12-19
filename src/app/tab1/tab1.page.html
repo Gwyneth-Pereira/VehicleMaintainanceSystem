@@ -84,9 +84,12 @@
          <ion-col size="auto" *ngFor="let data of (LiveData | async)" class=" d-flex align-self-stretch w-50">
             <ion-card  mode="ios" class="d-flex align-self-stretch w-100">
                <ion-card-content>
-                <ion-icon size="large" color="sky"  name="cog-outline"></ion-icon>
-                <ion-label>{{data.img}}</ion-label>
-                <ion-card-subtitle>
+                <div class="d-flex justify-content-center">
+                  <img src="{{data.img}}"  class="d-inline-block mt-1 pt-1" />
+
+                </div>
+
+                     <ion-card-subtitle>
                   {{data.Description}}
                 </ion-card-subtitle>
               <ion-label>{{data.Value}} </ion-label>          
