@@ -1,10 +1,12 @@
 <ion-header  class="ion-no-border">
   <ion-toolbar >
-    <ion-icon  color="sky" name="arrow-back-outline"  size="large" slot="start" class="ms-1 ps-1"  (click)="goback()"></ion-icon>
-    <ion-label  class="m-2 d-flex justify-content-center" >Add Car Details</ion-label>
+    <ion-icon  color="sky" name="arrow-back-outline"  size="large" slot="start" class="ms-2 ps-2 me-2 pe-1"  (click)="goback()"></ion-icon>
+    <ion-title  class="ion-text-start p-0 " >Add Car Details</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  <div class="ms-3 me-3 mb-2 pb-2">
+
   
   <ion-item-group class="ion-margin-horizontal">
     <form [formGroup]="carform">
@@ -155,4 +157,5 @@
       </ion-button>
     </form>
   </ion-item-group>
+</div>
 </ion-content>

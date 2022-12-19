@@ -35,8 +35,8 @@
       
     </ion-card>
 <!-- list scan results -->
-<div>
-  <ion-item lines="none" *ngIf="len==0">
+<div class="mt-3 pt-1">
+  <ion-item lines="none" *ngIf="len==0 && checkedalready==true ">
     <ion-label class="d-flex  justify-content-center" color="success">
       No Errors Found! 
     </ion-label>
