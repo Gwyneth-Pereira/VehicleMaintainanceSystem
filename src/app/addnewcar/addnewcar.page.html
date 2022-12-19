@@ -69,7 +69,7 @@
         <div class="ion-margin-vertical">
         <ion-list>
           <ion-item  lines="none">
-            <ion-select interface="popover"  class="me-4 pe-4 " [ngModelOptions]="{standalone: true}" [(ngModel)]="newCar.carimg"  placeholder="Select Image" style="max-width:100%" class="w-100 d-flex justify-content-start">
+            <ion-select interface="popover"  class="me-4 pe-4 " [ngModelOptions]="{standalone: true}" [(ngModel)]="newCar.carimg" color="sky" placeholder="Select Image" style="max-width:100%" class="w-100 d-flex justify-content-start">
               <ion-select-option value="assets\images\car.png"   >
                 Sedan
               </ion-select-option>
@@ -102,12 +102,12 @@
         <ion-card-content class="p-1">
       <ion-accordion value="first">
               <ion-item slot="header"  lines="none"><ion-label >Ownership Details: </ion-label></ion-item>
-                <div class="ion-padding m-0 p-0" slot="content">
+                <div class="ion-padding mt-0 pt-0 mb-0 pb-0" slot="content">
                   <ion-list lines="inset">
                     <ion-item>
                       <ion-label >Owner ID: </ion-label>
                       <ion-input  formControlName="ownerID"  type="number" color="medium" ></ion-input>
-                      <ion-icon name="person" slot="end" color="medium" ></ion-icon>
+                      <ion-icon name="person" slot="end" color="sky" ></ion-icon>
                     </ion-item>
                     <ion-text class="error" color="danger" 
                     *ngIf="!carform.get('ownerID').valid && carform.get('ownerID').touched" class="ms-2 ps-2 pe-1 me-2">
@@ -115,17 +115,18 @@
                       *Please enter the ownerID plate.
                     </ion-text>            
                   </ion-text>
-
-                    <ion-item lines="none">
+                  <div class="pb-1">
+                     <ion-item lines="none">
                       <ion-label  color="gold">Yearly Inspection: </ion-label>
+                      <ion-icon name="calendar-outline" slot="end" color="sky" ></ion-icon> 
+                    </ion-item>
                       <ion-datetime-button slot="end" mode="ios" datetime="date1"></ion-datetime-button>
                       <ion-modal [keepContentsMounted]="true">
                         <ng-template>
                           <ion-datetime id="date1" min="{{minDate}}"  [ngModelOptions]="{standalone: true}" max="2099-10-31" [(ngModel)]="YearDte"  format="YYYY-MM-DD" presentation="date"></ion-datetime>
                         </ng-template>
-                      </ion-modal>
-                      <ion-icon name="calendar-outline" slot="end" color="medium" ></ion-icon>     
-                    </ion-item>
+                      </ion-modal> 
+                  </div>                  
                   </ion-list>
                 </div>
             </ion-accordion>
@@ -137,34 +138,38 @@
         <ion-item slot="header" lines="none">
           <ion-label >Insurance Details: </ion-label>
         </ion-item>
-        <div class="ion-padding" slot="content" > 
+        <div class="ion-padding mt-0 pt-0 mb-0 pb-0" slot="content" > 
           <ion-list lines="inset">
             <ion-item>
               <ion-label >Company: </ion-label>
               <ion-input  [ngModelOptions]="{standalone: true}" type="text" color="medium" [(ngModel)]="newCar.InsComp"></ion-input>
-              <ion-icon name="briefcase" slot="end" color="medium"></ion-icon>
+              <ion-icon name="briefcase" slot="end" color="sky"></ion-icon>
             </ion-item>
             <ion-item>
               <ion-label >Policy No: </ion-label>
               <ion-input   [ngModelOptions]="{standalone: true}" type="number" color="medium" [(ngModel)]="newCar.InsPolicy"></ion-input>
-              <ion-icon name="barcode" slot="end"  color="medium"></ion-icon>
+              <ion-icon name="barcode" slot="end"  color="sky"></ion-icon>
             </ion-item>
             <ion-item>
               <ion-label >Cover Type: </ion-label>
               <ion-input  [ngModelOptions]="{standalone: true}" type="text" color="medium" [(ngModel)]="newCar.InsType"></ion-input>
-              <ion-icon name="construct" slot="end" color="medium" ></ion-icon>
+              <ion-icon name="construct" slot="end" color="sky" ></ion-icon>
             </ion-item>
 
-            <ion-item lines="none">
-              <ion-label  color="gold">Expiry Date: </ion-label>
+            <div class="pb-1">
+              <ion-item lines="none">
+                <ion-label  color="gold">Expiry Date: </ion-label>
+                <ion-icon name="calendar-outline" slot="end" color="sky" ></ion-icon>
+                              
+              </ion-item>
               <ion-datetime-button mode="ios" slot="end" datetime="date2"></ion-datetime-button>
               <ion-modal [keepContentsMounted]="true">
                 <ng-template>
                   <ion-datetime  [ngModelOptions]="{standalone: true}" id="date2" min="{{minDate}}" max="2099-10-31" [(ngModel)]="InsDte"  format="YYYY-MM-DD" presentation="date"></ion-datetime>
                 </ng-template>
               </ion-modal>
-              <ion-icon name="calendar-outline" slot="end" color="medium" color="purple"></ion-icon>  
-              </ion-item>
+                
+            </div>
           </ion-list>
           </div>
       </ion-accordion>
