@@ -5,7 +5,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
-  <ion-segment  swipe-gesture="true" value="Sensor" (ionChange)="segmentChanged($event)" class="mt-4  " >
+  <ion-segment  swipe-gesture="true" value="Sensor" (ionChange)="segmentChanged($event)" class="mt-4 ms-2 me-2 " >
     <ion-segment-button value="Sensor"   mode="ios"
     style="text-transform: none!important;
     text-transform: unset;"
@@ -36,7 +36,7 @@
     </ion-card>
 <!-- list scan results -->
 <div class="mt-3 pt-1">
-  <ion-item lines="none" *ngIf="len==0 && checkedalready==true ">
+  <ion-item lines="none" *ngIf="len==0 && DataSrv.checkedalready==true ">
     <ion-label class="d-flex  justify-content-center" color="success">
       No Errors Found! 
     </ion-label>
@@ -68,7 +68,10 @@
 <!-- live data part -->
   <div *ngIf="selectedSegment=='livedata'" class="ms-3 me-3 mb-2 pb-2"> 
     <!-- the first time look button  -->
-    <div class="m-2  p-1 mt-5 pt-5" *ngIf="!live_data_fetched_already" >
+    <div class="m-2  p-1 mt-5 pt-5" *ngIf="!DataSrv.live_data_fetched_already" >
+      <div class="d-flex justify-content-center mb-1 pb-1 ">
+        <img src="assets/icon/livedata.gif"  class="" style="height:120px" />
+      </div>
     <ion-button color="sky" expand="block" 
     (click)="FetchLiveData()" mode="ios"
         style="text-transform: none!important;
@@ -78,7 +81,7 @@
       </ion-button> 
     </div>
     <!-- the button at top position -->
-    <div class="m-2 p-1" *ngIf="live_data_fetched_already" >
+    <div class="m-2 p-1" *ngIf="DataSrv.live_data_fetched_already" >
       <ion-button color="sky" expand="block" 
       (click)="FetchLiveData()" mode="ios"
           style="text-transform: none!important;
@@ -88,19 +91,18 @@
         </ion-button> 
       </div> 
     <!--displaying live data  -->
-    <ion-grid *ngIf="live_data_fetched_already">
+    <ion-grid *ngIf="DataSrv.live_data_fetched_already">
       <ion-row>
          <ion-col size="auto" *ngFor="let data of (LiveData | async)" class=" d-flex align-self-stretch w-50">
             <ion-card  mode="ios" class="m-1 p-1 w-100" style="height:170px">
                <ion-card-content class="mt-0">
                 <div class="d-flex justify-content-center">
                   <img src="{{data.img}}"  class="" style="height:40px" />
-                </div>
-                
-                <ion-label style="font-size:12px">
+                </div>     
+                <ion-label style="font-size:12px" class="d-flex justify-content-center">
                   {{data.Description}}
                 </ion-label>
-              <ion-label>{{data.Value}} </ion-label>          
+              <ion-label class="d-flex justify-content-center" style="font-size:12px" >{{data.Value}} </ion-label>          
           </ion-card-content>
           </ion-card>
         </ion-col>        
