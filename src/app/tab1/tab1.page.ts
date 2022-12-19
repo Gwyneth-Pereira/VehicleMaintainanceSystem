@@ -15,6 +15,7 @@ import { code, FirebaseService, LiveData } from '../firebase.service';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit {
+  public checkedalready: boolean=false;
   private selectedSegment: string ='Sensor';
   private LiveData:Observable<LiveData[]>;
   private CodeArray:string[]=[];
@@ -59,7 +60,8 @@ export class Tab1Page implements OnInit {
 
   Scan()
   {
-    //console.log("Length: "+)
+    // to display if errors are there or no ..
+    this.checkedalready=true;
     this.bluetooth.isEnabled().then(resp=>
       {
         this.bluetooth.isConnected().then(rsp=>
