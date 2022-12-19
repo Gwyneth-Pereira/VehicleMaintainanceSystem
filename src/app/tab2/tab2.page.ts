@@ -174,14 +174,17 @@ else{
       load3.dismiss();
       this.diconnect();
       
-      this.router.navigate(['tab/tabs/tab2']);
+      this.router.navigate(['tabs/tabs/tab2']);
       this.DataSrv.showError("Connection Timed Out",error);
       
       });
     
 }
-//this.DataSrv.showError("Alert",");
+
 }
+
+
+
 OpenProfle(uid)
 {
   if(!this.BluetoothFlag)

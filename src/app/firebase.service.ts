@@ -296,6 +296,7 @@ Code:string;
 Description:string;
 Value:string;
 Enabled:boolean
+img:string;
 }
 export interface code{
   id?:string;
