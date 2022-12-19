@@ -297,7 +297,11 @@ dataReceived(data,mode,VIN)
               {
                 
               if(multipleRes[0]=='0103')
-               this.FuelStatus(multipleRes[0],multipleRes[resp].substring(4,));
+              {
+                this.showError("Raw Data: ",multipleRes[resp]+", Conversion: "+multipleRes[resp].substring(4,));
+                this.FuelStatus(multipleRes[0],multipleRes[resp].substring(4,));
+
+              }
              else if(multipleRes[0]=='0104')
                this.convertLoad(multipleRes[0],multipleRes[resp].substring(4,));
              else if(multipleRes[0]=='0105')
@@ -369,7 +373,7 @@ FuelStatus(code, resp)
             else
             eightbits = parseInt(byteB, 2);
             str=eightbits.toString();
-            this.showError("Fuel Status: ",str);
+            this.showError("Fuel Status: ",eightbits+", String Format: "+str);
           for(let k=0;k<str.length;k++)
           {
             if(str.charAt(k)=='1')
