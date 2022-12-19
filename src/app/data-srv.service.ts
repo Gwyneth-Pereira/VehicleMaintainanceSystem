@@ -196,13 +196,13 @@ dataReceived(data,mode,VIN)
       }else{
         var multipleRes=SingleString.split('\r');
         let resp=0;
-        if(multipleRes[1]!='')
+        if(multipleRes[1]!='' &&multipleRes[1]!='NO DATA')
           resp=1;
-        else if(multipleRes[2]!='')
+        else if(multipleRes[2]!='' &&multipleRes[2]!='NO DATA')
           resp=2;
         else
           resp=3;
-        console.log("Code: "+multipleRes[0]+", Response: "+multipleRes[resp]);  
+         
         if(multipleRes[0]==='0902')
         {
           if(check==='NO DATA')
@@ -287,6 +287,7 @@ dataReceived(data,mode,VIN)
                   }else{this.presentToast("No Engine Code Found");}}
             }else if(multipleRes[0].substring(0,2)==='01')
             {
+              console.log("Code In 01: "+multipleRes[0]+", Response: "+multipleRes[resp]); 
               if(multipleRes[resp]!='NO DATA')
               {
                 
@@ -313,7 +314,7 @@ dataReceived(data,mode,VIN)
              else if(multipleRes[0]==='0100')
              {
               console.log("Resp 1: "+multipleRes[1]+"Resp 2: "+multipleRes[2]+"Resp 3: "+multipleRes[3]);
-              let reply=(parseInt(multipleRes[2].substring(4,), 16)).toString(2);
+              let reply=(parseInt(multipleRes[resp].substring(4,), 16)).toString(2);
               for(let k=0;k<reply.length;k++)
                 if(reply.charAt(k)=='1')
                   this.SupportedOBD[k].Value='Yes';
