@@ -66,22 +66,28 @@
     </div>
   </div>
 <!-- live data part -->
-  <div *ngIf="selectedSegment=='livedata'"> 
-
-    <ion-button color="sky" expand="block" (click)="FetchLiveData()" mode="ios"
-    style="text-transform: none!important;
-              text-transform: unset;"
-     class=" p-2 m-2 mt-0 pt-1 pb-0  mb-0">Fetch Live Data</ion-button>    
+  <div *ngIf="selectedSegment=='livedata'" class="ms-3 me-3 mb-2 pb-2"> 
+    <div class="m-2 p-1">
+    <ion-button color="sky" expand="block" 
+    (click)="FetchLiveData()" mode="ios"
+        style="text-transform: none!important;
+                  text-transform: unset;"
+        class=" p-2 m-2 mt-0 pt-1 pb-0  mb-0">
+        Fetch Live Data
+      </ion-button> 
+    </div>
+       
     <!--displaying live data  -->
     <ion-grid >
       <ion-row>
          <ion-col size="auto" *ngFor="let data of (LiveData | async)" class=" d-flex align-self-stretch w-50">
-            <ion-card  mode="ios" class="d-flex align-self-stretch m-1 p-1 " style="height:185px">
+            <ion-card  mode="ios" class="m-1 p-1 w-100" style="height:170px">
                <ion-card-content class="mt-0">
                 <div class="d-flex justify-content-center">
-                  <img src="{{data.img}}"  class="d-inline-block w-50"  />
+                  <img src="{{data.img}}"  class="" style="height:40px" />
                 </div>
-                <ion-label style="font-size:18px">
+                
+                <ion-label style="font-size:12px">
                   {{data.Description}}
                 </ion-label>
               <ion-label>{{data.Value}} </ion-label>          
