@@ -15,6 +15,7 @@ import { code, FirebaseService, LiveData } from '../firebase.service';
 })
 export class Tab1Page implements OnInit {
   public checkedalready: boolean=false;
+  public live_data_fetched_already: boolean=false;
   private selectedSegment: string ='Sensor';
   private LiveData:Observable<LiveData[]>;
   private CodeArray:string[]=[];
@@ -95,6 +96,7 @@ export class Tab1Page implements OnInit {
   }
   FetchLiveData()
   {
+    this.live_data_fetched_already=true;
     this.LiveData.pipe(take(1)).subscribe(res=>{
       for(let i=0;i<res.length;i++)
         if(res[i].Enabled)

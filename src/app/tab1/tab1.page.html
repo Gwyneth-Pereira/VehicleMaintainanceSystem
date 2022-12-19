@@ -67,7 +67,8 @@
   </div>
 <!-- live data part -->
   <div *ngIf="selectedSegment=='livedata'" class="ms-3 me-3 mb-2 pb-2"> 
-    <div class="m-2 p-1">
+    <!-- the first time look button  -->
+    <div class="m-2  p-1 mt-5 pt-5" *ngIf="!live_data_fetched_already" >
     <ion-button color="sky" expand="block" 
     (click)="FetchLiveData()" mode="ios"
         style="text-transform: none!important;
@@ -76,9 +77,18 @@
         Fetch Live Data
       </ion-button> 
     </div>
-       
+    <!-- the button at top position -->
+    <div class="m-2 p-1" *ngIf="live_data_fetched_already" >
+      <ion-button color="sky" expand="block" 
+      (click)="FetchLiveData()" mode="ios"
+          style="text-transform: none!important;
+                    text-transform: unset;"
+          class=" p-2 m-2 mt-0 pt-1 pb-0  mb-0">
+          Fetch Live Data
+        </ion-button> 
+      </div> 
     <!--displaying live data  -->
-    <ion-grid >
+    <ion-grid *ngIf="live_data_fetched_already">
       <ion-row>
          <ion-col size="auto" *ngFor="let data of (LiveData | async)" class=" d-flex align-self-stretch w-50">
             <ion-card  mode="ios" class="m-1 p-1 w-100" style="height:170px">
