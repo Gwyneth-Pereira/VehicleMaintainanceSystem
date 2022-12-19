@@ -15,6 +15,9 @@ import { filter, switchMap } from 'rxjs/operators';
 })
 
 export class DataSrvService {
+  public checkedalready: boolean=false;//for tap to scan button
+  public live_data_fetched_already: boolean=false;// for fetch  live data button
+
   public CarName:string="Car not Paired";
   queue=['ATZ\r','ATS0\r','ATL0\r','ATSP0\r','0100\r','0902\r'];//Setting Up OBD-II Commands;
   LiveDataCmds=[];

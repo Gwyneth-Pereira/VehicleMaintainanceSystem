@@ -14,8 +14,7 @@ import { code, FirebaseService, LiveData } from '../firebase.service';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit {
-  public checkedalready: boolean=false;
-  public live_data_fetched_already: boolean=false;
+  
   private selectedSegment: string ='Sensor';
   private LiveData:Observable<LiveData[]>;
   private CodeArray:string[]=[];
@@ -61,7 +60,7 @@ export class Tab1Page implements OnInit {
   Scan()
   {
     // to display if errors are there or no ..
-    this.checkedalready=true;
+    this.DataSrv.checkedalready=true;
     this.bluetooth.isEnabled().then(resp=>
       {
         this.bluetooth.isConnected().then(rsp=>
@@ -71,16 +70,13 @@ export class Tab1Page implements OnInit {
             this.TroubleCodes.subscribe(res=>{
               for(let i=0;i<res.length;i++)
               {
-                console.log("res: "+res[i].codes[i])
-                
+                console.log("res: "+res[i].codes[i]); 
               }
-            },erro=>{this.DataSrv.showError("alert",erro)})
-            
-           
+            },erro=>{this.DataSrv.showError("alert",erro)})           
           }
           ,er=>
           {
-            this.router.navigate(['tab/tabs/tab2']);
+            this.router.navigate(['tabs/tabs/tab2']);
             this.DataSrv.presentToast("Connection Timed Out! Please Pair Again")
 
           })
@@ -90,13 +86,13 @@ export class Tab1Page implements OnInit {
       ,error=>
       {
         this.bluetooth.enable();
-        this.router.navigate(['tab/tabs/tab2']);
+        this.router.navigate(['tabs/tabs/tab2']);
       })
    
   }
   FetchLiveData()
   {
-    this.live_data_fetched_already=true;
+    this.DataSrv.live_data_fetched_already=true;
     this.LiveData.pipe(take(1)).subscribe(res=>{
       for(let i=0;i<res.length;i++)
         if(res[i].Enabled)
