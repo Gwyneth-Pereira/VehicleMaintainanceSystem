@@ -42,25 +42,28 @@
     </ion-label>
   </ion-item>
     
-  
-    <ion-label *ngIf="len>0" class="d-flex  justify-content-center mt-2 pt-3">
-    <ion-button color="danger" fill="outline"  mode="ios" style="
+<!-- -->
+  <div  *ngIf="len>0" class="ms-4 ps-3 pe-3  me-4 mt-2 pt-3 ">
+  <ion-button color="danger"expand="block" fill="outline"  mode="ios" style="
     text-transform: none!important;
     text-transform: unset;"
-     (click)="ClearCodes()">Clear Codes</ion-button>
-    </ion-label>
-
-    <div *ngFor="let x of (TroubleCodes|async)"  class="ms-2 ps-2 me-2 pe-2">
-      <ion-card  mode="ios" *ngFor="let y of x.codes"   class="d-flex justify-content-start mt-3">
-        <ion-card-content> 
-          <h2 class="pb-1" style="color:  red;">
-            Code: {{y.code}}
-          </h2> 
-          <br>
-           Description: {{y.desc}}
-          <br> 
+     (click)="ClearCodes()">
+     Clear Codes</ion-button>
+      </div>
+    
+    <div  *ngFor="let x of (TroubleCodes|async)" class="ms-2 ps-2 me-2 pe-2"> 
+      <ion-card *ngFor="let y of x.codes"  mode="ios">
+        <ion-card-content class="ms-1 me-1"> 
+         <ion-label class="ion-item-start" style="color:red;font-size: 17px;">
+            Code:
+            {{y.code}}
+            <br/>
+          </ion-label>
+          <ion-label>
+           Description: 
+            {{y.desc}}  
+          </ion-label>
           </ion-card-content>
-      
       </ion-card>
     </div>
     </div>
