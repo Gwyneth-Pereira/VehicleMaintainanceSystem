@@ -97,17 +97,18 @@
     <ion-grid *ngIf="DataSrv.live_data_fetched_already">
       <ion-row>
          <ion-col size="auto" *ngFor="let data of (LiveData | async)" class=" d-flex align-self-stretch w-50">
-            <ion-card  mode="ios" class="m-1 p-1 w-100" style="height:130px">
+            <ion-card  mode="ios" class="m-1 p-1 w-100" style="height:145px">
                <ion-card-content class="mt-0 p-1 pt-2">
                 <div class="d-flex justify-content-center pt-1 ">
                   <img src="{{data.img}}"  class="" style="height:40px" />
                 </div>
                 <ion-label style="font-size:14px" class="mt-1 pt-1 d-flex justify-content-center">
                   {{data.Description}}
+                  <br/>
                 </ion-label>
-                <ion-item lines="none">
-                  <ion-label class="d-flex justify-content-center" style="font-size:14px" >{{data.Value}} </ion-label>          
-                </ion-item>    
+                <ion-label class="d-flex justify-content-center flex-wrap" style="font-size:14px" >{{data.Value}}
+                </ion-label>          
+                    
              </ion-card-content>
           </ion-card>
         </ion-col>        
