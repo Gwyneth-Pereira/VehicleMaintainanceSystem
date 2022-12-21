@@ -131,26 +131,49 @@ export class SettingPage implements OnInit {
          this.Firebase.DeleteUser().then(rt=>{
           if(rt)
           {
-            this.router.navigate(['/login']);
+            this.DataSrv.RemoveVariable('userID').then(resp=>
+              {
+                this.router.navigate(['/login']);
             this.DataSrv.presentToast("Account Deleted Successfully");
+    
+              });
+            
+          }else
+          {
+            this.DataSrv.showChoice("Alert","Please Login Again to delete your account").then( sucess=>
+              { 
+              if (this.DataSrv.handlerMessage=="confirmed")
+              {
+               this.Firebase.logoutUser().then( sucess=> 
+                  {
+                    
+                    this.DataSrv.RemoveVariable('userID').then(resp=>
+                      {
+                        this.router.navigate(['/login']);
+                        this.DataSrv.presentToast("Logged out Sucessfully");
+                       
+                       
+            
+                      });
+                   
+                }).catch(error=>alert(error));  
+                
+                
+              }
+             
+            });
           }
-         })
+         }).catch(er=>{this.DataSrv.showError("Error",er)})
          
           
         })
       })
       
-      console.log(this.DataSrv.handlerMessage);
-      console.log(this.DataSrv.roleMessage);
-      //add the code to delete record from firebase and auth. 
-
+  
     }
     else{
       this.DataSrv.presentToast("Account is not deleted.")
-
-      console.log(this.DataSrv.handlerMessage);
-      console.log(this.DataSrv.roleMessage);
-    }
+ }
   });
 }
 

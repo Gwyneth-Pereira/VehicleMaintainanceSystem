@@ -46,6 +46,11 @@ export class Tab2Page  implements OnInit {
     {
     
     this.User=this.Firebase.getUsers();
+    this.platform.backButton.subscribeWithPriority(-1,()=>{
+      
+      this.Closing()
+    
+  })
     
   }
  
@@ -213,16 +218,7 @@ async diconnect()
 
 Closing()
 {
- this.DataSrv.showChoice("Alert","Do You Want to Exit the Application?").then( sucess=>
-  { 
-  if (this.DataSrv.handlerMessage=="confirmed")
-  {
-    this.diconnect();
-    this.DataSrv.RemoveVariable('userID');
-    navigator['app'].exitApp();
-  }
  
-});
 }
 
 

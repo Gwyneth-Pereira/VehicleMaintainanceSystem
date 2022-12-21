@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BluetoothSerial } from '@awesome-cordova-plugins/bluetooth-serial/ngx';
+import { Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Codes } from '../codes';
@@ -19,16 +20,14 @@ export class Tab1Page implements OnInit {
   private LiveData:Observable<LiveData[]>;
   private CodeArray:string[]=[];
   public len;
-  private CarName;
   private TroubleCodes:Observable<code[]>;
   private leng;
   Sped;
-  constructor(public bluetooth:BluetoothSerial,public router:Router,public DataSrv:DataSrvService,private Firebase:FirebaseService) {
+  constructor(public bluetooth:BluetoothSerial,private platform: Platform,public router:Router,public DataSrv:DataSrvService,private Firebase:FirebaseService) {
    
   }
   ngOnInit()
    {
-    this.CarName=this.DataSrv.CarName;
     console.log("Length "+Codes.AllCodes.length);
 
     this.TroubleCodes=this.Firebase.getCodes();
@@ -59,37 +58,19 @@ export class Tab1Page implements OnInit {
 
   Scan()
   {
-    // to display if errors are there or no ..
     this.DataSrv.checkedalready=true;
-    this.bluetooth.isEnabled().then(resp=>
-      {
-        this.bluetooth.isConnected().then(rsp=>
-          {
-            this.DataSrv.deviceConnected('03','00');
-            //console.log("Length: "+codesdesc.AllCodes.length)
-            this.TroubleCodes.subscribe(res=>{
-              for(let i=0;i<res.length;i++)
-              {
-                console.log("res: "+res[i].codes[i]); 
-              }
-            },erro=>{this.DataSrv.showError("alert",erro)})           
-          }
-          ,er=>
-          {
-            this.router.navigate(['tabs/tabs/tab2']);
-            this.DataSrv.presentToast("Connection Timed Out! Please Pair Again")
-
-          })
-
-
-      }
-      ,error=>
-      {
-        this.bluetooth.enable();
+    this.Firebase.removeCodes();
+    this.bluetooth.isEnabled().then(resp=>{
+      this.bluetooth.isConnected().then(rsp=>{
+        this.DataSrv.deviceConnected('03','00');}
+      ,er=>{
         this.router.navigate(['tabs/tabs/tab2']);
-      })
-   
+        this.DataSrv.presentToast("Connection Timed Out! Please Pair Again");});
+    },error=>{
+        this.bluetooth.enable();
+        this.router.navigate(['tabs/tabs/tab2']);});
   }
+
   FetchLiveData()
   {
     this.DataSrv.live_data_fetched_already=true;
@@ -106,8 +87,7 @@ export class Tab1Page implements OnInit {
          )
          
     },rej=>{this.DataSrv.showError("Error", "Error Fetching Data")});
-   // console.log(this.DataSrv.LiveDataCmds);
-    
+  
     
   }
   

@@ -297,19 +297,21 @@ dataReceived(data,mode,VIN)
               {
                 
               if(multipleRes[0]=='0103')
-              {
-                this.showError("Raw Data: ",multipleRes[resp]+", Conversion: "+multipleRes[resp].substring(4,));
                 this.FuelStatus(multipleRes[0],multipleRes[resp].substring(4,));
-
-              }
-             else if(multipleRes[0]=='0104')
+              else if(multipleRes[0]=='0104')
                this.convertLoad(multipleRes[0],multipleRes[resp].substring(4,));
              else if(multipleRes[0]=='0105')
                this.convertTemp(multipleRes[0],multipleRes[resp].substring(4,));
              else if(multipleRes[0]=='010A')
-               this.convertFuelRailPressure(multipleRes[0],multipleRes[resp].substring(4,));
+             {
+             this.convertFuelRailPressure(multipleRes[0],multipleRes[resp].substring(4,));
+             }
+               
              else if(multipleRes[0]=='010B')
+             {
                this.convertIntakePressure(multipleRes[0],multipleRes[resp].substring(4,));
+
+             }
              else if(multipleRes[0]=='010C')
                this.convertRPM(multipleRes[0],multipleRes[resp].substring(4,));
              else if(multipleRes[0]=='010D')
@@ -354,35 +356,20 @@ dataReceived(data,mode,VIN)
 
 
 FuelStatus(code, resp)
-{
-  console.log("code: "+code+", re: "+resp);
-  var reply = ['Open loop due to insufficient engine temperature',
-               'Closed loop, using oxygen sensor feedback to determine fuel mix',
-               'Open loop due to engine load OR fuel cut due to deceleration',
-               'Open loop due to system failure',
-               'Closed loop, using at least one oxygen sensor but there is a fault in the feedback system',
-               'Always zero',
-               'Always zero',
-               'Always zero'];
-  var respose='Null';
-            var byteA=resp.substring(0,2);
-            var byteB=resp.substring(2,);
-            let eightbits=0, str='';
-            if(byteA)
-            eightbits = parseInt(byteA, 2);
-            else
-            eightbits = parseInt(byteB, 2);
-            str=eightbits.toString();
-            this.showError("Fuel Status: ",eightbits+", String Format: "+str);
-          for(let k=0;k<str.length;k++)
-          {
-            if(str.charAt(k)=='1')
-            {
-              respose=reply[k];
-            }
-
-          }
-            this.Firebase.updateLiveDataValues(code,respose); 
+{  var reply = ['Open Loop Insufficient engine temp',
+               'Closed Loop </br> Using Oxygen Sensor',
+               'Open Loop </br>Engine Load',
+               'Open Loop </br>System Failure',
+               'Closed Loop </br> Using Oxygen Sensor (Faulty Feedback)',
+               'Null',
+               'Null',
+               'Null'];
+   let  respose='Null';
+   respose = (parseInt(resp, 16)).toString(2);
+   for(let k=0;k<respose.length;k++)
+    if(respose.charAt(k)=='1')
+      respose=reply[k];
+  this.Firebase.updateLiveDataValues(code,respose); 
 }
 convertThrottlePos(code,byte) 
 {
@@ -415,6 +402,7 @@ convertFuelRailPressure(code,byte)
 
   var reply=parseInt(byte, 16) * 3;
   reply=Math.round((reply + Number.EPSILON) * 100) / 100
+  let ans=reply+" kPa";
    this.Firebase.updateLiveDataValues(code,reply);
   
 }

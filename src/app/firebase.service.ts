@@ -170,14 +170,16 @@ removeCodes()
               });
   
   }
-  DeleteUser()
+  DeleteUser():Promise<boolean>
   {
     return new Promise((resolve,reject)=>{
       this.FireAuth.currentUser.then(user=>{
         if(user)
         {
-          user.delete();
-          resolve(true);
+          user.delete().then(k=>{
+            resolve(true);
+          }).catch(k=>resolve(false));
+         
         }
 
         }).catch(k=>resolve(false));

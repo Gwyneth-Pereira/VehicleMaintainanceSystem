@@ -58,7 +58,12 @@ export class CreateAccountPage implements OnInit {
           this.Firebase.updateUser(this.NewAccount).then(async truth=>{
             this.datasrv.presentToast("Account Created Successfully");
             await loading.dismiss();
+            this.datasrv.SetVariable('userID',this.form.value.email.toLowerCase()).then(async rl=>{
+            this.datasrv.presentToast("Welcome "+this.NewAccount.Name);
             this.router.navigate(['/login']);
+          }); 
+            
+
             });
          },async error=>{
             await loading.dismiss();

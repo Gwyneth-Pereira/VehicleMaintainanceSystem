@@ -15,11 +15,7 @@ export class AppComponent implements OnInit{
   subs:Subscription;
   constructor(public platform: Platform,@Optional() private routerOutlet?:IonRouterOutlet) 
   {
-    this.platform.backButton.subscribeWithPriority(-1,()=>{
-      
-        this.exitApp()
-      
-    })
+   
     
   
 }
