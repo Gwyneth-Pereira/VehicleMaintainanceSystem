@@ -42,8 +42,8 @@ export class CreateAccountPage implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-    const loading=await this.loading.create();
-    await loading.present();
+    const loader=await this.loading.create();
+    await loader.present();
     this.NewAccount.userID=this.form.value.email.toLowerCase();
     this.NewAccount.Name= this.form.value.name;
     this.NewAccount.phoneNum = this.form.value.phone ;
@@ -56,9 +56,10 @@ export class CreateAccountPage implements OnInit {
          { 
           this.NewAccount.ID=onfulfilled.id;
           this.Firebase.updateUser(this.NewAccount).then(async truth=>{
+            this.form.reset();
             this.datasrv.presentToast("Account Created Successfully");
-            await loading.dismiss();
-            this.datasrv.SetVariable('userID',this.form.value.email.toLowerCase()).then(async rl=>{
+            await loader.dismiss();
+            this.datasrv.SetVariable('userID',this.NewAccount.userID).then(async rl=>{
             this.datasrv.presentToast("Welcome "+this.NewAccount.Name);
             this.router.navigate(['/login']);
           }); 
@@ -66,11 +67,11 @@ export class CreateAccountPage implements OnInit {
 
             });
          },async error=>{
-            await loading.dismiss();
+            await loader.dismiss();
             this.datasrv.showError("Error ",error);
             });
              },async error=>{
-              await loading.dismiss();
+              await loader.dismiss();
               this.datasrv.showError("Error",error);
               });
    

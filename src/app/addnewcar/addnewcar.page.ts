@@ -142,7 +142,7 @@ export class AddnewcarPage implements OnInit {
         }
       ]);
        })
-      
+       this.carform.reset();
       
       //this.loading.dismiss();
       this.goback();

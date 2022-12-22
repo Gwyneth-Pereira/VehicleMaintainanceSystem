@@ -52,6 +52,7 @@ export class LoginPage implements OnInit {
           this.dataSrv.SetVariable('userID',this.form.value.email.toLowerCase()).then(async rl=>{
           await load1.dismiss();
           this.dataSrv.presentToast("You have logged in sucessfully!!");
+          this.form.reset();
           this.router.navigate(['tabs/tabs/tab2']);});    
         },async error=>{
           await load1.dismiss();

@@ -27,6 +27,7 @@ export class ForgotPasswordPage implements OnInit {
     }
     this.Firebase.resetPassword(this.form.value.email).then(succ=>{
       this.DataSrv.presentToast('Reset Code Sent Successfully');
+      this.form.reset();
       this.router.navigate(['/login']);},
       error=>{this.DataSrv.presentToast(error);});
 

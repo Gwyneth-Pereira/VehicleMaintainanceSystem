@@ -81,16 +81,31 @@ export class Tab2Page  implements OnInit {
 
 Pair()
 {
-  console.log("Pair Button Clicked");
+  this.permission.checkPermission(this.permission.PERMISSION.BLUETOOTH_CONNECT).then(async result => {
+    console.log('Has permission?',result.hasPermission);
+    if(!result.hasPermission)
+    {
+      await this.permission.requestPermission(this.permission.PERMISSION.BLUETOOTH_CONNECT
+        ).then(r=>{
+          
+        console.log("requested permission: "+r)
+      });
+    }
+    console.log("Pair Button Clicked");
   this.modal.present();
   this.bluetooth.isEnabled().then(
   res=>{
     this.listDevices();
       },
   eror=>{
-    this.bluetooth.enable();
+    this.bluetooth.showBluetoothSettings().then(k=>console.log("Please Pair with OBD-2 "+k))
     this.listDevices();
         })
+    
+  },
+    err => this.permission.requestPermission(this.permission.PERMISSION.BLUETOOTH_CONNECT)
+  );
+  
 }
 
 
@@ -127,62 +142,82 @@ async connect(dvc)
 if(dvc.address=="")
 this.DataSrv.showError("Alert","No Address Found. Please Try Again");
 else{
-  
+
   const load3=await this.loading.create();
   await load3.present();
   this.slideChange();
+  if(this.UpdatedCar.make==null)
+  {
+    this.DataSrv.showError("Warning", "Please Select a Car");
+  }
   this.DataSrv.CarName=this.UpdatedCar.make + "  "+this.UpdatedCar.model;
   this.DataSrv.ChangeSlideStatus(this.slides,true);
-  this.bluetooth.connect(dvc.address).subscribe(async success=>
+  console.log("Called Connect Addr"+dvc.address);
+  
+  this.permission.checkPermission(this.permission.PERMISSION.BLUETOOTH_CONNECT).then(result => {
+    console.log('Has permission?',result.hasPermission);
+    if(!result.hasPermission)
     {
-    this.DataSrv.deviceConnected('00',this.UpdatedCar.VIN); 
-    this.cancel();
-    let hideFooterTimeout = setTimeout( async () => {
-      let obj1 = await this.DataSrv.GetVariable('PairIssue');
-      let obj =  await this.DataSrv.GetVariable('VID');
+      this.permission.requestPermission(this.permission.PERMISSION.BLUETOOTH_CONNECT).then(r=>{console.log("requested permission: "+r.hasPermission)});
+    }
       
-      load3.dismiss();
-      console.log("Obj1: "+obj1);
-      console.log("Obj: "+obj);
-      if(obj1==="This Car doesnt Support OBD-II")
+    this.bluetooth.connectInsecure(dvc.address).subscribe(async success=>
       {
-        this.diconnect();
-        this.DataSrv.showError("Error","This Car doesnt Support OBD-II");
-      }else if(obj=='Please Connect with the correct Car to Save your Data')
-      {
-        this.diconnect();
-        this.DataSrv.showError("Alert","Please Connect with the correct Car to Save your Data");
-      }else if(obj=='First Time Pairing. Linking VID with Car')
-      {
-        this.UpdatedCar.VIN=await this.DataSrv.GetVariable('VIN');
-        this.DataSrv.showError("Alert","First Time Pairing. Linking VID with Car");
-        this.DataSrv.UpdateCar(this.UpdatedCar,'success');
-        this.BluetoothFlag=this.DataSrv.BluetoothFlag;
-        this.DataSrv.presentToast("Connected Successfully");
+       
+      this.DataSrv.deviceConnected('00',this.UpdatedCar.VIN); 
+      this.cancel();
+      let hideFooterTimeout = setTimeout( async () => {
+        let obj1 = await this.DataSrv.GetVariable('PairIssue');
+        let obj =  await this.DataSrv.GetVariable('VID');
         
-      }else{
+        load3.dismiss();
+        console.log("Obj1: "+obj1);
+        console.log("Obj: "+obj);
+        if(obj1==="This Car doesnt Support OBD-II")
+        {
+          this.diconnect();
+          this.DataSrv.showError("Error","This Car doesnt Support OBD-II");
+        }else if(obj=='Please Connect with the correct Car to Save your Data')
+        {
+          this.diconnect();
+          this.DataSrv.showError("Alert","Please Connect with the correct Car to Save your Data");
+        }else if(obj=='First Time Pairing. Linking VID with Car')
+        {
+          this.UpdatedCar.VIN=await this.DataSrv.GetVariable('VIN');
+          this.DataSrv.showError("Alert","First Time Pairing. Linking VID with Car");
+          this.DataSrv.UpdateCar(this.UpdatedCar,'success');
+          this.BluetoothFlag=this.DataSrv.BluetoothFlag;
+          this.DataSrv.presentToast("Connected Successfully");
+          
+        }else{
+          
+          this.DataSrv.showError("Alert",obj);
+          this.DataSrv.UpdateCar(this.UpdatedCar,'success');
+          this.BluetoothFlag=this.DataSrv.BluetoothFlag;
+          this.DataSrv.presentToast("Connected Successfully");
+    
+        } 
+        this.DataSrv.RemoveVariable('PairIssue');
+        this.DataSrv.RemoveVariable('VIN');
+        this.DataSrv.RemoveVariable('VID');
         
-        this.DataSrv.showError("Alert",obj);
-        this.DataSrv.UpdateCar(this.UpdatedCar,'success');
-        this.BluetoothFlag=this.DataSrv.BluetoothFlag;
-        this.DataSrv.presentToast("Connected Successfully");
+      }, 5000);
+     
+    
+    },error=>{
+        load3.dismiss();
+        this.diconnect();
+        
+        this.router.navigate(['tabs/tabs/tab2']);
+        this.DataSrv.showError("Connection Timed Out",error);
+        
+        });
+  },
+    err => this.permission.requestPermission(this.permission.PERMISSION.BLUETOOTH_CONNECT)
+  );
   
-      } 
-      this.DataSrv.RemoveVariable('PairIssue');
-      this.DataSrv.RemoveVariable('VIN');
-      this.DataSrv.RemoveVariable('VID');
-      
-    }, 5000);
-   
   
-  },error=>{
-      load3.dismiss();
-      this.diconnect();
-      
-      this.router.navigate(['tabs/tabs/tab2']);
-      this.DataSrv.showError("Connection Timed Out",error);
-      
-      });
+ 
     
 }
 
