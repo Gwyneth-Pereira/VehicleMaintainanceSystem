@@ -236,6 +236,8 @@ dataReceived(data,mode,VIN)
         if(multipleRes[0]==='03')
         {
           this.TroubleCodes=[];
+          //this.Firebase.removeCodes();
+          
           if(multipleRes[resp]!=='NO DATA')
           {
            SingleString=SingleString.substring(7);
@@ -281,15 +283,19 @@ dataReceived(data,mode,VIN)
                   }
                   if(this.TroubleCodes[this.TroubleCodes.length-1].length<4)
                   this.TroubleCodes.pop();
+                  console.log("Trouble Codes: "+JSON.stringify(this.Codes.codes));
                   if(this.TroubleCodes.length!=0)
                   {
                     for(let i=0;i<this.TroubleCodes.length;i++)
                     Codes.AllCodes.forEach(element => {
                       if(element.code==this.TroubleCodes[i])
                       this.Codes.codes.push({code:this.TroubleCodes[i],desc:element.description});});
-                      this.Firebase.updateCode(this.Codes).then(res=>{this.presentToast("Engine Code Found");})
+                      this.Firebase.updateCode(this.Codes).then(res=>{this.presentToast("Engine Code Found");
+                    this.Codes.codes=[]})
       
-                  }else{this.presentToast("No Engine Code Found");}}
+                  }else{this.presentToast("No Engine Code Found");}
+                  this.TroubleCodes=[];
+                }
             }else if(multipleRes[0].substring(0,2)==='01')
             {
               console.log("Code In 01: "+multipleRes[0]+", Response: "+multipleRes[resp]); 

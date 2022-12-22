@@ -59,7 +59,7 @@ export class Tab1Page implements OnInit {
   Scan()
   {
     this.DataSrv.checkedalready=true;
-    this.Firebase.removeCodes();
+    
     this.bluetooth.isEnabled().then(resp=>{
       this.bluetooth.isConnected().then(rsp=>{
         this.DataSrv.deviceConnected('03','00');}

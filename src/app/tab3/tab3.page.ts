@@ -45,47 +45,56 @@ export class Tab3Page implements OnInit{
 
 
   }
-  async ngOnInit() 
+  ionViewDidLeave(){
+    console.log("destroyed");
+    this.CloseDown();
+    
+  } 
+  ionViewWillEnter()
+  {
+    console.log("Length: "+this.Sceduled.length)
+   this.Setup();
+   
+  }
+ ngOnInit() 
+  {
+    
+
+  }
+  deleteNotify(id)
+  {
+    this.localNotifications.cancel(id).then(r=>{
+      let index=this.UpUser.Noification.indexOf(id);
+      this.UpUser.Noification.splice(index,1);
+      this.Firebase.updateUser(this.UpUser).then(kre=>{
+        this.DataSrv.presentToast("Notification Deleted Successfully");
+        this.CloseDown();
+        this.Setup();
+      });
+      
+    })
+  }
+  async Setup()
   {
     this.UserID= await this.DataSrv.GetVariable('userID');
     this.User=this.Firebase.getUsers();
     this.User.subscribe(async res=>{
       for(let k=0;k<res.length;k++)
-      {
-        if(res[k].userID==this.UserID)
-        {
-          this.UpUser=res[k];
-          console.log("Notification Length: "+this.UpUser.Noification.length);
-        }
-
-      }
-     await this.localNotifications.getAll().then(res=>
-        {
-          console.log("Local Notification: "+res.length)
-          for(let k=0;k<res.length;k++)
-          {
-          for(let i=0;i<this.UpUser.Noification.length;i++)
-            {
-              console.log("User Notification ID: "+this.UpUser.Noification[i]+", Local Notification: "+res[k].id);
-              if(res[k].id===this.UpUser.Noification[i])
-              {
-                this.Sceduled.push(res[k]);
-                console.log("Notification Array: "+JSON.stringify(this.Sceduled));
-              }
-            }
-  
-          }
-        }).catch(er=>{
-          this.DataSrv.showError("Error",er);
-        });
+       if(res[k].userID==this.UserID)
+        this.UpUser=res[k];
+    await this.localNotifications.getAll().then(res=>{
+    for(let k=0;k<res.length;k++)
+      for(let i=0;i<this.UpUser.Noification.length;i++)
+        if(res[k].id===this.UpUser.Noification[i])
+          this.Sceduled.push(res[k]);
+    }).catch(er=>{this.DataSrv.showError("Error",er);});
     })
    
-   
-
   }
-  
   del()
   {
+    console.log("Call Del");
+    
     for(let k=0;k<this.UpUser.Noification.length;k++)
     {
       this.localNotifications.cancel(this.UpUser.Noification[k]).then(res=>
@@ -93,6 +102,8 @@ export class Tab3Page implements OnInit{
           this.count++;
         })
     }
+    this.CloseDown();
+    this.Setup();
    if(this.UpUser.Noification.length==this.count)
    {
     this.UpUser.Noification.splice(0);
@@ -101,6 +112,10 @@ export class Tab3Page implements OnInit{
     });
    }
     
+  }
+  CloseDown()
+  {
+    this.Sceduled=[];
   }
 
 

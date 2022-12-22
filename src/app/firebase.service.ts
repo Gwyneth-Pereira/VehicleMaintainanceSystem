@@ -155,7 +155,10 @@ export class FirebaseService {
   updateUser(idea:Users):Promise<void>{return this.userCollection.doc(idea.ID).update(idea);}
   updateCar(idea:Car):Promise<void>{return this.carCollection.doc(idea.ID).update(idea);}
   updateLiveData(idea:LiveData):Promise<void>{return this.SPFlagCollection.doc(idea.ID).update(idea);}
-  updateCode(idea:code):Promise<void>{return this.codeCollection.doc(idea.id).update(idea);}
+  updateCode(idea:code):Promise<void>{
+    
+    return this.codeCollection.doc(idea.id).update(idea);
+  }
 
   
 
@@ -164,11 +167,11 @@ deleteUser(id: string): Promise<void>{return this.userCollection.doc(id).delete(
 deleteCar(id: string): Promise<void>{return this.carCollection.doc(id).delete();}
 removeCodes()
   {
-  this.Codes.codes=[];  
-  this.updateCode(this.Codes).then(res=>{
-                console.log("Engine Codes Removed");
-              });
-  
+      
+    this.updateCode(this.Codes).then(res=>{console.log("Engine Codes Removed");},er=>{console.log("Error: "+er);});
+    
+     
+ 
   }
   DeleteUser():Promise<boolean>
   {
