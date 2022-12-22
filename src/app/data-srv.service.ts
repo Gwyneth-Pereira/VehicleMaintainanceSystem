@@ -362,11 +362,11 @@ dataReceived(data,mode,VIN)
 
 
 FuelStatus(code, resp)
-{  var reply = ['Open Loop Insufficient engine temp',
-               'Closed Loop </br> Using Oxygen Sensor',
-               'Open Loop </br>Engine Load',
-               'Open Loop </br>System Failure',
-               'Closed Loop </br> Using Oxygen Sensor (Faulty Feedback)',
+{  var reply = ['Open Loop 0',//, Insufficient engine temp
+               'Closed Loop 0',//, Using Oxygen Sensor
+               'Open Loop 1',//, Engine Load
+               'Open Loop 2',//, System Failure
+               'Closed Loop 1',//, Using Oxygen Sensor (Faulty Feedback)
                'Null',
                'Null',
                'Null'];
@@ -375,6 +375,8 @@ FuelStatus(code, resp)
    for(let k=0;k<respose.length;k++)
     if(respose.charAt(k)=='1')
       respose=reply[k];
+    
+  
   this.Firebase.updateLiveDataValues(code,respose); 
 }
 convertThrottlePos(code,byte) 
