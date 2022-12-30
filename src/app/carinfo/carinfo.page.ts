@@ -135,6 +135,10 @@ export class CarinfoPage implements OnInit {
   }
   Submit()
   {
+    if(this.updatedCar.document==null)
+    {
+      this.updatedCar.document=[]
+    }
     this.updatedCar.document.push(this.Document);
     this.Firebase.updateCar(this.updatedCar).then(succ=>{
       this.Document.Title="";

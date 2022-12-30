@@ -113,12 +113,12 @@ export class AddnewcarPage implements OnInit {
       this.Firebase.updateCar(this.newCar).then(rec=>{
 
       this.newCar.ExpDte=this.parseDate(this.newCar.ExpDte);
-      this.newCar.ExpDte=addDays(this.newCar.ExpDte,-7)
+      this.newCar.ExpDte=addDays(this.newCar.ExpDte,-1)
       this.newCar.ExpDte.toLocaleDateString('de-DE');
       console.log("Yearly Inspection 3: "+this.newCar.ExpDte); 
 
       this.newCar.InsExp=this.parseDate(this.newCar.InsExp);
-      this.newCar.InsExp=addDays(this.newCar.InsExp,-7);
+      this.newCar.InsExp=addDays(this.newCar.InsExp,-1);
       this.newCar.InsExp.toLocaleDateString('de-DE');
       console.log("Yearly Insurance 3: "+this.newCar.InsExp);
       
@@ -129,14 +129,14 @@ export class AddnewcarPage implements OnInit {
        this.localNotify.schedule([{
           id:this.NotificationID[0],
           title:this.newCar.make+' '+this.newCar.model+' '+this.newCar.year,
-          text:'Car Inspection Coming Next Week',
+          text:'Car Inspection Due Tommorrow',
           trigger:{at:this.newCar.ExpDte},
           foreground:true
         },
         {
           id:this.NotificationID[1],
           title:this.newCar.make+' '+this.newCar.model+' '+this.newCar.year,
-          text:'Car Insurance Coming Next Week',
+          text:'Car Insurance Due Tommorrow',
           trigger:{at:this.newCar.InsExp},
           foreground:true
         }

@@ -26,6 +26,14 @@ export class Tab1Page implements OnInit {
   constructor(public bluetooth:BluetoothSerial,private platform: Platform,public router:Router,public DataSrv:DataSrvService,private Firebase:FirebaseService) {
    
   }
+
+  ionViewDidLeave(){
+    console.log("delete tap to scan");
+    this.DataSrv.checkedalready=false;
+    this.DataSrv.live_data_fetched_already=false;
+    
+    
+  } 
   ngOnInit()
    {
     console.log("Length "+Codes.AllCodes.length);

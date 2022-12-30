@@ -117,6 +117,13 @@ gonewCarInfo()
 
  listDevices() 
 { 
+  this.slideChange();
+  console.log(this.UpdatedCar);
+  if(this.UpdatedCar.make==null)
+  {
+    this.DataSrv.showError("Warning", "Please Select a Car");
+    return;
+  }
   this.bluetooth.list().then(
   success => {this.Devices = success;}, 
   error => {this.DataSrv.showError("Error",error);}); 
@@ -145,11 +152,7 @@ else{
 
   const load3=await this.loading.create();
   await load3.present();
-  this.slideChange();
-  if(this.UpdatedCar.make==null)
-  {
-    this.DataSrv.showError("Warning", "Please Select a Car");
-  }
+ 
   this.DataSrv.CarName=this.UpdatedCar.make + "  "+this.UpdatedCar.model;
   this.DataSrv.ChangeSlideStatus(this.slides,true);
   console.log("Called Connect Addr"+dvc.address);

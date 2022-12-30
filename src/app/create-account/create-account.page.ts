@@ -59,7 +59,7 @@ export class CreateAccountPage implements OnInit {
             this.form.reset();
             this.datasrv.presentToast("Account Created Successfully");
             await loader.dismiss();
-            this.datasrv.SetVariable('userID',this.NewAccount.userID).then(async rl=>{
+            await this.datasrv.SetVariable('userID',this.NewAccount.userID).then(async rl=>{
             this.datasrv.presentToast("Welcome "+this.NewAccount.Name);
             this.router.navigate(['/login']);
           }); 
